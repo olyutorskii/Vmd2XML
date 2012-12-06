@@ -9,7 +9,7 @@ package jp.sourceforge.mikutoga.vmd.model.binio;
 
 import java.io.IOException;
 import jp.sourceforge.mikutoga.parser.MmdFormatException;
-import jp.sourceforge.mikutoga.parser.MmdSource;
+import jp.sourceforge.mikutoga.parser.MmdInputStream;
 import jp.sourceforge.mikutoga.vmd.model.VmdMotion;
 import jp.sourceforge.mikutoga.vmd.parser.VmdParser;
 
@@ -35,7 +35,7 @@ public final class VmdLoader {
      * @throws IOException 入力エラー
      * @throws MmdFormatException VMDファイルフォーマットの異常を検出
      */
-    public static VmdMotion load(MmdSource source)
+    public static VmdMotion load(MmdInputStream source)
             throws IOException,
                    MmdFormatException {
         VmdParser parser = new VmdParser(source);

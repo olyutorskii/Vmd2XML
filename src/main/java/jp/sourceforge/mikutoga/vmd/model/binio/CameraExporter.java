@@ -42,28 +42,28 @@ class CameraExporter extends BinaryExporter {
         List<CameraMotion> list = motion.getCameraMotionList();
 
         int count = list.size();
-        dumpInt(count);
+        dumpLeInt(count);
 
         for(CameraMotion cameraMotion : list){
             int frame = cameraMotion.getFrameNumber();
-            dumpInt(frame);
+            dumpLeInt(frame);
 
             float range = cameraMotion.getRange();
-            dumpFloat(range);
+            dumpLeFloat(range);
 
             MkPos3D targetPos = cameraMotion.getCameraTarget();
-            dumpFloat((float) targetPos.getXpos());
-            dumpFloat((float) targetPos.getYpos());
-            dumpFloat((float) targetPos.getZpos());
+            dumpLeFloat((float) targetPos.getXpos());
+            dumpLeFloat((float) targetPos.getYpos());
+            dumpLeFloat((float) targetPos.getZpos());
 
             CameraRotation rotation = cameraMotion.getCameraRotation();
-            dumpFloat(rotation.getLatitude());
-            dumpFloat(rotation.getLongitude());
-            dumpFloat(rotation.getRoll());
+            dumpLeFloat(rotation.getLatitude());
+            dumpLeFloat(rotation.getLongitude());
+            dumpLeFloat(rotation.getRoll());
 
             dumpCameraCurve(cameraMotion);
 
-            dumpInt(cameraMotion.getProjectionAngle());
+            dumpLeInt(cameraMotion.getProjectionAngle());
 
             byte perspectiveSwitch;
             if(cameraMotion.hasPerspective()) perspectiveSwitch = 0x00;

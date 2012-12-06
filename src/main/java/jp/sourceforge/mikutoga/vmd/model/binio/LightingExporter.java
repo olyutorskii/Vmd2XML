@@ -42,21 +42,21 @@ class LightingExporter extends BinaryExporter {
         List<LuminousMotion> list = motion.getLuminousMotionList();
 
         int count = list.size();
-        dumpInt(count);
+        dumpLeInt(count);
 
         for(LuminousMotion luminousMotion : list){
             int frame = luminousMotion.getFrameNumber();
-            dumpInt(frame);
+            dumpLeInt(frame);
 
             LuminousColor color = luminousMotion.getColor();
-            dumpFloat(color.getColR());
-            dumpFloat(color.getColG());
-            dumpFloat(color.getColB());
+            dumpLeFloat(color.getColR());
+            dumpLeFloat(color.getColG());
+            dumpLeFloat(color.getColB());
 
             LuminousVector vector = luminousMotion.getDirection();
-            dumpFloat(vector.getVecX());
-            dumpFloat(vector.getVecY());
-            dumpFloat(vector.getVecZ());
+            dumpLeFloat(vector.getVecX());
+            dumpLeFloat(vector.getVecY());
+            dumpLeFloat(vector.getVecZ());
         }
 
         return;
@@ -71,18 +71,18 @@ class LightingExporter extends BinaryExporter {
         List<ShadowMotion> list = motion.getShadowMotionList();
 
         int count = list.size();
-        dumpInt(count);
+        dumpLeInt(count);
 
         for(ShadowMotion shadowMotion : list){
             int frame = shadowMotion.getFrameNumber();
-            dumpInt(frame);
+            dumpLeInt(frame);
 
             ShadowMode mode = shadowMotion.getShadowMode();
             byte shadowType = mode.getEncodedByte();
             dumpByte(shadowType);
 
             float rawParam = shadowMotion.getRawScopeParam();
-            dumpFloat(rawParam);
+            dumpLeFloat(rawParam);
         }
 
         return;

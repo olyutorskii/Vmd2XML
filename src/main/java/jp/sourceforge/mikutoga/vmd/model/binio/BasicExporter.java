@@ -71,14 +71,14 @@ class BasicExporter extends BinaryExporter {
                 count++;
             }
         }
-        dumpInt(count);
+        dumpLeInt(count);
 
         for(BoneMotion boneMotion : bmotionList){
             String boneName = boneMotion.getBoneName();
             dumpFixedW31j(boneName, VmdConst.BONENAME_MAX, FDFILLER);
 
             int frame = boneMotion.getFrameNumber();
-            dumpInt(frame);
+            dumpLeInt(frame);
 
             MkPos3D position = boneMotion.getPosition();
             dumpBonePosition(position);
@@ -103,9 +103,9 @@ class BasicExporter extends BinaryExporter {
         float yPos = (float) position.getYpos();
         float zPos = (float) position.getZpos();
 
-        dumpFloat(xPos);
-        dumpFloat(yPos);
-        dumpFloat(zPos);
+        dumpLeFloat(xPos);
+        dumpLeFloat(yPos);
+        dumpLeFloat(zPos);
 
         return;
     }
@@ -122,10 +122,10 @@ class BasicExporter extends BinaryExporter {
         float qz = (float) rotation.getQ3();
         float qw = (float) rotation.getQW();
 
-        dumpFloat(qx);
-        dumpFloat(qy);
-        dumpFloat(qz);
-        dumpFloat(qw);
+        dumpLeFloat(qx);
+        dumpLeFloat(qy);
+        dumpLeFloat(qz);
+        dumpLeFloat(qw);
 
         return;
     }
@@ -224,17 +224,17 @@ class BasicExporter extends BinaryExporter {
                 count++;
             }
         }
-        dumpInt(count);
+        dumpLeInt(count);
 
         for(MorphMotion morphMotion : morphList){
             String morphName = morphMotion.getMorphName();
             dumpFixedW31j(morphName, VmdConst.MORPHNAME_MAX, FDFILLER);
 
             int frame = morphMotion.getFrameNumber();
-            dumpInt(frame);
+            dumpLeInt(frame);
 
             float flex = morphMotion.getFlex();
-            dumpFloat(flex);
+            dumpLeFloat(flex);
         }
 
         return;
