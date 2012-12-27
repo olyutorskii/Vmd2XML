@@ -21,7 +21,6 @@ import java.util.Properties;
 import javax.xml.parsers.DocumentBuilder;
 import jp.sourceforge.mikutoga.binio.FileUtils;
 import jp.sourceforge.mikutoga.parser.MmdFormatException;
-import jp.sourceforge.mikutoga.parser.MmdInputStream;
 import jp.sourceforge.mikutoga.vmd.IllegalVmdDataException;
 import jp.sourceforge.mikutoga.vmd.model.VmdMotion;
 import jp.sourceforge.mikutoga.vmd.model.binio.VmdExporter;
@@ -308,8 +307,7 @@ public final class Vmd2Xml {
      */
     private static VmdMotion vmdRead(InputStream is)
             throws IOException, MmdFormatException{
-        MmdInputStream source = new MmdInputStream(is);
-        VmdMotion vmdMotion = VmdLoader.load(source);
+        VmdMotion vmdMotion = VmdLoader.load(is);
         return vmdMotion;
     }
 
