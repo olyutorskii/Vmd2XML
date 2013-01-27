@@ -134,28 +134,32 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putVmdXmlImpl(VmdMotion vmdMotion)
             throws IOException, IllegalVmdDataException{
-        ind().put("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>").ln(2);
+        ind().putRawText("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>")
+             .ln(2);
 
         ind().putBlockComment(TOP_COMMENT).ln(2);
 
-        ind().put("<vmdMotion").ln();
+        ind().putRawText("<vmdMotion").ln();
         pushNest();
         ind().putAttr("xmlns", VmdXmlResources.NS_VMDXML).ln();
         ind().putAttr("xmlns:" + XSINS, XmlResourceResolver.NS_XSD).ln();
 
-        ind().put(XSINS).put(":schemaLocation=").put('"');
-        put(VmdXmlResources.NS_VMDXML).ln();
-        ind().sp(2).put(VmdXmlResources.SCHEMAURI_VMDXML).put('"').ln();
+        ind().putRawText(XSINS).putRawText(":schemaLocation=")
+             .putRawCh('"');
+        putRawText(VmdXmlResources.NS_VMDXML).ln();
+        ind().sp(2).putRawText(VmdXmlResources.SCHEMAURI_VMDXML)
+             .putRawCh('"')
+             .ln();
 
         ind().putAttr("version", VmdXmlResources.VER_VMDXML).ln();
         popNest();
-        put(">").ln(2);
+        putRawText(">").ln(2);
 
         if(this.generator != null && this.generator.length() > 0){
-            ind().put("<meta ");
-            putAttr("name", "generator").put(' ');
+            ind().putRawText("<meta ");
+            putAttr("name", "generator").putRawCh(' ');
             putAttr("content", this.generator);
-            put(" />").ln(2);
+            putRawText(" />").ln(2);
         }
 
         if(vmdMotion.isModelMotion()){
@@ -168,8 +172,8 @@ public class VmdXmlExporter extends BasicXmlExporter {
             putShadowSequence(vmdMotion);
         }
 
-        ind().put("</vmdMotion>").ln(2);
-        ind().put("<!-- EOF -->").ln();
+        ind().putRawText("</vmdMotion>").ln(2);
+        ind().putRawText("<!-- EOF -->").ln();
 
         return;
     }
@@ -210,16 +214,16 @@ public class VmdXmlExporter extends BasicXmlExporter {
     private void putBezierCurve(BezierParam bezier)
             throws IOException{
         if(bezier.isDefaultLinear()){
-            put("<defLinear />");
+            putRawText("<defLinear />");
         }else if(bezier.isDefaultEaseInOut()){
-            put("<defEaseInOut />");
+            putRawText("<defEaseInOut />");
         }else{
-            put("<bezier ");
+            putRawText("<bezier ");
             putIntAttr("p1x", bezier.getP1x()).sp();
             putIntAttr("p1y", bezier.getP1y()).sp();
             putIntAttr("p2x", bezier.getP2x()).sp();
             putIntAttr("p2y", bezier.getP2y()).sp();
-            put("/>");
+            putRawText("/>");
         }
         return;
     }
@@ -234,9 +238,9 @@ public class VmdXmlExporter extends BasicXmlExporter {
         String modelName = vmdMotion.getModelName();
 
         ind().putLineComment(modelName).ln();
-        ind().put("<modelName ");
+        ind().putRawText("<modelName ");
         putAttr("name", modelName).sp();
-        put("/>").ln(2);
+        putRawText("/>").ln(2);
 
         return;
     }
@@ -251,7 +255,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         ind().putBlockComment(QUATERNION_COMMENT);
         ind().putBlockComment(BEZIER_COMMENT);
 
-        ind().put("<boneMotionSequence>").ln();
+        ind().putRawText("<boneMotionSequence>").ln();
 
         pushNest();
         NamedListMap<BoneMotion> listmap = vmdMotion.getBonePartMap();
@@ -262,7 +266,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         }
         popNest();
 
-        ind().put("</boneMotionSequence>").ln(2);
+        ind().putRawText("</boneMotionSequence>").ln(2);
 
         return;
     }
@@ -282,9 +286,9 @@ public class VmdXmlExporter extends BasicXmlExporter {
         }
         ln();
 
-        ind().put("<bonePart ");
+        ind().putRawText("<bonePart ");
         putAttr("name", boneName).sp();
-        put(">").ln(2);
+        putRawText(">").ln(2);
 
         pushNest();
         for(BoneMotion bone : list){
@@ -292,7 +296,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         }
         popNest();
 
-        ind().put("</bonePart>").ln(2);
+        ind().putRawText("</bonePart>").ln(2);
 
         return;
     }
@@ -304,10 +308,10 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putBoneMotion(BoneMotion boneMotion)
             throws IOException{
-        ind().put("<boneMotion ");
+        ind().putRawText("<boneMotion ");
         int frameNo = boneMotion.getFrameNumber();
         putIntAttr("frame", frameNo).sp();
-        put(">").ln();
+        putRawText(">").ln();
 
         pushNest();
         putBonePosition(boneMotion);
@@ -318,7 +322,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         }
         popNest();
 
-        ind().put("</boneMotion>").ln(2);
+        ind().putRawText("</boneMotion>").ln(2);
 
         return;
     }
@@ -334,7 +338,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
             return;
         }
 
-        ind().put("<bonePosition ");
+        ind().putRawText("<bonePosition ");
         MkPos3D position = boneMotion.getPosition();
         float xPos = (float) position.getXpos();
         float yPos = (float) position.getYpos();
@@ -345,15 +349,15 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
         PosCurve posCurve = boneMotion.getPosCurve();
         if(posCurve.isDefaultLinear()){
-            put("/>").ln();
+            putRawText("/>").ln();
         }else{
-            put(">").ln();
+            putRawText(">").ln();
 
             pushNest();
             putPositionCurve(posCurve);
             popNest();
 
-            ind().put("</bonePosition>").ln();
+            ind().putRawText("</bonePosition>").ln();
         }
 
         return;
@@ -369,7 +373,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         MkQuat rotation = boneMotion.getRotation();
         BezierParam rotCurve = boneMotion.getIntpltRotation();
 
-        ind().put("<boneRotQuat").ln();
+        ind().putRawText("<boneRotQuat").ln();
         pushNest();
         ind().putFloatAttr("qx", (float) rotation.getQ1()).ln();
         ind().putFloatAttr("qy", (float) rotation.getQ2()).ln();
@@ -379,15 +383,15 @@ public class VmdXmlExporter extends BasicXmlExporter {
         ind();
 
         if(rotCurve.isDefaultLinear()){
-            put("/>").ln();
+            putRawText("/>").ln();
         }else{
-            put(">").ln();
+            putRawText(">").ln();
             pushNest();
             ind();
             putBezierCurve(rotCurve);
             ln();
             popNest();
-            ind().put("</boneRotQuat>").ln();
+            ind().putRawText("</boneRotQuat>").ln();
         }
 
         return;
@@ -409,7 +413,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         float yDeg = (float)StrictMath.toDegrees(euler.getYRot());
         float zDeg = (float)StrictMath.toDegrees(euler.getZRot());
 
-        ind().put("<boneRotEyxz").ln();
+        ind().putRawText("<boneRotEyxz").ln();
         pushNest();
         ind().putFloatAttr("xDeg", xDeg).ln();
         ind().putFloatAttr("yDeg", yDeg).ln();
@@ -418,15 +422,15 @@ public class VmdXmlExporter extends BasicXmlExporter {
         ind();
 
         if(rotCurve.isDefaultLinear()){
-            put("/>").ln();
+            putRawText("/>").ln();
         }else{
-            put(">").ln();
+            putRawText(">").ln();
             pushNest();
             ind();
             putBezierCurve(rotCurve);
             ln();
             popNest();
-            ind().put("</boneRotEyxz>").ln();
+            ind().putRawText("</boneRotEyxz>").ln();
         }
 
         return;
@@ -439,7 +443,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putMorphSequence(VmdMotion vmdMotion)
             throws IOException{
-        ind().put("<morphSequence>").ln();
+        ind().putRawText("<morphSequence>").ln();
 
         pushNest();
         NamedListMap<MorphMotion> listmap = vmdMotion.getMorphPartMap();
@@ -447,7 +451,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         putMorphPartList(listmap);
         popNest();
 
-        ind().put("</morphSequence>").ln(2);
+        ind().putRawText("</morphSequence>").ln(2);
 
         return;
     }
@@ -469,9 +473,9 @@ public class VmdXmlExporter extends BasicXmlExporter {
             }
             ln();
 
-            ind().put("<morphPart ");
+            ind().putRawText("<morphPart ");
             putAttr("name", morphName).sp();
-            put(">").ln();
+            putRawText(">").ln();
 
             pushNest();
             List<MorphMotion> list = listmap.getNamedList(morphName);
@@ -480,7 +484,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
             }
             popNest();
 
-            ind().put("</morphPart>").ln(2);
+            ind().putRawText("</morphPart>").ln(2);
         }
 
         return;
@@ -493,7 +497,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putMorphMotion(MorphMotion morphMotion)
             throws IOException{
-        ind().put("<morphMotion ");
+        ind().putRawText("<morphMotion ");
 
         int frameNo = morphMotion.getFrameNumber();
         float flex = morphMotion.getFlex();
@@ -501,7 +505,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         putIntAttr("frame", frameNo).sp();
         putFloatAttr("flex", flex).sp();
 
-        put("/>").ln();
+        putRawText("/>").ln();
 
         return;
     }
@@ -516,7 +520,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         ind().putBlockComment(BEZIER_COMMENT);
         ind().putBlockComment(CAMERA_COMMENT);
 
-        ind().put("<cameraSequence>").ln();
+        ind().putRawText("<cameraSequence>").ln();
 
         pushNest();
         List<CameraMotion> list = vmdMotion.getCameraMotionList();
@@ -526,7 +530,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         }
         popNest();
 
-        ind().put("</cameraSequence>").ln(2);
+        ind().putRawText("</cameraSequence>").ln(2);
 
         return;
     }
@@ -538,13 +542,13 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putCameraMotion(CameraMotion cameraMotion)
             throws IOException{
-        ind().put("<cameraMotion ");
+        ind().putRawText("<cameraMotion ");
         int frameNo = cameraMotion.getFrameNumber();
         putIntAttr("frame", frameNo).sp();
         if( ! cameraMotion.hasPerspective() ){
             putAttr("hasPerspective", "false").sp();
         }
-        put(">").ln();
+        putRawText(">").ln();
 
         pushNest();
         putCameraTarget(cameraMotion);
@@ -553,7 +557,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         putProjection(cameraMotion);
         popNest();
 
-        ind().put("</cameraMotion>").ln(2);
+        ind().putRawText("</cameraMotion>").ln(2);
 
         return;
     }
@@ -565,7 +569,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putCameraTarget(CameraMotion cameraMotion)
             throws IOException{
-        ind().put("<cameraTarget ");
+        ind().putRawText("<cameraTarget ");
         MkPos3D position = cameraMotion.getCameraTarget();
         putFloatAttr("xPos", (float) position.getXpos()).sp();
         putFloatAttr("yPos", (float) position.getYpos()).sp();
@@ -573,15 +577,15 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
         PosCurve posCurve = cameraMotion.getTargetPosCurve();
         if(posCurve.isDefaultLinear()){
-            put("/>").ln();
+            putRawText("/>").ln();
         }else{
-            put(">").ln();
+            putRawText(">").ln();
 
             pushNest();
             putPositionCurve(posCurve);
             popNest();
 
-            ind().put("</cameraTarget>").ln();
+            ind().putRawText("</cameraTarget>").ln();
         }
 
         return;
@@ -594,7 +598,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putCameraRotation(CameraMotion cameraMotion)
             throws IOException{
-        ind().put("<cameraRotation ");
+        ind().putRawText("<cameraRotation ");
         CameraRotation rotation = cameraMotion.getCameraRotation();
         putFloatAttr("xRad", rotation.getLatitude()).sp();
         putFloatAttr("yRad", rotation.getLongitude()).sp();
@@ -602,15 +606,15 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
         BezierParam rotCurve = cameraMotion.getIntpltRotation();
         if(rotCurve.isDefaultLinear()){
-            put("/>").ln();
+            putRawText("/>").ln();
         }else{
-            put(">").ln();
+            putRawText(">").ln();
             pushNest();
             ind();
             putBezierCurve(rotCurve);
             ln();
             popNest();
-            ind().put("</cameraRotation>").ln();
+            ind().putRawText("</cameraRotation>").ln();
         }
 
         return;
@@ -623,21 +627,21 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putCameraRange(CameraMotion cameraMotion)
             throws IOException{
-        ind().put("<cameraRange ");
+        ind().putRawText("<cameraRange ");
         float range = cameraMotion.getRange();
         putFloatAttr("range", range).sp();
 
         BezierParam rangeCurve = cameraMotion.getIntpltRange();
         if(rangeCurve.isDefaultLinear()){
-            put("/>").ln();
+            putRawText("/>").ln();
         }else{
-            put(">").ln();
+            putRawText(">").ln();
             pushNest();
             ind();
             putBezierCurve(rangeCurve);
             ln();
             popNest();
-            ind().put("</cameraRange>").ln();
+            ind().putRawText("</cameraRange>").ln();
         }
 
         return;
@@ -650,20 +654,20 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putProjection(CameraMotion cameraMotion)
             throws IOException{
-        ind().put("<projection ");
+        ind().putRawText("<projection ");
         putIntAttr("vertDeg", cameraMotion.getProjectionAngle()).sp();
 
         BezierParam projCurve = cameraMotion.getIntpltProjection();
         if(projCurve.isDefaultLinear()){
-            put("/>").ln();
+            putRawText("/>").ln();
         }else{
-            put(">").ln();
+            putRawText(">").ln();
             pushNest();
             ind();
             putBezierCurve(projCurve);
             ln();
             popNest();
-            ind().put("</projection>").ln();
+            ind().putRawText("</projection>").ln();
         }
 
         return;
@@ -676,7 +680,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putLuminousSequence(VmdMotion vmdMotion)
             throws IOException{
-        ind().put("<luminousSequence>").ln();
+        ind().putRawText("<luminousSequence>").ln();
 
         pushNest();
         List<LuminousMotion> list = vmdMotion.getLuminousMotionList();
@@ -686,7 +690,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         }
         popNest();
 
-        ind().put("</luminousSequence>").ln(2);
+        ind().putRawText("</luminousSequence>").ln(2);
 
         return;
     }
@@ -698,10 +702,10 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putLuminousMotion(LuminousMotion luminousMotion)
             throws IOException{
-        ind().put("<luminousAct ");
+        ind().putRawText("<luminousAct ");
         int frameNo = luminousMotion.getFrameNumber();
         putIntAttr("frame", frameNo);
-        put(" >").ln();
+        putRawText(" >").ln();
 
         LuminousColor color = luminousMotion.getColor();
         LuminousVector vector = luminousMotion.getDirection();
@@ -711,7 +715,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         putLuminousDirection(vector);
         popNest();
 
-        ind().put("</luminousAct>").ln(2);
+        ind().putRawText("</luminousAct>").ln(2);
 
         return;
     }
@@ -723,11 +727,11 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putLuminousColor(LuminousColor color)
             throws IOException{
-        ind().put("<lumiColor ");
+        ind().putRawText("<lumiColor ");
         putFloatAttr("rCol", color.getColR()).sp();
         putFloatAttr("gCol", color.getColG()).sp();
         putFloatAttr("bCol", color.getColB()).sp();
-        put("/>").ln();
+        putRawText("/>").ln();
 
         return;
     }
@@ -739,11 +743,11 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putLuminousDirection(LuminousVector vector)
             throws IOException{
-        ind().put("<lumiDirection ");
+        ind().putRawText("<lumiDirection ");
         putFloatAttr("xVec", vector.getVecX()).sp();
         putFloatAttr("yVec", vector.getVecY()).sp();
         putFloatAttr("zVec", vector.getVecZ()).sp();
-        put("/>").ln();
+        putRawText("/>").ln();
 
         return;
     }
@@ -757,7 +761,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
             throws IOException{
         ind().putBlockComment(SHADOW_COMMENT);
 
-        ind().put("<shadowSequence>").ln();
+        ind().putRawText("<shadowSequence>").ln();
 
         pushNest();
         List<ShadowMotion> list = vmdMotion.getShadowMotionList();
@@ -766,7 +770,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         }
         popNest();
 
-        ind().put("</shadowSequence>").ln(2);
+        ind().putRawText("</shadowSequence>").ln(2);
 
         return;
     }
@@ -778,7 +782,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putShadowMotion(ShadowMotion shadowMotion)
             throws IOException{
-        ind().put("<shadowAct ");
+        ind().putRawText("<shadowAct ");
 
         int frameNo = shadowMotion.getFrameNumber();
         ShadowMode mode = shadowMotion.getShadowMode();
@@ -788,7 +792,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         putAttr("mode", mode.name()).sp();
         putFloatAttr("rawParam", rawParam).sp();
 
-        put("/>");
+        putRawText("/>");
 
         double uiVal = ShadowMotion.rawParamToScope(rawParam);
         long lVal = Math.round(uiVal);
