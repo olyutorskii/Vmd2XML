@@ -104,8 +104,8 @@ public final class VmdXmlResources {
      */
     private static XmlResourceResolver createResolver(){
         XmlResourceResolver resolver = new XmlResourceResolver();
-        resolver.putURIMap(URI_SCHEMA_VMDXML, RES_SCHEMA_VMDXML);
-//        resolver.putURIMap(URI_DTD_VMDXML, RES_DTD_VMDXML);
+        resolver.putRedirected(URI_SCHEMA_VMDXML, RES_SCHEMA_VMDXML);
+//        resolver.putRedirected(URI_DTD_VMDXML, RES_DTD_VMDXML);
 
         return resolver;
     }

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  MikuMikuDance
+    motion-data(*.vmd) on XML
+-->
+
+
+<vmdMotion
+  xmlns="http://mikutoga.sourceforge.jp/xml/ns/vmdxml/110820"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://mikutoga.sourceforge.jp/xml/ns/vmdxml/110820
+    http://mikutoga.sourceforge.jp/xml/xsd/vmdxml-110820.xsd"
+  version="110820"
+>
+
+<!--
+  motion interpolation is defined by Bezier-cubic-curve.
+  implicit bezier curve point : P0=(0,0) P3=(127,127)
+  defLinear : MMD default linear curve. P1=(20,20) P2=(107,107) [DEFAULT]
+  defEaseInOut : MMD default ease-in-out curve. P1=(64,0) P2=(64,127)
+-->
+<!--
+  camera-rotation has polar-coordinates parameters.
+  xRad = -radian(UI_X) [latitude]
+  yRad =  radian(UI_Y) [longitude]
+  zRad =  radian(UI_Z) [roll]
+  range = -(UI_RANGE)
+-->
+<cameraSequence>
+
+  <cameraMotion frame="0" >
+    <cameraTarget xPos="0.0" yPos="10.0" zPos="0.0" />
+    <cameraRotation xRad="0.0" yRad="0.0" zRad="0.0" />
+    <cameraRange range="-35.0" />
+    <projection vertDeg="45" />
+  </cameraMotion>
+
+  <cameraMotion frame="5" hasPerspective="false" >
+    <cameraTarget xPos="0.0" yPos="0.0" zPos="0.0" >
+      <!-- X-Y-Z interpolation *3 -->
+      <bezier p1x="10" p1y="20" p2x="107" p2y="107" />
+      <defLinear />
+      <bezier p1x="30" p1y="20" p2x="107" p2y="107" />
+    </cameraTarget>
+    <cameraRotation xRad="-1.5707974" yRad="1.5707974" zRad="-1.5707974" >
+      <bezier p1x="40" p1y="20" p2x="107" p2y="107" />
+    </cameraRotation>
+    <cameraRange range="-0.0" >
+      <bezier p1x="50" p1y="20" p2x="107" p2y="107" />
+    </cameraRange>
+    <projection vertDeg="1" >
+      <bezier p1x="60" p1y="20" p2x="107" p2y="107" />
+    </projection>
+  </cameraMotion>
+
+  <cameraMotion frame="10" >
+    <cameraTarget xPos="0.0" yPos="10.0" zPos="-10.0" >
+      <!-- X-Y-Z interpolation *3 -->
+      <defLinear />
+      <defEaseInOut />
+      <defLinear />
+    </cameraTarget>
+    <cameraRotation xRad="0.0" yRad="0.0" zRad="0.0" />
+    <cameraRange range="5.0" />
+    <projection vertDeg="125" />
+  </cameraMotion>
+
+</cameraSequence>
+
+<luminousSequence>
+</luminousSequence>
+
+<!--
+  UI_VALUE = EFFECTIVE_RANGE * 100 ???
+  rawParam = 0.1 - (UI_VALUE / 1.0E+5)
+
+  NONE   : no self-shadow
+  MODE_1 : reduce shadow-quality suddenly at range
+  MODE_2 : reduce shadow-quality gradually with range
+-->
+<shadowSequence>
+</shadowSequence>
+
+</vmdMotion>
+
+<!-- EOF -->

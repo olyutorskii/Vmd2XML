@@ -10,8 +10,8 @@ package jp.sourceforge.mikutoga.vmd.model.xml;
 import java.io.IOException;
 import java.text.MessageFormat;
 import javax.xml.parsers.DocumentBuilder;
-import jp.sourceforge.mikutoga.math.MkPos3D;
-import jp.sourceforge.mikutoga.math.MkQuat;
+import jp.sfjp.mikutoga.math.MkPos3D;
+import jp.sfjp.mikutoga.math.MkQuat;
 import jp.sourceforge.mikutoga.vmd.model.BezierParam;
 import jp.sourceforge.mikutoga.vmd.model.BoneMotion;
 import jp.sourceforge.mikutoga.vmd.model.MorphMotion;
@@ -221,7 +221,7 @@ public class Xml2VmdLoader {
         float xRad = (float)StrictMath.toRadians(xDeg);
         float yRad = (float)StrictMath.toRadians(yDeg);
         float zRad = (float)StrictMath.toRadians(zDeg);
-        rotation.readEulerYXZ(xRad, yRad, zRad);
+        rotation.setEulerYXZ(xRad, yRad, zRad);
 
         BezierParam rotationCurve = boneMotion.getIntpltRotation();
         Xml.buildCurve(boneRotationElem, rotationCurve);

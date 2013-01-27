@@ -7,10 +7,10 @@
 
 package jp.sourceforge.mikutoga.vmd.model.binio;
 
-import jp.sourceforge.mikutoga.math.MkPos3D;
-import jp.sourceforge.mikutoga.math.MkQuat;
-import jp.sourceforge.mikutoga.parser.MmdFormatException;
-import jp.sourceforge.mikutoga.parser.ParseStage;
+import jp.sfjp.mikutoga.bin.parser.MmdFormatException;
+import jp.sfjp.mikutoga.bin.parser.ParseStage;
+import jp.sfjp.mikutoga.math.MkPos3D;
+import jp.sfjp.mikutoga.math.MkQuat;
 import jp.sourceforge.mikutoga.vmd.model.BezierParam;
 import jp.sourceforge.mikutoga.vmd.model.BoneMotion;
 import jp.sourceforge.mikutoga.vmd.model.MorphMotion;

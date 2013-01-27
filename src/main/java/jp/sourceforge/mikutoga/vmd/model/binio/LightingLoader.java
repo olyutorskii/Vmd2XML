@@ -8,8 +8,8 @@
 package jp.sourceforge.mikutoga.vmd.model.binio;
 
 import java.util.List;
-import jp.sourceforge.mikutoga.parser.MmdFormatException;
-import jp.sourceforge.mikutoga.parser.ParseStage;
+import jp.sfjp.mikutoga.bin.parser.MmdFormatException;
+import jp.sfjp.mikutoga.bin.parser.ParseStage;
 import jp.sourceforge.mikutoga.vmd.model.LuminousColor;
 import jp.sourceforge.mikutoga.vmd.model.LuminousMotion;
 import jp.sourceforge.mikutoga.vmd.model.LuminousVector;

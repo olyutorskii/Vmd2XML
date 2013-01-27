@@ -7,8 +7,8 @@
 
 package jp.sourceforge.mikutoga.vmd.model;
 
-import jp.sourceforge.mikutoga.math.MkPos3D;
-import jp.sourceforge.mikutoga.math.MkQuat;
+import jp.sfjp.mikutoga.math.MkPos3D;
+import jp.sfjp.mikutoga.math.MkQuat;
 import jp.sourceforge.mikutoga.vmd.AbstractNumbered;
 
 /**

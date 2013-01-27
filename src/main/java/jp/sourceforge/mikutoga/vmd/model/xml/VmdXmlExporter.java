@@ -10,11 +10,11 @@ package jp.sourceforge.mikutoga.vmd.model.xml;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
-import jp.sourceforge.mikutoga.math.EulerYXZ;
-import jp.sourceforge.mikutoga.math.MkPos3D;
-import jp.sourceforge.mikutoga.math.MkQuat;
-import jp.sourceforge.mikutoga.typical.TypicalBone;
-import jp.sourceforge.mikutoga.typical.TypicalMorph;
+import jp.sfjp.mikutoga.math.EulerYXZ;
+import jp.sfjp.mikutoga.math.MkPos3D;
+import jp.sfjp.mikutoga.math.MkQuat;
+import jp.sfjp.mikutoga.typical.TypicalBone;
+import jp.sfjp.mikutoga.typical.TypicalMorph;
 import jp.sourceforge.mikutoga.vmd.IllegalVmdDataException;
 import jp.sourceforge.mikutoga.vmd.VmdConst;
 import jp.sourceforge.mikutoga.vmd.model.BezierParam;
@@ -99,11 +99,8 @@ public class VmdXmlExporter extends BasicXmlExporter {
     /**
      * Generatorメタ情報を設定する。
      * @param generatorArg Generatorメタ情報
-     * @throws NullPointerException 引数がnull
      */
-    public void setGenerator(String generatorArg)
-            throws NullPointerException{
-        if(generatorArg == null) throw new NullPointerException();
+    public void setGenerator(String generatorArg){
         this.generator = generatorArg;
         return;
     }

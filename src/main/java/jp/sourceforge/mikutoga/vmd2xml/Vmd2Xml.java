@@ -16,11 +16,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
+import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 import java.util.Properties;
 import javax.xml.parsers.DocumentBuilder;
-import jp.sourceforge.mikutoga.binio.FileUtils;
-import jp.sourceforge.mikutoga.parser.MmdFormatException;
+import jp.sfjp.mikutoga.bin.parser.MmdFormatException;
 import jp.sourceforge.mikutoga.vmd.IllegalVmdDataException;
 import jp.sourceforge.mikutoga.vmd.model.VmdMotion;
 import jp.sourceforge.mikutoga.vmd.model.binio.VmdExporter;
@@ -39,12 +40,6 @@ import org.xml.sax.SAXParseException;
  */
 public final class Vmd2Xml {
 
-    private static final Class<?> THISCLASS;
-    private static final String APPNAME;
-    private static final String APPVER;
-    private static final String APPLICENSE;
-    private static final String APPURL;
-
     private static final int EXIT_OK     = 0;
     private static final int EXIT_IOERR  = 1;
     private static final int EXIT_ENVERR = 4;
@@ -53,21 +48,34 @@ public final class Vmd2Xml {
     private static final int EXIT_VMDERR = 7;
     private static final int EXIT_XMLERR = 8;
 
+    /** アプリ名。 */
+    public static final String APPNAME;
+    /** バージョン識別子。 */
+    public static final String APPVER;
+    /** ライセンス種別。 */
+    public static final String APPLICENSE;
+
+    private static final String APPURL;
+
+    private static final Class<?> THISCLASS;
+
     private static final String ERRMSG_TXTONLY =
             "ERROR : {0}\n";
     private static final String ERRMSG_SAXPARSE =
             "ERROR : {0}\nline={1}, columun={2}\n";
 
+    private static final PrintStream ERROUT = System.err;
+
     static{
         THISCLASS = Vmd2Xml.class;
-        InputStream verDef =
+        InputStream ver =
                 THISCLASS.getResourceAsStream("resources/version.properties");
         Properties verProps = new Properties();
         try{
             try{
-                verProps.load(verDef);
+                verProps.load(ver);
             }finally{
-                verDef.close();
+                ver.close();
             }
         }catch(IOException e){
             throw new ExceptionInInitializerError(e);
@@ -83,7 +91,7 @@ public final class Vmd2Xml {
 
 
     /**
-     * 隠しコンストラクタ。
+     * ダミーコンストラクタ。
      */
     private Vmd2Xml(){
         super();
@@ -91,6 +99,217 @@ public final class Vmd2Xml {
         return;
     }
 
+
+    /**
+     * VMを終了させる。
+     * @param code 終了コード
+     */
+    private static void exit(int code){
+        System.exit(code);
+        assert false;
+        throw new AssertionError();
+    }
+
+    /**
+     * 標準エラー出力に文字列出力を行う。
+     * @param obj 文字列
+     */
+    @SuppressWarnings("PMD.SystemPrintln")
+    private static void errprint(Object obj){
+        ERROUT.print(obj.toString());
+        return;
+    }
+
+    /**
+     * エラーを表示した後VMを終了させる。
+     * @param code 終了コード
+     * @param text メッセージ
+     */
+    private static void errExit(int code, CharSequence text){
+        errprint("ERROR:\n");
+        errprint(text);
+        exit(code);
+        return;
+    }
+
+    /**
+     * 入出力エラー処理。
+     * 例外を出力してVM終了する。
+     * @param ex 例外
+     */
+    private static void ioError(IOException ex){
+        errprint(ex);
+        errprint('\n');
+        exit(EXIT_IOERR);
+
+        return;
+    }
+
+    /**
+     * XML構文エラー処理。
+     * 例外を出力してVM終了する。
+     * @param ex 例外
+     */
+    private static void xmlError(SAXException ex){
+        if(ex instanceof SAXParseException){
+            xmlError((SAXParseException)ex);
+        }
+
+        String txt = ex.getLocalizedMessage();
+        String message = MessageFormat.format(ERRMSG_TXTONLY, txt);
+        errprint(message);
+
+        exit(EXIT_XMLERR);
+
+        return;
+    }
+
+    /**
+     * XML構文エラー処理。
+     * 例外を出力してVM終了する。
+     * @param ex 例外
+     */
+    private static void xmlError(SAXParseException ex){
+        String txt = ex.getLocalizedMessage();
+        int line = ex.getLineNumber();
+        int col = ex.getColumnNumber();
+
+        String message =
+                MessageFormat.format(ERRMSG_SAXPARSE, txt, line, col);
+        errprint(message);
+
+        exit(EXIT_XMLERR);
+
+        return;
+    }
+
+    /**
+     * XML構文エラー処理。
+     * 例外を出力してVM終了する。
+     * @param ex 例外
+     */
+    private static void xmlError(TogaXmlException ex){
+        String txt = ex.getLocalizedMessage();
+        String message = MessageFormat.format(ERRMSG_TXTONLY, txt);
+        errprint(message);
+
+        exit(EXIT_XMLERR);
+
+        return;
+    }
+
+    /**
+     * VMDファイルフォーマットエラー処理。
+     * 例外を出力してVM終了する。
+     * @param ex 例外
+     */
+    private static void vmdError(MmdFormatException ex){
+        errprint(ex);
+        errprint('\n');
+        ex.printStackTrace(ERROUT);
+        exit(EXIT_VMDERR);
+
+        return;
+    }
+
+    /**
+     * 内部エラー処理。
+     * 例外を出力してVM終了する。
+     * @param ex 例外
+     */
+    private static void internalError(Throwable ex){
+        errprint(ex);
+        errprint('\n');
+        ex.printStackTrace(ERROUT);
+        exit(EXIT_INTERR);
+
+        return;
+    }
+
+    /**
+     * JREのバージョン判定を行う。
+     * 不適切ならVMごと終了。
+     */
+    private static void checkJRE(){
+        Package jrePackage = java.lang.Object.class.getPackage();
+        if( ! jrePackage.isCompatibleWith("1.6")){
+            errExit(EXIT_ENVERR, "You need JRE 1.6 or later.\n");
+        }
+        return;
+    }
+
+    /**
+     * ヘルプメッセージを出力する。
+     */
+    private static void putHelp(){
+        StringBuilder text = new StringBuilder();
+
+        text.append(APPNAME).append(' ').append(APPVER).append('\n');
+        text.append("  License : ").append(APPLICENSE).append('\n');
+        text.append("  ").append(APPURL).append('\n');
+        text.append('\n');
+        text.append(ArgInfo.CMD_HELP);
+
+        errprint(text);
+
+        return;
+    }
+
+    /**
+     * ファイルサイズを0に切り詰める。
+     * @param file ファイル
+     * @throws IOException 入出力エラー
+     */
+    private static void trunc(File file) throws IOException{
+        if( ! file.exists() ) return;
+        if( ! file.isFile() ) return;
+
+        if(file.length() <= 0L) return;
+
+        FileOutputStream foStream = new FileOutputStream(file);
+        try{
+            FileChannel channnel = foStream.getChannel();
+            try{
+                channnel.truncate(0L);
+            }finally{
+                channnel.close();
+            }
+        }finally{
+            foStream.close();
+        }
+
+        return;
+    }
+
+    /**
+     * 入力ストリームを得る。
+     * @param fileName 入力ファイル名
+     * @return 入力ストリーム
+     * @throws FileNotFoundException 入力ファイルが見つからない。
+     */
+    private static InputStream openInputStream(String fileName)
+            throws FileNotFoundException {
+        File file = new File(fileName);
+        InputStream result = new FileInputStream(file);
+        result = new BufferedInputStream(result);
+        return result;
+    }
+
+    /**
+     * 出力ストリームを得る。
+     * @param fileName 出力ファイル名
+     * @return 出力ストリーム
+     * @throws FileNotFoundException 出力ファイルが見つからない
+     * @throws IOException 出力エラー
+     */
+    private static OutputStream openTruncatedOutputStream(String fileName)
+            throws FileNotFoundException, IOException {
+        File file = new File(fileName);
+        trunc(file);
+        OutputStream result = new FileOutputStream(file, false);
+        result = new BufferedOutputStream(result);
+        return result;
+    }
 
     /**
      * Mainエントリ。
@@ -136,32 +355,25 @@ public final class Vmd2Xml {
     }
 
     /**
-     * JREのバージョン判定を行う。
-     * 不適切ならVMごと終了。
+     * 既に存在する通常ファイルか否か判定する。
+     * @param file 判定対象
+     * @return 既に存在する通常ファイルならtrue
      */
-    private static void checkJRE(){
-        Package jrePackage = java.lang.Object.class.getPackage();
-        if( ! jrePackage.isCompatibleWith("1.6")){
-            errExit(EXIT_ENVERR, "You need JRE 1.6 or later.\n");
-        }
-        return;
+    private static boolean isExistsNormalFile(File file){
+        if( ! file.exists() ) return false;
+        if( ! file.isFile() ) return false;
+        return true;
     }
 
     /**
-     * ヘルプメッセージを出力する。
+     * 既に存在する特殊ファイルか否か判定する。
+     * @param file 判定対象
+     * @return 既に存在する特殊ファイルならtrue
      */
-    private static void putHelp(){
-        StringBuilder text = new StringBuilder();
-
-        text.append(APPNAME).append(' ').append(APPVER).append('\n');
-        text.append("  License : ").append(APPLICENSE).append('\n');
-        text.append("  ").append(APPURL).append('\n');
-        text.append('\n');
-        text.append(ArgInfo.CMD_HELP);
-
-        errprint(text);
-
-        return;
+    private static boolean isExistsUnnormalFile(File file){
+        if( ! file.exists() ) return false;
+        if( file.isFile() ) return false;
+        return true;
     }
 
     /**
@@ -174,13 +386,13 @@ public final class Vmd2Xml {
         File iFile = new File(input);
         File oFile = new File(output);
 
-        if( ! FileUtils.isExistsNormalFile(iFile) ){
+        if( ! isExistsNormalFile(iFile) ){
             errExit(EXIT_IOERR, "Can't find input file:"
                     + iFile.getAbsolutePath() + '\n');
         }
 
         if(argInfo.isForceMode()){
-            if(FileUtils.isExistsUnnormalFile(oFile)){
+            if(isExistsUnnormalFile(oFile)){
                 errExit(EXIT_IOERR, oFile.getAbsolutePath()
                         + " is not file.\n");
             }
@@ -369,162 +581,6 @@ public final class Vmd2Xml {
         VmdExporter exporter = new VmdExporter(ostream);
         exporter.dumpVmdMotion(motion);
         ostream.close();
-        return;
-    }
-
-    /**
-     * 入力ストリームを得る。
-     * @param fileName 入力ファイル名
-     * @return 入力ストリーム
-     * @throws FileNotFoundException 入力ファイルが見つからない。
-     */
-    private static InputStream openInputStream(String fileName)
-            throws FileNotFoundException {
-        File file = new File(fileName);
-        InputStream result = new FileInputStream(file);
-        result = new BufferedInputStream(result);
-        return result;
-    }
-
-    /**
-     * 出力ストリームを得る。
-     * @param fileName 出力ファイル名
-     * @return 出力ストリーム
-     * @throws FileNotFoundException 出力ファイルが見つからない
-     * @throws IOException 出力エラー
-     */
-    private static OutputStream openTruncatedOutputStream(String fileName)
-            throws FileNotFoundException, IOException {
-        File file = new File(fileName);
-        FileUtils.trunc(file);
-        OutputStream result = new FileOutputStream(file, false);
-        result = new BufferedOutputStream(result);
-        return result;
-    }
-
-    /**
-     * 入出力エラー処理。
-     * 例外を出力してVM終了する。
-     * @param ex 例外
-     */
-    private static void ioError(IOException ex){
-        errprint(ex);
-        errprint('\n');
-        exit(EXIT_IOERR);
-
-        return;
-    }
-
-    /**
-     * 内部エラー処理。
-     * 例外を出力してVM終了する。
-     * @param ex 例外
-     */
-    private static void internalError(Throwable ex){
-        errprint(ex);
-        errprint('\n');
-        ex.printStackTrace(System.err);
-        exit(EXIT_INTERR);
-
-        return;
-    }
-
-    /**
-     * VMDファイルフォーマットエラー処理。
-     * 例外を出力してVM終了する。
-     * @param ex 例外
-     */
-    private static void vmdError(MmdFormatException ex){
-        errprint(ex);
-        errprint('\n');
-        ex.printStackTrace(System.err);
-        exit(EXIT_VMDERR);
-
-        return;
-    }
-
-    /**
-     * XML構文エラー処理。
-     * 例外を出力してVM終了する。
-     * @param ex 例外
-     */
-    private static void xmlError(SAXException ex){
-        if(ex instanceof SAXParseException){
-            xmlError((SAXParseException)ex);
-        }
-
-        String txt = ex.getLocalizedMessage();
-        String message = MessageFormat.format(ERRMSG_TXTONLY, txt);
-        errprint(message);
-
-        exit(EXIT_XMLERR);
-
-        return;
-    }
-
-    /**
-     * XML構文エラー処理。
-     * 例外を出力してVM終了する。
-     * @param ex 例外
-     */
-    private static void xmlError(SAXParseException ex){
-        String txt = ex.getLocalizedMessage();
-        int line = ex.getLineNumber();
-        int col = ex.getColumnNumber();
-
-        String message =
-                MessageFormat.format(ERRMSG_SAXPARSE, txt, line, col);
-        errprint(message);
-
-        exit(EXIT_XMLERR);
-
-        return;
-    }
-
-    /**
-     * XML構文エラー処理。
-     * 例外を出力してVM終了する。
-     * @param ex 例外
-     */
-    private static void xmlError(TogaXmlException ex){
-        String txt = ex.getLocalizedMessage();
-        String message = MessageFormat.format(ERRMSG_TXTONLY, txt);
-        errprint(message);
-
-        exit(EXIT_XMLERR);
-
-        return;
-    }
-
-    /**
-     * VMを終了する。
-     * @param code 終了コード
-     */
-    private static void exit(int code){
-        System.exit(code);
-        assert false;
-        throw new AssertionError();
-    }
-
-    /**
-     * 標準エラー出力に文字列出力を行う。
-     * @param obj 文字列
-     */
-    @SuppressWarnings("PMD.SystemPrintln")
-    private static void errprint(Object obj){
-        System.err.print(obj.toString());
-        return;
-    }
-
-    /**
-     * エラーを表示した後VMを終了させる。
-     * @param code 終了コード
-     * @param text メッセージ
-     */
-    private static void errExit(int code, CharSequence text){
-        errprint("ERROR:\n");
-        errprint(text);
-        exit(code);
         return;
     }
 

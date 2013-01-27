@@ -9,8 +9,8 @@ package jp.sourceforge.mikutoga.vmd.model.binio;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import jp.sourceforge.mikutoga.binio.BinaryExporter;
-import jp.sourceforge.mikutoga.binio.IllegalTextExportException;
+import jp.sfjp.mikutoga.bin.export.BinaryExporter;
+import jp.sfjp.mikutoga.bin.export.IllegalTextExportException;
 import jp.sourceforge.mikutoga.vmd.IllegalVmdDataException;
 import jp.sourceforge.mikutoga.vmd.VmdConst;
 import jp.sourceforge.mikutoga.vmd.model.VmdMotion;

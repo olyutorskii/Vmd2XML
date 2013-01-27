@@ -8,7 +8,7 @@
 package jp.sourceforge.mikutoga.vmd.model.xml;
 
 import java.util.List;
-import jp.sourceforge.mikutoga.math.MkPos3D;
+import jp.sfjp.mikutoga.math.MkPos3D;
 import jp.sourceforge.mikutoga.vmd.model.BezierParam;
 import jp.sourceforge.mikutoga.vmd.model.CameraMotion;
 import jp.sourceforge.mikutoga.vmd.model.CameraRotation;

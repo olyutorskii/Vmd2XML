@@ -10,7 +10,7 @@ package jp.sourceforge.mikutoga.vmd.model.binio;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
-import jp.sourceforge.mikutoga.binio.BinaryExporter;
+import jp.sfjp.mikutoga.bin.export.BinaryExporter;
 import jp.sourceforge.mikutoga.vmd.model.LuminousColor;
 import jp.sourceforge.mikutoga.vmd.model.LuminousMotion;
 import jp.sourceforge.mikutoga.vmd.model.LuminousVector;

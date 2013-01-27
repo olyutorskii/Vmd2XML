@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  MikuMikuDance
+    motion-data(*.vmd) on XML
+-->
+
+
+<vmdMotion
+  xmlns="http://mikutoga.sourceforge.jp/xml/ns/vmdxml/110820"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://mikutoga.sourceforge.jp/xml/ns/vmdxml/110820
+    http://mikutoga.sourceforge.jp/xml/xsd/vmdxml-110820.xsd"
+  version="110820"
+>
+
+<!--
+  motion interpolation is defined by Bezier-cubic-curve.
+  implicit bezier curve point : P0=(0,0) P3=(127,127)
+  defLinear : MMD default linear curve. P1=(20,20) P2=(107,107) [DEFAULT]
+  defEaseInOut : MMD default ease-in-out curve. P1=(64,0) P2=(64,127)
+-->
+<!--
+  camera-rotation has polar-coordinates parameters.
+  xRad = -radian(UI_X) [latitude]
+  yRad =  radian(UI_Y) [longitude]
+  zRad =  radian(UI_Z) [roll]
+  range = -(UI_RANGE)
+-->
+<cameraSequence>
+</cameraSequence>
+
+<luminousSequence>
+</luminousSequence>
+
+<!--
+  UI_VALUE = EFFECTIVE_RANGE * 100 ???
+  rawParam = 0.1 - (UI_VALUE / 1.0E+5)
+
+  NONE   : no self-shadow
+  MODE_1 : reduce shadow-quality suddenly at range
+  MODE_2 : reduce shadow-quality gradually with range
+-->
+<shadowSequence>
+  <shadowAct frame="0" mode="NONE" rawParam="0.1" /> <!-- UI:0 -->
+  <shadowAct frame="5" mode="MODE_1" rawParam="0.01125" /> <!-- UI:8875 -->
+  <shadowAct frame="10" mode="MODE_2" rawParam="1.0E-5" /> <!-- UI:9999 -->
+</shadowSequence>
+
+</vmdMotion>
+
+<!-- EOF -->

@@ -9,7 +9,7 @@ package jp.sourceforge.mikutoga.vmd.model.binio;
 
 import java.io.IOException;
 import java.io.InputStream;
-import jp.sourceforge.mikutoga.parser.MmdFormatException;
+import jp.sfjp.mikutoga.bin.parser.MmdFormatException;
 import jp.sourceforge.mikutoga.vmd.model.VmdMotion;
 import jp.sourceforge.mikutoga.vmd.parser.VmdParser;
 
@@ -49,6 +49,8 @@ public final class VmdLoader {
         parser.setBasicHandler(basicBuilder);
         parser.setCameraHandler(cameraBuilder);
         parser.setLightingHandler(lightingBuilder);
+
+        parser.setStrictMode(false);
 
         parser.parseVmd();
 
