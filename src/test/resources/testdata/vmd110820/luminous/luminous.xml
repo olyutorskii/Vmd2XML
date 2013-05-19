@@ -14,19 +14,6 @@
   version="110820"
 >
 
-<!--
-  motion interpolation is defined by Bezier-cubic-curve.
-  implicit bezier curve point : P0=(0,0) P3=(127,127)
-  defLinear : MMD default linear curve. P1=(20,20) P2=(107,107) [DEFAULT]
-  defEaseInOut : MMD default ease-in-out curve. P1=(64,0) P2=(64,127)
--->
-<!--
-  camera-rotation has polar-coordinates parameters.
-  xRad = -radian(UI_X) [latitude]
-  yRad =  radian(UI_Y) [longitude]
-  zRad =  radian(UI_Z) [roll]
-  range = -(UI_RANGE)
--->
 <cameraSequence>
 </cameraSequence>
 
@@ -54,14 +41,6 @@
 
 </luminousSequence>
 
-<!--
-  UI_VALUE = EFFECTIVE_RANGE * 100 ???
-  rawParam = 0.1 - (UI_VALUE / 1.0E+5)
-
-  NONE   : no self-shadow
-  MODE_1 : reduce shadow-quality suddenly at range
-  MODE_2 : reduce shadow-quality gradually with range
--->
 <shadowSequence>
 </shadowSequence>
 

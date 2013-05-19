@@ -9,11 +9,11 @@ package jp.sourceforge.mikutoga.vmd.model.xml;
 
 import java.util.List;
 import jp.sfjp.mikutoga.math.MkPos3D;
-import jp.sourceforge.mikutoga.vmd.model.BezierParam;
-import jp.sourceforge.mikutoga.vmd.model.CameraMotion;
-import jp.sourceforge.mikutoga.vmd.model.CameraRotation;
-import jp.sourceforge.mikutoga.vmd.model.PosCurve;
-import jp.sourceforge.mikutoga.vmd.model.VmdMotion;
+import jp.sfjp.mikutoga.vmd.model.BezierParam;
+import jp.sfjp.mikutoga.vmd.model.CameraMotion;
+import jp.sfjp.mikutoga.vmd.model.CameraRotation;
+import jp.sfjp.mikutoga.vmd.model.PosCurve;
+import jp.sfjp.mikutoga.vmd.model.VmdMotion;
 import jp.sourceforge.mikutoga.xml.TogaXmlException;
 import org.w3c.dom.Element;
 

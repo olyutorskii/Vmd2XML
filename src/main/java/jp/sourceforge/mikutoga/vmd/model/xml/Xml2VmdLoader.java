@@ -12,12 +12,11 @@ import java.text.MessageFormat;
 import javax.xml.parsers.DocumentBuilder;
 import jp.sfjp.mikutoga.math.MkPos3D;
 import jp.sfjp.mikutoga.math.MkQuat;
-import jp.sourceforge.mikutoga.vmd.model.BezierParam;
-import jp.sourceforge.mikutoga.vmd.model.BoneMotion;
-import jp.sourceforge.mikutoga.vmd.model.MorphMotion;
-import jp.sourceforge.mikutoga.vmd.model.NamedListMap;
-import jp.sourceforge.mikutoga.vmd.model.PosCurve;
-import jp.sourceforge.mikutoga.vmd.model.VmdMotion;
+import jp.sfjp.mikutoga.vmd.model.BezierParam;
+import jp.sfjp.mikutoga.vmd.model.BoneMotion;
+import jp.sfjp.mikutoga.vmd.model.MorphMotion;
+import jp.sfjp.mikutoga.vmd.model.PosCurve;
+import jp.sfjp.mikutoga.vmd.model.VmdMotion;
 import jp.sourceforge.mikutoga.xml.TogaXmlException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -73,7 +72,7 @@ public class Xml2VmdLoader {
      * @throws TogaXmlException 構文エラー
      */
     private static void buildModelName(Element vmdMotionElem,
-                                       VmdMotion vmdMotion)
+                                         VmdMotion vmdMotion)
             throws TogaXmlException{
         Element modelNameElem = Xml.getChild(vmdMotionElem, "modelName");
         String modelName = Xml.getStringAttr(modelNameElem, "name");
@@ -88,15 +87,13 @@ public class Xml2VmdLoader {
      * @throws TogaXmlException 構文エラー
      */
     private static void buildBoneSeq(Element vmdMotionElem,
-                                     VmdMotion vmdMotion )
+                                       VmdMotion vmdMotion )
             throws TogaXmlException{
-        NamedListMap<BoneMotion> boneMap = vmdMotion.getBonePartMap();
-
         Element boneSeqElem =
                 Xml.getChild(vmdMotionElem, "boneMotionSequence");
 
         for(Element bonePartElem : Xml.eachChild(boneSeqElem, "bonePart")){
-            buildBonePart(bonePartElem, boneMap);
+            buildBonePart(bonePartElem, vmdMotion);
         }
 
         return;
@@ -105,11 +102,11 @@ public class Xml2VmdLoader {
     /**
      * ボーンパートを読み込む。
      * @param bonePartElem bonePart要素
-     * @param boneMap 名前マップ
+     * @param vmdMotion モーション
      * @throws TogaXmlException 構文エラー
      */
     private static void buildBonePart(Element bonePartElem,
-                                      NamedListMap<BoneMotion> boneMap )
+                                        VmdMotion vmdMotion )
             throws TogaXmlException{
         String boneName = Xml.getStringAttr(bonePartElem, "name");
 
@@ -117,7 +114,7 @@ public class Xml2VmdLoader {
                 Xml.eachChild(bonePartElem, "boneMotion")){
             BoneMotion boneMotion = buildBoneMotion(boneMotionElem);
             boneMotion.setBoneName(boneName);
-            boneMap.addNamedElement(boneName, boneMotion);
+            vmdMotion.addBoneMotion(boneMotion);
         }
 
         return;
@@ -236,15 +233,13 @@ public class Xml2VmdLoader {
      * @throws TogaXmlException 構文エラー
      */
     private static void buildMorphSeq(Element vmdMotionElem,
-                                      VmdMotion vmdMotion )
+                                        VmdMotion vmdMotion )
             throws TogaXmlException{
-        NamedListMap<MorphMotion> morphMap = vmdMotion.getMorphPartMap();
-
         Element morphSeqElem = Xml.getChild(vmdMotionElem, "morphSequence");
 
         for(Element morphPartElem :
                 Xml.eachChild(morphSeqElem, "morphPart")){
-            buildMorphPart(morphPartElem, morphMap);
+            buildMorphPart(morphPartElem, vmdMotion);
         }
 
         return;
@@ -253,11 +248,11 @@ public class Xml2VmdLoader {
     /**
      * モーフパートを読み込む。
      * @param morphPartElem morphPart要素
-     * @param morphMap 名前マップ
+     * @param vmdMotion モーション
      * @throws TogaXmlException 構文エラー
      */
     private static void buildMorphPart(Element morphPartElem,
-                                       NamedListMap<MorphMotion> morphMap )
+                                         VmdMotion vmdMotion )
             throws TogaXmlException{
         String morphName = Xml.getStringAttr(morphPartElem, "name");
 
@@ -266,7 +261,7 @@ public class Xml2VmdLoader {
         for(Element morphMotionElem : childs){
             MorphMotion morphMotion = buildMorphMotion(morphMotionElem);
             morphMotion.setMorphName(morphName);
-            morphMap.addNamedElement(morphName, morphMotion);
+            vmdMotion.addMorphMotion(morphMotion);
         }
 
         return;

@@ -8,8 +8,8 @@
 package jp.sourceforge.mikutoga.vmd.model.xml;
 
 import java.util.Iterator;
-import jp.sourceforge.mikutoga.vmd.model.BezierParam;
-import jp.sourceforge.mikutoga.vmd.model.PosCurve;
+import jp.sfjp.mikutoga.vmd.model.BezierParam;
+import jp.sfjp.mikutoga.vmd.model.PosCurve;
 import jp.sourceforge.mikutoga.xml.DomNsUtils;
 import jp.sourceforge.mikutoga.xml.SiblingElemIterator;
 import jp.sourceforge.mikutoga.xml.TogaXmlException;
@@ -46,7 +46,7 @@ final class Xml {
     static boolean hasNsLocalNameElem(Element elem,
                                       String localName ){
         return DomNsUtils.hasNsLocalNameElem(elem,
-                                             VmdXmlResources.NS_VMDXML,
+                                             Schema110820.NS_VMDXML,
                                              localName );
     }
 
@@ -58,7 +58,7 @@ final class Xml {
      */
     static Element pickChild(Element parent, String localName){
         return DomNsUtils.pickFirstChild(parent,
-                                         VmdXmlResources.NS_VMDXML,
+                                         Schema110820.NS_VMDXML,
                                          localName );
     }
 
@@ -73,7 +73,7 @@ final class Xml {
     static Element getChild(Element parent, String localName)
             throws TogaXmlException{
         return DomNsUtils.getFirstChild(parent,
-                                        VmdXmlResources.NS_VMDXML,
+                                        Schema110820.NS_VMDXML,
                                         localName );
     }
 
@@ -85,7 +85,7 @@ final class Xml {
      */
     static Iterable<Element> eachChild(Element parent, String localName){
         return DomNsUtils.getEachChild(parent,
-                                       VmdXmlResources.NS_VMDXML,
+                                       Schema110820.NS_VMDXML,
                                        localName );
     }
 
@@ -214,14 +214,15 @@ final class Xml {
      */
     static void buildPosCurve(Element positionElem, PosCurve curve)
             throws TogaXmlException{
-        Iterator<Element> it =
+        Iterator<Element> itElem =
                 new SiblingElemIterator(positionElem,
-                                        VmdXmlResources.NS_VMDXML, null);
+                                        Schema110820.NS_VMDXML, null);
+        Iterator<BezierParam> itBez = curve.iterator();
 
         int ct = 0;
-        while(it.hasNext()){
-            Element curveElem = it.next();
-            BezierParam bz = curve.item(ct);
+        while(itElem.hasNext()){
+            Element curveElem = itElem.next();
+            BezierParam bz = itBez.next();
             setBezier(curveElem, bz);
             ct++;
         }

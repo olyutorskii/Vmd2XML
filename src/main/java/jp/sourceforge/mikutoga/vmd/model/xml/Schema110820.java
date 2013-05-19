@@ -9,12 +9,15 @@ package jp.sourceforge.mikutoga.vmd.model.xml;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import jp.sourceforge.mikutoga.xml.LocalSchema;
+import jp.sourceforge.mikutoga.xml.LocalXmlResource;
 
 /**
  * 110820形式XML各種リソースの定義。
  */
-public class Schema110820 extends LocalSchema{
+public final class Schema110820 implements LocalXmlResource{
+
+    /** 唯一のシングルトン。 */
+    public static final Schema110820 SINGLETON;
 
     /** XML名前空間識別子。 */
     public static final String NS_VMDXML =
@@ -41,13 +44,15 @@ public class Schema110820 extends LocalSchema{
         }catch(URISyntaxException e){
             throw new ExceptionInInitializerError(e);
         }
+
+        SINGLETON = new Schema110820();
     }
 
 
     /**
-     * 隠しコンストラクタ。
+     * コンストラクタ。
      */
-    public Schema110820(){
+    private Schema110820(){
         super();
         assert this.getClass() == THISCLASS;
         return;
@@ -59,7 +64,7 @@ public class Schema110820 extends LocalSchema{
      * @return {@inheritDoc}
      */
     @Override
-    public URI getOriginalSchema(){
+    public URI getOriginalResource(){
         return URI_SCHEMA_VMDXML;
     }
 
@@ -68,7 +73,7 @@ public class Schema110820 extends LocalSchema{
      * @return {@inheritDoc}
      */
     @Override
-    public URI getLocalSchema(){
+    public URI getLocalResource(){
         return RES_SCHEMA_VMDXML;
     }
 

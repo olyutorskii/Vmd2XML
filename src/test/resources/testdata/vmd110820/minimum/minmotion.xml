@@ -14,20 +14,9 @@
   version="110820"
 >
 
-<!--  -->
+<!-- [NAMELESS] -->
 <modelName name="" />
 
-<!--
-  bone-rotation has Quaternion parameters [boneRotQuat]
-  or YXZ-Euler angles [boneRotEyxz].
-  Quaternion is strongly recommended if you are data-exchanging.
--->
-<!--
-  motion interpolation is defined by Bezier-cubic-curve.
-  implicit bezier curve point : P0=(0,0) P3=(127,127)
-  defLinear : MMD default linear curve. P1=(20,20) P2=(107,107) [DEFAULT]
-  defEaseInOut : MMD default ease-in-out curve. P1=(64,0) P2=(64,127)
--->
 <boneMotionSequence>
 </boneMotionSequence>
 

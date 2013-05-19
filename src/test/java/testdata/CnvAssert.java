@@ -11,8 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import jp.sourceforge.mikutoga.vmd2xml.MotionFileType;
-import jp.sourceforge.mikutoga.vmd2xml.Vmd2XmlConv;
+import jp.sfjp.mikutoga.vmd2xml.MotionFileType;
+import jp.sfjp.mikutoga.vmd2xml.Vmd2XmlConv;
 
 import static org.junit.Assert.*;
 

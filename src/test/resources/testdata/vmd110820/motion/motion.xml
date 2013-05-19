@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  MikuMikuDance
+    motion-data(*.vmd) on XML
+-->
+
+
+<vmdMotion
+  xmlns="http://mikutoga.sourceforge.jp/xml/ns/vmdxml/110820"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://mikutoga.sourceforge.jp/xml/ns/vmdxml/110820
+    http://mikutoga.sourceforge.jp/xml/xsd/vmdxml-110820.xsd"
+  version="110820"
+>
+
+<!-- model -->
+<modelName name="model" />
+
+<!--
+  bone-rotation has Quaternion parameters [boneRotQuat]
+  or YXZ-Euler angles [boneRotEyxz].
+  Quaternion form is strongly recommended if you are data-exchanging.
+-->
+<!--
+  motion-interpolation is described with Bezier-cubic-curve.
+  implicit bezier curve point : P0=(0,0) P3=(127,127)
+  defLinear : MMD default linear curve. P1=(20,20) P2=(107,107) [DEFAULT]
+  defEaseInOut : MMD default ease-in-out curve. P1=(64,0) P2=(64,127)
+-->
+<boneMotionSequence>
+
+  <!-- センター -->  <!-- Perhaps : [center] -->
+  <bonePart name="&#x30BB;&#x30F3;&#x30BF;&#x30FC;" >
+
+    <boneMotion frame="0" >
+      <boneRotQuat
+        qx="0.0"
+        qy="0.0"
+        qz="0.0"
+        qw="1.0"
+      />
+    </boneMotion>
+
+    <boneMotion frame="5" >
+      <bonePosition xPos="1.0" yPos="2.0" zPos="3.0" >
+        <!-- X-Y-Z interpolation *3 -->
+        <bezier p1x="10" p1y="20" p2x="107" p2y="107" />
+        <defLinear />
+        <defEaseInOut />
+      </bonePosition>
+      <boneRotQuat
+        qx="0.0"
+        qy="0.0"
+        qz="0.0"
+        qw="1.0"
+      >
+        <bezier p1x="30" p1y="20" p2x="107" p2y="107" />
+      </boneRotQuat>
+    </boneMotion>
+
+  </bonePart>
+
+  <!-- 下半身 -->  <!-- Perhaps : [lower body] -->
+  <bonePart name="&#x4E0B;&#x534A;&#x8EAB;" >
+
+    <boneMotion frame="0" >
+      <boneRotQuat
+        qx="0.0"
+        qy="0.0"
+        qz="0.0"
+        qw="1.0"
+      />
+    </boneMotion>
+
+  </bonePart>
+
+</boneMotionSequence>
+
+<morphSequence>
+</morphSequence>
+
+</vmdMotion>
+
+<!-- EOF -->

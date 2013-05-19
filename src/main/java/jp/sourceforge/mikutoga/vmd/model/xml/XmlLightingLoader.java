@@ -8,12 +8,12 @@
 package jp.sourceforge.mikutoga.vmd.model.xml;
 
 import java.util.List;
-import jp.sourceforge.mikutoga.vmd.model.LuminousColor;
-import jp.sourceforge.mikutoga.vmd.model.LuminousMotion;
-import jp.sourceforge.mikutoga.vmd.model.LuminousVector;
-import jp.sourceforge.mikutoga.vmd.model.ShadowMode;
-import jp.sourceforge.mikutoga.vmd.model.ShadowMotion;
-import jp.sourceforge.mikutoga.vmd.model.VmdMotion;
+import jp.sfjp.mikutoga.math.MkVec3D;
+import jp.sfjp.mikutoga.vmd.model.LuminousColor;
+import jp.sfjp.mikutoga.vmd.model.LuminousMotion;
+import jp.sfjp.mikutoga.vmd.model.ShadowMode;
+import jp.sfjp.mikutoga.vmd.model.ShadowMotion;
+import jp.sfjp.mikutoga.vmd.model.VmdMotion;
 import jp.sourceforge.mikutoga.xml.TogaXmlException;
 import org.w3c.dom.Element;
 
@@ -79,13 +79,13 @@ final class XmlLightingLoader {
 
         Element lumiDirectionElem =
                 Xml.getChild(luminousActElem, "lumiDirection");
-        LuminousVector vec = luminousMotion.getDirection();
+        MkVec3D vec = luminousMotion.getDirection();
         float xVec = Xml.getFloatAttr(lumiDirectionElem, "xVec");
         float yVec = Xml.getFloatAttr(lumiDirectionElem, "yVec");
         float zVec = Xml.getFloatAttr(lumiDirectionElem, "zVec");
-        vec.setVecX(xVec);
-        vec.setVecY(yVec);
-        vec.setVecZ(zVec);
+        vec.setXVal(xVec);
+        vec.setYVal(yVec);
+        vec.setZVal(zVec);
 
         luminousList.add(luminousMotion);
 
