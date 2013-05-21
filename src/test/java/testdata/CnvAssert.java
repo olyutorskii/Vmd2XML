@@ -85,25 +85,44 @@ public class CnvAssert {
             String pmdResource,
             String expXmlResource )
             throws Exception{
-        InputStream pmdis =
-                klass.getResourceAsStream(pmdResource);
-        assertNotNull(pmdis);
-        pmdis = new BufferedInputStream(pmdis);
-
-        File destFile = openTempFile();
-        OutputStream destOut;
-        destOut = new FileOutputStream(destFile);
-        destOut = new BufferedOutputStream(destOut);
-
         Vmd2XmlConv converter = new Vmd2XmlConv();
         converter.setInType(MotionFileType.VMD);
         converter.setOutType(MotionFileType.XML_110820);
         converter.setNewline("\n");
         converter.setGenerator(null);
 
-        converter.convert(pmdis, destOut);
+        assertVmd2Xml(klass, pmdResource, expXmlResource, converter);
 
-        pmdis.close();
+        return;
+    }
+
+    /**
+     * VMDリソースをXMLに変換した結果がXMLリソースに等しいと表明する。
+     * @param klass リソース元クラス
+     * @param vmdResource PMDリソース名
+     * @param expXmlResource XMLリソース名
+     * @param converter コンバータ
+     * @throws Exception エラー
+     */
+    public static void assertVmd2Xml(
+            Class<?> klass,
+            String vmdResource,
+            String expXmlResource,
+            Vmd2XmlConv converter )
+            throws Exception{
+        InputStream vmdis =
+                klass.getResourceAsStream(vmdResource);
+        assertNotNull(vmdis);
+        vmdis = new BufferedInputStream(vmdis);
+
+        File destFile = openTempFile();
+        OutputStream destOut;
+        destOut = new FileOutputStream(destFile);
+        destOut = new BufferedOutputStream(destOut);
+
+        converter.convert(vmdis, destOut);
+
+        vmdis.close();
         destOut.close();
 
         assertSameFile(klass, expXmlResource, destFile);

@@ -44,18 +44,8 @@ public enum MotionFileType {
      * @return XMLならtrue
      */
     public boolean isXml(){
-        boolean result;
-
-        switch(this){
-        case XML_110820:
-            result = true;
-            break;
-        default:
-            result = false;
-            break;
-        }
-
-        return result;
+        if(this == XML_110820) return true;
+        return false;
     }
 
     /**
@@ -63,18 +53,8 @@ public enum MotionFileType {
      * @return VMDならtrue
      */
     public boolean isVmd(){
-        boolean result;
-
-        switch(this){
-        case VMD:
-            result = true;
-            break;
-        default:
-            result = false;
-            break;
-        }
-
-        return result;
+        if(this == VMD) return true;
+        return false;
     }
 
 }

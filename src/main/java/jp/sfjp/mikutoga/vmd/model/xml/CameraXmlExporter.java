@@ -5,7 +5,7 @@
  * Copyright(c) 2013 MikuToga Partners
  */
 
-package jp.sourceforge.mikutoga.vmd.model.xml;
+package jp.sfjp.mikutoga.vmd.model.xml;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,15 +20,18 @@ import jp.sourceforge.mikutoga.xml.ProxyXmlExporter;
 /**
  *カメラ情報のXMLエクスポーター。
  */
-class CameraXmlExporter extends ProxyXmlExporter{
+class CameraXmlExporter extends ProxyXmlExporter {
+
+    private final ExtraXmlExporter extraExporter;
 
 
     /**
      * コンストラクタ。
-     * @param proxy 委譲先
+     * @param delegate 委譲先
      */
-    CameraXmlExporter(VmdXmlExporter proxy) {
-        super(proxy);
+    CameraXmlExporter(VmdXmlExporter delegate) {
+        super(delegate);
+        this.extraExporter = new ExtraXmlExporter(delegate);
         return;
     }
 
@@ -42,11 +45,11 @@ class CameraXmlExporter extends ProxyXmlExporter{
             throws IOException{
         List<CameraMotion> list = vmdMotion.getCameraMotionList();
         if( ! list.isEmpty() ){
-            ind().putBlockComment(XmlSyms.CAMERA_COMMENT);
-            ind().putBlockComment(XmlSyms.BEZIER_COMMENT);
+            ind().putBlockComment(XmlComment.CAMERA_COMMENT);
+            ind().putBlockComment(XmlComment.BEZIER_COMMENT);
         }
 
-        ind().putSimpleSTag(XmlSyms.TAG_CAMERA_SEQUENCE).ln();
+        ind().putSimpleSTag(VmdTag.CAMERA_SEQUENCE.tag()).ln();
 
         pushNest();
         if( ! list.isEmpty() ) ln();
@@ -55,7 +58,7 @@ class CameraXmlExporter extends ProxyXmlExporter{
         }
         popNest();
 
-        ind().putETag(XmlSyms.TAG_CAMERA_SEQUENCE).ln(2);
+        ind().putETag(VmdTag.CAMERA_SEQUENCE.tag()).ln(2);
 
         return;
     }
@@ -67,11 +70,11 @@ class CameraXmlExporter extends ProxyXmlExporter{
      */
     private void putCameraMotion(CameraMotion cameraMotion)
             throws IOException{
-        ind().putOpenSTag(XmlSyms.TAG_CAMERA_MOTION).sp();
+        ind().putOpenSTag(VmdTag.CAMERA_MOTION.tag()).sp();
         int frameNo = cameraMotion.getFrameNumber();
-        putIntAttr(XmlSyms.ATTR_FRAME, frameNo).sp();
+        putIntAttr(XmlAttr.ATTR_FRAME, frameNo).sp();
         if( ! cameraMotion.hasPerspective() ){
-            putAttr(XmlSyms.ATTR_HAS_PERSPECTIVE, "false").sp();
+            putAttr(XmlAttr.ATTR_HAS_PERSPECTIVE, "false").sp();
         }
         putCloseSTag().ln();
 
@@ -82,7 +85,7 @@ class CameraXmlExporter extends ProxyXmlExporter{
         putProjection(cameraMotion);
         popNest();
 
-        ind().putETag(XmlSyms.TAG_CAMERA_MOTION).ln(2);
+        ind().putETag(VmdTag.CAMERA_MOTION.tag()).ln(2);
 
         return;
     }
@@ -94,11 +97,17 @@ class CameraXmlExporter extends ProxyXmlExporter{
      */
     private void putCameraTarget(CameraMotion cameraMotion)
             throws IOException{
-        ind().putOpenSTag(XmlSyms.TAG_CAMERA_TARGET).sp();
+        ind().putOpenSTag(VmdTag.CAMERA_TARGET.tag()).sp();
+
         MkPos3D position = cameraMotion.getCameraTarget();
-        putFloatAttr(XmlSyms.ATTR_X_POS, (float) position.getXpos()).sp();
-        putFloatAttr(XmlSyms.ATTR_Y_POS, (float) position.getYpos()).sp();
-        putFloatAttr(XmlSyms.ATTR_Z_POS, (float) position.getZpos()).sp();
+
+        float xPos = (float) position.getXpos();
+        float yPos = (float) position.getYpos();
+        float zPos = (float) position.getZpos();
+
+        putFloatAttr(XmlAttr.ATTR_X_POS, xPos).sp();
+        putFloatAttr(XmlAttr.ATTR_Y_POS, yPos).sp();
+        putFloatAttr(XmlAttr.ATTR_Z_POS, zPos).sp();
 
         PosCurve posCurve = cameraMotion.getTargetPosCurve();
         if(posCurve.isDefaultLinear()){
@@ -107,39 +116,11 @@ class CameraXmlExporter extends ProxyXmlExporter{
             putCloseSTag().ln();
 
             pushNest();
-            putPositionCurve(posCurve);
+            this.extraExporter.putPositionCurve(posCurve);
             popNest();
 
-            ind().putETag(XmlSyms.TAG_CAMERA_TARGET).ln();
+            ind().putETag(VmdTag.CAMERA_TARGET.tag()).ln();
         }
-
-        return;
-    }
-
-    /**
-     * 位置移動補間カーブを出力する。
-     * @param posCurve 移動補間情報
-     * @throws IOException 出力エラー
-     */
-    private void putPositionCurve(PosCurve posCurve)
-            throws IOException{
-        BezierParam xCurve = posCurve.getIntpltXpos();
-        BezierParam yCurve = posCurve.getIntpltYpos();
-        BezierParam zCurve = posCurve.getIntpltZpos();
-
-        ind().putLineComment("X-Y-Z interpolation *3").ln();
-
-        ind();
-        putBezierCurve(xCurve);
-        ln();
-
-        ind();
-        putBezierCurve(yCurve);
-        ln();
-
-        ind();
-        putBezierCurve(zCurve);
-        ln();
 
         return;
     }
@@ -151,14 +132,17 @@ class CameraXmlExporter extends ProxyXmlExporter{
      */
     private void putCameraRotation(CameraMotion cameraMotion)
             throws IOException{
-        ind().putOpenSTag(XmlSyms.TAG_CAMERA_ROTATION).sp();
+        ind().putOpenSTag(VmdTag.CAMERA_ROTATION.tag()).sp();
+
         CameraRotation rotation = cameraMotion.getCameraRotation();
-        float latitude = (float) rotation.getLatitude();
+
+        float latitude  = (float) rotation.getLatitude();
         float longitude = (float) rotation.getLongitude();
-        float roll = (float) rotation.getRoll();
-        putFloatAttr(XmlSyms.ATTR_X_RAD, latitude).sp();
-        putFloatAttr(XmlSyms.ATTR_Y_RAD, longitude).sp();
-        putFloatAttr(XmlSyms.ATTR_Z_RAD, roll).sp();
+        float roll      = (float) rotation.getRoll();
+
+        putFloatAttr(XmlAttr.ATTR_X_RAD, latitude) .sp();
+        putFloatAttr(XmlAttr.ATTR_Y_RAD, longitude).sp();
+        putFloatAttr(XmlAttr.ATTR_Z_RAD, roll)     .sp();
 
         BezierParam rotCurve = cameraMotion.getIntpltRotation();
         if(rotCurve.isDefaultLinear()){
@@ -167,10 +151,10 @@ class CameraXmlExporter extends ProxyXmlExporter{
             putCloseSTag().ln();
             pushNest();
             ind();
-            putBezierCurve(rotCurve);
+            this.extraExporter.putBezierCurve(rotCurve);
             ln();
             popNest();
-            ind().putETag(XmlSyms.TAG_CAMERA_ROTATION).ln();
+            ind().putETag(VmdTag.CAMERA_ROTATION.tag()).ln();
         }
 
         return;
@@ -183,9 +167,10 @@ class CameraXmlExporter extends ProxyXmlExporter{
      */
     private void putCameraRange(CameraMotion cameraMotion)
             throws IOException{
-        ind().putOpenSTag(XmlSyms.TAG_CAMERA_RANGE).sp();
+        ind().putOpenSTag(VmdTag.CAMERA_RANGE.tag()).sp();
+
         float range = (float) cameraMotion.getRange();
-        putFloatAttr(XmlSyms.ATTR_RANGE, range).sp();
+        putFloatAttr(XmlAttr.ATTR_RANGE, range).sp();
 
         BezierParam rangeCurve = cameraMotion.getIntpltRange();
         if(rangeCurve.isDefaultLinear()){
@@ -194,10 +179,10 @@ class CameraXmlExporter extends ProxyXmlExporter{
             putCloseSTag().ln();
             pushNest();
             ind();
-            putBezierCurve(rangeCurve);
+            this.extraExporter.putBezierCurve(rangeCurve);
             ln();
             popNest();
-            ind().putETag(XmlSyms.TAG_CAMERA_RANGE).ln();
+            ind().putETag(VmdTag.CAMERA_RANGE.tag()).ln();
         }
 
         return;
@@ -210,9 +195,10 @@ class CameraXmlExporter extends ProxyXmlExporter{
      */
     private void putProjection(CameraMotion cameraMotion)
             throws IOException{
-        ind().putOpenSTag(XmlSyms.TAG_PROJECTION).sp();
+        ind().putOpenSTag(VmdTag.PROJECTION.tag()).sp();
+
         int angle = cameraMotion.getProjectionAngle();
-        putIntAttr(XmlSyms.ATTR_VERT_DEG, angle).sp();
+        putIntAttr(XmlAttr.ATTR_VERT_DEG, angle).sp();
 
         BezierParam projCurve = cameraMotion.getIntpltProjection();
         if(projCurve.isDefaultLinear()){
@@ -221,34 +207,12 @@ class CameraXmlExporter extends ProxyXmlExporter{
             putCloseSTag().ln();
             pushNest();
             ind();
-            putBezierCurve(projCurve);
+            this.extraExporter.putBezierCurve(projCurve);
             ln();
             popNest();
-            ind().putETag(XmlSyms.TAG_PROJECTION).ln();
+            ind().putETag(VmdTag.PROJECTION.tag()).ln();
         }
 
-        return;
-    }
-
-    /**
-     * ベジェ曲線による補間曲線情報を出力する。
-     * @param bezier ベジェ曲線
-     * @throws IOException 出力エラー
-     */
-    private void putBezierCurve(BezierParam bezier)
-            throws IOException{
-        if(bezier.isDefaultLinear()){
-            putSimpleEmpty(XmlSyms.TAG_DEF_LINEAR);
-        }else if(bezier.isDefaultEaseInOut()){
-            putSimpleEmpty(XmlSyms.TAG_DEF_EASE_IN_OUT);
-        }else{
-            putOpenSTag(XmlSyms.TAG_BEZIER).sp();
-            putIntAttr(XmlSyms.ATTR_P1X, bezier.getP1x()).sp();
-            putIntAttr(XmlSyms.ATTR_P1Y, bezier.getP1y()).sp();
-            putIntAttr(XmlSyms.ATTR_P2X, bezier.getP2x()).sp();
-            putIntAttr(XmlSyms.ATTR_P2Y, bezier.getP2y()).sp();
-            putCloseEmpty();
-        }
         return;
     }
 

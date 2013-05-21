@@ -37,7 +37,10 @@ class BasicExporter extends BinaryExporter {
     private static final int BZTOTAL_SIZE = BZXYZR_SIZE * BZ_REDUNDANT;
 
     private static final Charset CS_ASCII = Charset.forName("US-ASCII");
+
+    // '\0' * 5byte の版もあり
     private static final String HEADFILLER = "\u0000" + "JKLM";
+
     private static final byte[] FDFILLER =
         { (byte)0x00, (byte)0xfd };
     private static final  byte[] INTPLT_FILLER = {

@@ -27,10 +27,6 @@ public class LuminousColor {
 
     private static final String MSG_TXT = "r={0} g={1} b={2}";
 
-    static{
-        assert 0.602f != 0.602;
-    }
-
 
     private float colR = DEF_BRIGHT;
     private float colG = DEF_BRIGHT;

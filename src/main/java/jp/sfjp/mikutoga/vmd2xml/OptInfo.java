@@ -30,9 +30,6 @@ final class OptInfo {
     private static final String NL_LF   =   "lf";
     private static final String NL_CRLF = "crlf";
 
-    private static final String GENERATOR =
-            Vmd2Xml.APPNAME + ' ' + Vmd2Xml.APPVER;
-
     private static final String ERRMSG_UNKNOWN =
             "Unknown option : {0}";
     private static final String ERRMSG_MOREARG =
@@ -61,7 +58,7 @@ final class OptInfo {
     private String outFilename = null;
     private boolean overwrite = false;
     private String newline = EOL_DEFAULT;
-    private String generator = GENERATOR;
+    private String generator = Vmd2Xml.GENERATOR;
     private boolean isQuaternionMode = true;
 
 
@@ -164,71 +161,98 @@ final class OptInfo {
     }
 
     /**
+     * ヘルプ要求があるかコマンドライン列を調べる。
+     * @param cmds コマンドライン列
+     * @return ヘルプ要求があればtrue
+     */
+    private static boolean hasHelp(List<CmdLine> cmds){
+        for(CmdLine cmd : cmds){
+            OptSwitch opt = cmd.getOptSwitch();
+            if(opt == OptSwitch.OPT_HELP){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 個別のオプション情報を格納する。
+     * @param opt オプション識別子
+     * @param exArg 引数。なければnull
+     * @param result オプション情報格納先
+     * @throws CmdLineException 不正なコマンドライン
+     */
+    private static void storeOptInfo(OptSwitch opt,
+                                       String exArg,
+                                       OptInfo result )
+            throws CmdLineException{
+        switch(opt){
+        case OPT_FORCE:
+            result.overwrite = true;
+            break;
+        case OPT_QUAT:
+            result.isQuaternionMode = true;
+            break;
+        case OPT_EYXZ:
+            result.isQuaternionMode = false;
+            break;
+        case OPT_INFILE:
+            result.inFilename = exArg;
+            break;
+        case OPT_OUTFILE:
+            result.outFilename = exArg;
+            break;
+        case OPT_NEWLINE:
+            result.newline = decodeNewline(exArg);
+            break;
+        case OPT_IFORM:
+            MotionFileType itype = decodeFormatType(exArg);
+            result.inTypes  = itype;
+            break;
+        case OPT_OFORM:
+            MotionFileType otype = decodeFormatType(exArg);
+            result.outTypes  = otype;
+            break;
+        case OPT_GENOUT:
+            boolean genout = decodeBoolean(exArg);
+            if(genout) result.generator = Vmd2Xml.GENERATOR;
+            else       result.generator = null;
+            break;
+        default:
+            break;
+        }
+
+        return;
+    }
+
+    /**
      * コマンドラインを解析する。
      * @param args コマンドライン
      * @return オプション情報
      * @throws CmdLineException 不正なコマンドライン
      */
     static OptInfo parseOption(String... args) throws CmdLineException{
+        List<CmdLine> cmdLines = CmdLine.parse(args);
+
         OptInfo result = new OptInfo();
 
-        List<CmdLine> cmdLines = CmdLine.parse(args);
-        for(CmdLine cmd : cmdLines){
-            OptSwitch opt = cmd.getOptSwitch();
-            if(opt == OptSwitch.OPT_HELP){
-                result.needHelp = true;
-                return result;
-            }
+        if(hasHelp(cmdLines)){
+            result.needHelp = true;
+            return result;
         }
 
         checkCmdLineList(cmdLines);
 
         for(CmdLine cmd : cmdLines){
+            OptSwitch opt = cmd.getOptSwitch();
+
             List<String> optArgs = cmd.getOptArgs();
             String exArg1 = null;
             if(optArgs.size() >= 2){
                 exArg1 = optArgs.get(1);
             }
 
-            OptSwitch opt = cmd.getOptSwitch();
-            switch(opt){
-            case OPT_HELP:
-                break;
-            case OPT_FORCE:
-                result.overwrite = true;
-                break;
-            case OPT_INFILE:
-                result.inFilename = exArg1;
-                break;
-            case OPT_OUTFILE:
-                result.outFilename = exArg1;
-                break;
-            case OPT_NEWLINE:
-                result.newline = decodeNewline(exArg1);
-                break;
-            case OPT_GENOUT:
-                boolean genout = decodeBoolean(exArg1);
-                if(genout) result.generator = GENERATOR;
-                else       result.generator = null;
-                break;
-            case OPT_QUAT:
-                result.isQuaternionMode = true;
-                break;
-            case OPT_EYXZ:
-                result.isQuaternionMode = false;
-                break;
-            case OPT_IFORM:
-                MotionFileType itype = decodeFormatType(exArg1);
-                result.inTypes  = itype;
-                break;
-            case OPT_OFORM:
-                MotionFileType otype = decodeFormatType(exArg1);
-                result.outTypes  = otype;
-                break;
-            default:
-                assert false;
-                throw new AssertionError();
-            }
+            storeOptInfo(opt, exArg1, result);
         }
 
         fixFormat(result);

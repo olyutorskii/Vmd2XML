@@ -7,22 +7,24 @@
 
 package jp.sfjp.mikutoga.vmd2xml;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 import java.util.Properties;
 import jp.sfjp.mikutoga.bin.parser.MmdFormatException;
 import jp.sfjp.mikutoga.vmd.IllegalVmdDataException;
 import jp.sourceforge.mikutoga.xml.TogaXmlException;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 
@@ -54,6 +56,8 @@ public final class Vmd2Xml {
     public static final String APPLICENSE;
     /** 開発元URL。 */
     public static final String APPURL;
+    /** ジェネレータ名。 */
+    public static final String GENERATOR;
 
     private static final Class<?> THISCLASS;
     private static final String RES_VER = "resources/version.properties";
@@ -91,6 +95,8 @@ public final class Vmd2Xml {
         APPVER     = verProps.getProperty("app.version");
         APPLICENSE = verProps.getProperty("app.license");
         APPURL     = verProps.getProperty("app.url");
+
+        GENERATOR = APPNAME + ' ' + APPVER;
 
         new Vmd2Xml().hashCode();
     }
@@ -247,12 +253,13 @@ public final class Vmd2Xml {
     }
 
     /**
-     * 入力ストリームを準備する。
+     * 入力ソースを準備する。
      * <p>入力ファイルが通常ファイルとして存在しなければエラー終了。
-     * @param fileName 入力ファイル名
-     * @return 入力ストリーム
+     * @param optInfo オプション情報
+     * @return 入力ソース
      */
-    private static InputStream openInfile(String fileName){
+    private static InputSource openInfile(OptInfo optInfo){
+        String fileName = optInfo.getInFilename();
         File inFile = new File(fileName);
 
         if( (! inFile.exists()) || (! inFile.isFile()) ){
@@ -262,31 +269,34 @@ public final class Vmd2Xml {
             exit(EXIT_IOERR);
         }
 
-        InputStream is;
+        URI uri = inFile.toURI();
+        URL url;
         try{
-            is = new FileInputStream(inFile);
-        }catch(FileNotFoundException e){
-            ioError(e);
+            url = uri.toURL();
+        }catch(MalformedURLException e){
+            // File由来のURLでは起こりえない
             assert false;
             throw new AssertionError(e);
         }
+        String systemId = url.toString();
 
-        is = new BufferedInputStream(is);
+        InputSource source = new InputSource(systemId);
 
-        return is;
+        return source;
     }
 
     /**
      * 出力ストリームを準備する。
      * <p>出力ファイルが通常ファイルでない場合はエラー終了。
      * <p>既存の出力ファイルに上書き指示が伴っていなければエラー終了。
-     * @param fileName 出力ファイル名
-     * @param overWrite 頭から上書きして良ければtrue
+     * @param optInfo オプション情報
      * @return 出力ストリーム
      */
-    private static OutputStream openOutfile(String fileName,
-                                            boolean overWrite) {
-        File outFile = new File(fileName);
+    private static OutputStream openOutfile(OptInfo optInfo) {
+        String outputFile = optInfo.getOutFilename();
+        boolean overwrite = optInfo.overwriteMode();
+
+        File outFile = new File(outputFile);
 
         if(outFile.exists()){
             String absPath = outFile.getAbsolutePath();
@@ -294,7 +304,7 @@ public final class Vmd2Xml {
                 String msg = MessageFormat.format(MSG_ABNFILE, absPath);
                 errMsg(msg);
                 exit(EXIT_IOERR);
-            }else if( ! overWrite ){
+            }else if( ! overwrite ){
                 String msg = MessageFormat.format(MSG_OWOUTFILE, absPath);
                 errMsg(msg);
                 exit(EXIT_IOERR);
@@ -322,34 +332,11 @@ public final class Vmd2Xml {
     }
 
     /**
-     * Mainエントリ。
-     * @param args コマンドパラメータ
+     * オプション情報に従いコンバータを生成する。
+     * @param optInfo オプション情報
+     * @return コンバータ
      */
-    public static void main(String[] args){
-        checkJRE();
-
-        OptInfo optInfo;
-        try{
-            optInfo = OptInfo.parseOption(args);
-        }catch(CmdLineException e){
-            String optErrMsg = e.getLocalizedMessage();
-            errMsg(optErrMsg);
-            exit(EXIT_OPTERR);
-            return;
-        }
-
-        if(optInfo.needHelp()){
-            putHelp();
-            exit(EXIT_OK);
-        }
-
-        String inputFile  = optInfo.getInFilename();
-        String outputFile = optInfo.getOutFilename();
-        boolean overwrite = optInfo.overwriteMode();
-
-        InputStream  is = openInfile(inputFile);
-        OutputStream os = openOutfile(outputFile, overwrite);
-
+    private static Vmd2XmlConv buildConverter(OptInfo optInfo){
         Vmd2XmlConv converter = new Vmd2XmlConv();
 
         converter.setInType (optInfo.getInFileType());
@@ -359,8 +346,21 @@ public final class Vmd2Xml {
         converter.setGenerator(optInfo.getGenerator());
         converter.setQuaterniomMode(optInfo.isQuaterniomMode());
 
+        return converter;
+    }
+
+    /**
+     * 実際のコンバート作業と異常系処理を行う。
+     * <p>異常系が起きた場合、このメソッドは制御を戻さない。
+     * @param converter コンバータ
+     * @param source 入力ソース
+     * @param ostream 出力ストリーム
+     */
+    private static void doConvert(Vmd2XmlConv converter,
+                                   InputSource source,
+                                   OutputStream ostream ){
         try{
-            converter.convert(is, os);
+            converter.convert(source, ostream);
         }catch(IOException e){
             ioError(e);
         }catch(IllegalVmdDataException e){
@@ -373,13 +373,53 @@ public final class Vmd2Xml {
             xmlError(e);
         }
 
+        return;
+    }
+
+    /**
+     * コマンドライン文字列をオプション情報としてパースする。
+     * <p>異常系が起きた場合、このメソッドは制御を戻さない。
+     * @param args コマンドライン文字列群
+     * @return オプション情報
+     */
+    private static OptInfo parseOption(String[] args){
+        OptInfo optInfo;
+
         try{
-            is.close();
-            try{
-                os.close();
-            }catch(IOException e){
-                ioError(e);
-            }
+            optInfo = OptInfo.parseOption(args);
+        }catch(CmdLineException e){
+            String optErrMsg = e.getLocalizedMessage();
+            errMsg(optErrMsg);
+            exit(EXIT_OPTERR);
+
+            assert false;
+            throw new AssertionError(e);
+        }
+
+        return optInfo;
+    }
+
+    /**
+     * Mainエントリ。
+     * @param args コマンドパラメータ
+     */
+    public static void main(String[] args){
+        checkJRE();
+
+        OptInfo optInfo = parseOption(args);
+        if(optInfo.needHelp()){
+            putHelp();
+            exit(EXIT_OK);
+        }
+
+        Vmd2XmlConv converter = buildConverter(optInfo);
+        InputSource source = openInfile(optInfo);
+        OutputStream ostream = openOutfile(optInfo);
+
+        doConvert(converter, source, ostream);
+
+        try{
+            ostream.close();
         }catch(IOException e){
             ioError(e);
         }

@@ -5,7 +5,7 @@
  * Copyright(c) 2013 MikuToga Partners
  */
 
-package jp.sourceforge.mikutoga.vmd.model.xml;
+package jp.sfjp.mikutoga.vmd.model.xml;
 
 import java.net.URI;
 import java.net.URISyntaxException;

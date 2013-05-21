@@ -5,10 +5,10 @@
  * Copyright(c) 2011 MikuToga Partners
  */
 
-package jp.sourceforge.mikutoga.vmd.model.xml;
+package jp.sfjp.mikutoga.vmd.model.xml;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import jp.sfjp.mikutoga.math.EulerYXZ;
@@ -31,10 +31,16 @@ import jp.sourceforge.mikutoga.xml.XmlResourceResolver;
  */
 public class VmdXmlExporter extends BasicXmlExporter {
 
+    private static final String XML_VER = "1.0";
+    private static final String XML_ENC = "UTF-8";
     private static final String XML_DECL =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>";
+              "<?xml version=\"" + XML_VER
+            + "\" encoding=\"" + XML_ENC
+            + "\" ?>";
 
     private static final String XSINS = "xsi";
+
+    private static final String MSG_MAYBE = "Perhaps : [{0}]";
 
 
     private boolean isQuaternionMode = true;
@@ -42,17 +48,19 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     private final CameraXmlExporter cameraXmlExporter;
     private final LightingXmlExpoter lightingExporter;
+    private final ExtraXmlExporter extraExporter;
 
 
     /**
      * コンストラクタ。
-     * 文字エンコーディングはUTF-8が用いられる。
-     * @param ostream 出力ストリーム
      */
-    public VmdXmlExporter(OutputStream ostream){
-        super(ostream);
+    public VmdXmlExporter(){
+        super();
+
         this.cameraXmlExporter = new CameraXmlExporter(this);
-        this.lightingExporter = new LightingXmlExpoter(this);
+        this.lightingExporter  = new LightingXmlExpoter(this);
+        this.extraExporter     = new ExtraXmlExporter(this);
+
         return;
     }
 
@@ -94,11 +102,14 @@ public class VmdXmlExporter extends BasicXmlExporter {
     /**
      * VMDモーションデータをXML形式で出力する。
      * @param vmdMotion VMDモーションデータ
+     * @param xmlOut 出力先
      * @throws IOException 出力エラー
      * @throws IllegalVmdDataException 不正なモーションデータを検出
      */
-    public void putVmdXml(VmdMotion vmdMotion)
+    public void putVmdXml(VmdMotion vmdMotion, Appendable xmlOut)
             throws IOException, IllegalVmdDataException{
+        setAppendable(xmlOut);
+
         try{
             putVmdXmlImpl(vmdMotion);
         }finally{
@@ -117,9 +128,9 @@ public class VmdXmlExporter extends BasicXmlExporter {
             throws IOException, IllegalVmdDataException{
         ind().putRawText(XML_DECL).ln(2);
 
-        ind().putBlockComment(XmlSyms.TOP_COMMENT).ln(2);
+        ind().putBlockComment(XmlComment.TOP_COMMENT).ln(2);
 
-        ind().putOpenSTag(XmlSyms.TAG_VMD_MOTION).ln();
+        ind().putOpenSTag(VmdTag.VMD_MOTION.tag()).ln();
         pushNest();
         ind().putAttr("xmlns", Schema110820.NS_VMDXML).ln();
         ind().putAttr("xmlns:" + XSINS, XmlResourceResolver.NS_XSD).ln();
@@ -131,16 +142,11 @@ public class VmdXmlExporter extends BasicXmlExporter {
              .putRawCh('"')
              .ln();
 
-        ind().putAttr(XmlSyms.ATTR_VERSION, Schema110820.VER_VMDXML).ln();
+        ind().putAttr(XmlAttr.ATTR_VERSION, Schema110820.VER_VMDXML).ln();
         popNest();
         putCloseSTag().ln(2);
 
-        if(this.generator != null && this.generator.length() > 0){
-            ind().putOpenSTag(XmlSyms.TAG_META).sp();
-            putAttr(XmlSyms.ATTR_NAME, "generator").sp();
-            putAttr(XmlSyms.ATTR_CONTENT, this.generator).sp();
-            putCloseEmpty().ln(2);
-        }
+        putGenerator();
 
         if(vmdMotion.isModelMotion()){
             putModelName(vmdMotion);
@@ -152,59 +158,26 @@ public class VmdXmlExporter extends BasicXmlExporter {
             this.lightingExporter.putShadowSequence(vmdMotion);
         }
 
-        ind().putETag(XmlSyms.TAG_VMD_MOTION).ln(2);
+        ind().putETag(VmdTag.VMD_MOTION.tag()).ln(2);
         ind().putLineComment("EOF").ln();
 
         return;
     }
 
     /**
-     * 位置移動補間カーブを出力する。
-     * @param posCurve 移動補間情報
+     * ジェネレータ名を出力する。
      * @throws IOException 出力エラー
      */
-    private void putPositionCurve(PosCurve posCurve)
-            throws IOException{
-        BezierParam xCurve = posCurve.getIntpltXpos();
-        BezierParam yCurve = posCurve.getIntpltYpos();
-        BezierParam zCurve = posCurve.getIntpltZpos();
+    private void putGenerator() throws IOException{
+        String genTxt = getGenerator();
+        if(genTxt == null) return;
+        if(genTxt.isEmpty()) return;
 
-        ind().putLineComment("X-Y-Z interpolation *3").ln();
+        ind().putOpenSTag(VmdTag.META.tag()).sp();
+        putAttr(XmlAttr.ATTR_NAME, "generator").sp();
+        putAttr(XmlAttr.ATTR_CONTENT, genTxt).sp();
+        putCloseEmpty().ln(2);
 
-        ind();
-        putBezierCurve(xCurve);
-        ln();
-
-        ind();
-        putBezierCurve(yCurve);
-        ln();
-
-        ind();
-        putBezierCurve(zCurve);
-        ln();
-
-        return;
-    }
-
-    /**
-     * ベジェ曲線による補間曲線情報を出力する。
-     * @param bezier ベジェ曲線
-     * @throws IOException 出力エラー
-     */
-    private void putBezierCurve(BezierParam bezier)
-            throws IOException{
-        if(bezier.isDefaultLinear()){
-            putSimpleEmpty(XmlSyms.TAG_DEF_LINEAR);
-        }else if(bezier.isDefaultEaseInOut()){
-            putSimpleEmpty(XmlSyms.TAG_DEF_EASE_IN_OUT);
-        }else{
-            putOpenSTag(XmlSyms.TAG_BEZIER).sp();
-            putIntAttr(XmlSyms.ATTR_P1X, bezier.getP1x()).sp();
-            putIntAttr(XmlSyms.ATTR_P1Y, bezier.getP1y()).sp();
-            putIntAttr(XmlSyms.ATTR_P2X, bezier.getP2x()).sp();
-            putIntAttr(XmlSyms.ATTR_P2Y, bezier.getP2y()).sp();
-            putCloseEmpty();
-        }
         return;
     }
 
@@ -225,8 +198,8 @@ public class VmdXmlExporter extends BasicXmlExporter {
         }
 
         ind().putLineComment(modelComm).ln();
-        ind().putOpenSTag(XmlSyms.TAG_MODEL_NAME).sp();
-        putAttr(XmlSyms.ATTR_NAME, modelName).sp();
+        ind().putOpenSTag(VmdTag.MODEL_NAME.tag()).sp();
+        putAttr(XmlAttr.ATTR_NAME, modelName).sp();
         putCloseEmpty().ln(2);
 
         return;
@@ -242,11 +215,11 @@ public class VmdXmlExporter extends BasicXmlExporter {
         Map<String, List<BoneMotion>> boneMap = vmdMotion.getBonePartMap();
 
         if( ! boneMap.isEmpty() ){
-            ind().putBlockComment(XmlSyms.QUATERNION_COMMENT);
-            ind().putBlockComment(XmlSyms.BEZIER_COMMENT);
+            ind().putBlockComment(XmlComment.QUATERNION_COMMENT);
+            ind().putBlockComment(XmlComment.BEZIER_COMMENT);
         }
 
-        ind().putSimpleSTag(XmlSyms.TAG_BONE_M_SEQUENCE).ln();
+        ind().putSimpleSTag(VmdTag.BONE_M_SEQUENCE.tag()).ln();
 
         pushNest();
         if( ! boneMap.isEmpty() ) ln();
@@ -255,7 +228,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         }
         popNest();
 
-        ind().putETag(XmlSyms.TAG_BONE_M_SEQUENCE).ln(2);
+        ind().putETag(VmdTag.BONE_M_SEQUENCE.tag()).ln(2);
 
         return;
     }
@@ -271,12 +244,14 @@ public class VmdXmlExporter extends BasicXmlExporter {
         ind().putLineComment(boneName);
         String globalName = TypicalBone.primary2global(boneName);
         if(globalName != null){
-            sp(2).putLineComment("Perhaps : [" + globalName + "]");
+            String gname =
+                    MessageFormat.format(MSG_MAYBE, globalName);
+            sp(2).putLineComment(gname);
         }
         ln();
 
-        ind().putOpenSTag(XmlSyms.TAG_BONE_PART).sp();
-        putAttr(XmlSyms.ATTR_NAME, boneName).sp();
+        ind().putOpenSTag(VmdTag.BONE_PART.tag()).sp();
+        putAttr(XmlAttr.ATTR_NAME, boneName).sp();
         putCloseSTag().ln(2);
 
         pushNest();
@@ -285,7 +260,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         }
         popNest();
 
-        ind().putETag(XmlSyms.TAG_BONE_PART).ln(2);
+        ind().putETag(VmdTag.BONE_PART.tag()).ln(2);
 
         return;
     }
@@ -297,21 +272,21 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putBoneMotion(BoneMotion boneMotion)
             throws IOException{
-        ind().putOpenSTag(XmlSyms.TAG_BONE_MOTION).sp();
+        ind().putOpenSTag(VmdTag.BONE_MOTION.tag()).sp();
         int frameNo = boneMotion.getFrameNumber();
-        putIntAttr(XmlSyms.ATTR_FRAME, frameNo).sp();
+        putIntAttr(XmlAttr.ATTR_FRAME, frameNo).sp();
         putCloseSTag().ln();
 
         pushNest();
         putBonePosition(boneMotion);
-        if(this.isQuaternionMode){
+        if(isQuaternionMode()){
             putBoneRotQuat(boneMotion);
         }else{
             putBoneRotEyxz(boneMotion);
         }
         popNest();
 
-        ind().putETag(XmlSyms.TAG_BONE_MOTION).ln(2);
+        ind().putETag(VmdTag.BONE_MOTION.tag()).ln(2);
 
         return;
     }
@@ -327,14 +302,17 @@ public class VmdXmlExporter extends BasicXmlExporter {
             return;
         }
 
-        ind().putOpenSTag(XmlSyms.TAG_BONE_POSITION).sp();
+        ind().putOpenSTag(VmdTag.BONE_POSITION.tag()).sp();
+
         MkPos3D position = boneMotion.getPosition();
+
         float xPos = (float) position.getXpos();
         float yPos = (float) position.getYpos();
         float zPos = (float) position.getZpos();
-        putFloatAttr(XmlSyms.ATTR_X_POS, xPos).sp();
-        putFloatAttr(XmlSyms.ATTR_Y_POS, yPos).sp();
-        putFloatAttr(XmlSyms.ATTR_Z_POS, zPos).sp();
+
+        putFloatAttr(XmlAttr.ATTR_X_POS, xPos).sp();
+        putFloatAttr(XmlAttr.ATTR_Y_POS, yPos).sp();
+        putFloatAttr(XmlAttr.ATTR_Z_POS, zPos).sp();
 
         PosCurve posCurve = boneMotion.getPosCurve();
         if(posCurve.isDefaultLinear()){
@@ -343,10 +321,10 @@ public class VmdXmlExporter extends BasicXmlExporter {
             putCloseSTag().ln();
 
             pushNest();
-            putPositionCurve(posCurve);
+            this.extraExporter.putPositionCurve(posCurve);
             popNest();
 
-            ind().putETag(XmlSyms.TAG_BONE_POSITION).ln();
+            ind().putETag(VmdTag.BONE_POSITION.tag()).ln();
         }
 
         return;
@@ -362,12 +340,19 @@ public class VmdXmlExporter extends BasicXmlExporter {
         MkQuat rotation = boneMotion.getRotation();
         BezierParam rotCurve = boneMotion.getIntpltRotation();
 
-        ind().putOpenSTag(XmlSyms.TAG_BONE_ROT_QUAT).ln();
+        ind().putOpenSTag(VmdTag.BONE_ROT_QUAT.tag()).ln();
         pushNest();
-        ind().putFloatAttr(XmlSyms.ATTR_QX, (float) rotation.getQ1()).ln();
-        ind().putFloatAttr(XmlSyms.ATTR_QY, (float) rotation.getQ2()).ln();
-        ind().putFloatAttr(XmlSyms.ATTR_QZ, (float) rotation.getQ3()).ln();
-        ind().putFloatAttr(XmlSyms.ATTR_QW, (float) rotation.getQW()).ln();
+
+        float qx = (float) rotation.getQ1();
+        float qy = (float) rotation.getQ2();
+        float qz = (float) rotation.getQ3();
+        float qw = (float) rotation.getQW();
+
+        ind().putFloatAttr(XmlAttr.ATTR_QX, qx).ln();
+        ind().putFloatAttr(XmlAttr.ATTR_QY, qy).ln();
+        ind().putFloatAttr(XmlAttr.ATTR_QZ, qz).ln();
+        ind().putFloatAttr(XmlAttr.ATTR_QW, qw).ln();
+
         popNest();
         ind();
 
@@ -377,10 +362,10 @@ public class VmdXmlExporter extends BasicXmlExporter {
             putCloseSTag().ln();
             pushNest();
             ind();
-            putBezierCurve(rotCurve);
+            this.extraExporter.putBezierCurve(rotCurve);
             ln();
             popNest();
-            ind().putETag(XmlSyms.TAG_BONE_ROT_QUAT).ln();
+            ind().putETag(VmdTag.BONE_ROT_QUAT.tag()).ln();
         }
 
         return;
@@ -402,11 +387,11 @@ public class VmdXmlExporter extends BasicXmlExporter {
         float yDeg = (float)StrictMath.toDegrees(euler.getYRot());
         float zDeg = (float)StrictMath.toDegrees(euler.getZRot());
 
-        ind().putOpenSTag(XmlSyms.TAG_BONE_ROT_EYXZ).ln();
+        ind().putOpenSTag(VmdTag.BONE_ROT_EYXZ.tag()).ln();
         pushNest();
-        ind().putFloatAttr(XmlSyms.ATTR_X_DEG, xDeg).ln();
-        ind().putFloatAttr(XmlSyms.ATTR_Y_DEG, yDeg).ln();
-        ind().putFloatAttr(XmlSyms.ATTR_Z_DEG, zDeg).ln();
+        ind().putFloatAttr(XmlAttr.ATTR_X_DEG, xDeg).ln();
+        ind().putFloatAttr(XmlAttr.ATTR_Y_DEG, yDeg).ln();
+        ind().putFloatAttr(XmlAttr.ATTR_Z_DEG, zDeg).ln();
         popNest();
         ind();
 
@@ -416,10 +401,10 @@ public class VmdXmlExporter extends BasicXmlExporter {
             putCloseSTag().ln();
             pushNest();
             ind();
-            putBezierCurve(rotCurve);
+            this.extraExporter.putBezierCurve(rotCurve);
             ln();
             popNest();
-            ind().putETag(XmlSyms.TAG_BONE_ROT_EYXZ).ln();
+            ind().putETag(VmdTag.BONE_ROT_EYXZ.tag()).ln();
         }
 
         return;
@@ -432,7 +417,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putMorphSequence(VmdMotion vmdMotion)
             throws IOException{
-        ind().putSimpleSTag(XmlSyms.TAG_MORPH_SEQUENCE).ln();
+        ind().putSimpleSTag(VmdTag.MORPH_SEQUENCE.tag()).ln();
 
         pushNest();
         Map<String, List<MorphMotion>> listMap = vmdMotion.getMorphPartMap();
@@ -440,7 +425,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         putMorphPartList(listMap);
         popNest();
 
-        ind().putETag(XmlSyms.TAG_MORPH_SEQUENCE).ln(2);
+        ind().putETag(VmdTag.MORPH_SEQUENCE.tag()).ln(2);
 
         return;
     }
@@ -461,12 +446,14 @@ public class VmdXmlExporter extends BasicXmlExporter {
             ind().putLineComment(morphName);
             String globalName = TypicalMorph.primary2global(morphName);
             if(globalName != null){
-                sp(2).putLineComment("Perhaps : [" + globalName + "]");
+                String gname =
+                        MessageFormat.format(MSG_MAYBE, globalName);
+                sp(2).putLineComment(gname);
             }
             ln();
 
-            ind().putOpenSTag(XmlSyms.TAG_MORPH_PART).sp();
-            putAttr(XmlSyms.ATTR_NAME, morphName).sp();
+            ind().putOpenSTag(VmdTag.MORPH_PART.tag()).sp();
+            putAttr(XmlAttr.ATTR_NAME, morphName).sp();
             putCloseSTag().ln();
 
             pushNest();
@@ -475,7 +462,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
             }
             popNest();
 
-            ind().putETag(XmlSyms.TAG_MORPH_PART).ln(2);
+            ind().putETag(VmdTag.MORPH_PART.tag()).ln(2);
         }
 
         return;
@@ -488,13 +475,13 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putMorphMotion(MorphMotion morphMotion)
             throws IOException{
-        ind().putOpenSTag(XmlSyms.TAG_MORPH_MOTION).sp();
+        ind().putOpenSTag(VmdTag.MORPH_MOTION.tag()).sp();
 
         int frameNo = morphMotion.getFrameNumber();
         float flex = morphMotion.getFlex();
 
-        putIntAttr(XmlSyms.ATTR_FRAME, frameNo).sp();
-        putFloatAttr(XmlSyms.ATTR_FLEX, flex).sp();
+        putIntAttr(XmlAttr.ATTR_FRAME, frameNo).sp();
+        putFloatAttr(XmlAttr.ATTR_FLEX, flex).sp();
 
         putCloseEmpty().ln();
 

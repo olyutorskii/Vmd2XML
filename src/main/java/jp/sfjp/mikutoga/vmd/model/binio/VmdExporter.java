@@ -18,9 +18,9 @@ import jp.sfjp.mikutoga.vmd.model.VmdMotion;
  */
 public class VmdExporter {
 
-    private BasicExporter    basicExporter;
-    private CameraExporter   cameraExporter;
-    private LightingExporter lightingExporter;
+    private BasicExporter    basicExporter = null;
+    private CameraExporter   cameraExporter = null;
+    private LightingExporter lightingExporter = null;
 
 
     /**

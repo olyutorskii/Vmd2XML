@@ -9,6 +9,6 @@
  * VMDモーション独自データモデルとXML間でデータ交換を行うためのライブラリ。
  */
 
-package jp.sourceforge.mikutoga.vmd.model.xml;
+package jp.sfjp.mikutoga.vmd.model.xml;
 
 /* EOF */
