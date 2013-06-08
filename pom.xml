@@ -112,7 +112,7 @@
         <dependency>
             <groupId>jp.sourceforge.mikutoga</groupId>
             <artifactId>togagem</artifactId>
-            <version>2.102.5-SNAPSHOT</version>
+            <version>2.102.7-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 

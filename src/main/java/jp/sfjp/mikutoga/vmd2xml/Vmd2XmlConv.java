@@ -401,7 +401,6 @@ public class Vmd2XmlConv {
             throws IOException, MmdFormatException{
         VmdLoader loader = new VmdLoader();
 
-        loader.setIgnoreName(true);
         loader.setRedundantCheck(false);
 
         VmdMotion motion = loader.load(is);

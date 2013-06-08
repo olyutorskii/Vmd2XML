@@ -25,7 +25,6 @@ public class VmdLoader {
     private boolean loaded = false;
     private boolean hasMoreData = true;
 
-    private boolean ignoreName = true;
     private boolean redundantCheck = false;
 
 
@@ -49,23 +48,11 @@ public class VmdLoader {
     }
 
     /**
-     * カメラ・ライティングデータのパースを試みるか否かの判断で、
-     * 特殊モデル名判定を無視するか否か設定する。
-     * デフォルトではモデル名を無視。
-     * <p>※MMDVer7.30前後のVMD出力不具合を回避したい場合は、
-     * オフにするとパースに成功する場合がある。
-     * @param mode モデル名を無視してパースを強行するならtrue
-     */
-    public void setIgnoreName(boolean mode){
-        this.ignoreName = mode;
-        return;
-    }
-
-    /**
      * ボーンモーション補間情報冗長部のチェックを行うか否か設定する。
      * デフォルトではチェックを行わない。
      * <p>※MMDVer7.30前後のVMD出力不具合を回避したい場合は、
      * オフにするとパースに成功する場合がある。
+     * <p>※MMD Ver7.39x64以降はチェック回避必須。
      * @param mode チェックさせたければtrue
      */
     public void setRedundantCheck(boolean mode){
@@ -92,16 +79,17 @@ public class VmdLoader {
 
         VmdParser parser = new VmdParser(source);
 
-        parser.setIgnoreName(this.ignoreName);
         parser.setRedundantCheck(this.redundantCheck);
 
         BasicLoader basicBuilder       = new BasicLoader(motion);
         CameraLoader cameraBuilder     = new CameraLoader(motion);
         LightingLoader lightingBuilder = new LightingLoader(motion);
+        BoolLoader boolBuilder         = new BoolLoader(motion);
 
         parser.setBasicHandler(basicBuilder);
         parser.setCameraHandler(cameraBuilder);
         parser.setLightingHandler(lightingBuilder);
+        parser.setBoolHandler(boolBuilder);
 
         try{
             parser.parseVmd();

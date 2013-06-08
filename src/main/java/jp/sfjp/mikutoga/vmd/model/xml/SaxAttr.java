@@ -13,16 +13,27 @@ import org.xml.sax.Attributes;
 /**
  * XSD各種型のSAX属性値をJavaプリミティブ型へ変換する。
  */
-final class SaxXsdUtil {
+public final class SaxAttr {
 
     /**
      * 隠しコンストラクタ。
      */
-    private SaxXsdUtil(){
+    private SaxAttr(){
         assert false;
         throw new AssertionError();
     }
 
+
+    /**
+     * 属性名に対応する属性値があるか否か判定する。
+     * @param attr 属性群
+     * @param name 属性名
+     * @return 属性名に対応する属性値がある場合はtrue
+     */
+    public static boolean hasAttr(Attributes attr, String name){
+        if(attr.getValue(name) == null) return false;
+        return true;
+    }
 
     /**
      * xsd:string型属性値の読み込み。
@@ -30,7 +41,7 @@ final class SaxXsdUtil {
      * @param name 属性名
      * @return 属性値。該当する属性が無ければnull。
      */
-    static String getStringAttr(Attributes attr, String name){
+    public static String getStringAttr(Attributes attr, String name){
         String attrVal = attr.getValue(name);
         return attrVal;
     }
@@ -42,7 +53,7 @@ final class SaxXsdUtil {
      * @return 属性値。
      * @throws IllegalArgumentException boolean型表記ではない
      */
-    static boolean getBooleanAttr(Attributes attr, String name)
+    public static boolean getBooleanAttr(Attributes attr, String name)
             throws IllegalArgumentException{
         String attrVal = attr.getValue(name);
         boolean bVal;
@@ -58,7 +69,9 @@ final class SaxXsdUtil {
      * @return 属性値。
      * @throws IllegalArgumentException boolean型表記ではない
      */
-    static boolean getBooleanAttr(Attributes attr, String name, boolean def)
+    public static boolean getBooleanAttr(Attributes attr,
+                                           String name,
+                                           boolean def )
             throws IllegalArgumentException{
         String attrVal = attr.getValue(name);
         if(attrVal == null) return def;
@@ -76,7 +89,7 @@ final class SaxXsdUtil {
      * @return 属性値。
      * @throws NumberFormatException byte型表記ではない
      */
-    static byte getByteAttr(Attributes attr, String name)
+    public static byte getByteAttr(Attributes attr, String name)
             throws NumberFormatException{
         String attrVal = attr.getValue(name);
         byte bVal;
@@ -91,7 +104,7 @@ final class SaxXsdUtil {
      * @return 属性値。
      * @throws NumberFormatException float型表記ではない
      */
-    static float getFloatAttr(Attributes attr, String name)
+    public static float getFloatAttr(Attributes attr, String name)
             throws NumberFormatException {
         String attrVal = attr.getValue(name);
         float fVal;
@@ -106,7 +119,7 @@ final class SaxXsdUtil {
      * @return 属性値。
      * @throws NumberFormatException int型表記ではない
      */
-    static int getIntAttr(Attributes attr, String name)
+    public static int getIntAttr(Attributes attr, String name)
             throws NumberFormatException {
         String attrVal = attr.getValue(name);
         int iVal;

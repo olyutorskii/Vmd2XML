@@ -21,6 +21,7 @@ public class VmdExporter {
     private BasicExporter    basicExporter = null;
     private CameraExporter   cameraExporter = null;
     private LightingExporter lightingExporter = null;
+    private BoolExporter     boolExporter = null;
 
 
     /**
@@ -44,6 +45,7 @@ public class VmdExporter {
         this.basicExporter    = new BasicExporter(ostream);
         this.cameraExporter   = new CameraExporter(ostream);
         this.lightingExporter = new LightingExporter(ostream);
+        this.boolExporter     = new BoolExporter(ostream);
 
         try{
             dumpVmdMotionImpl(motion);
@@ -75,6 +77,13 @@ public class VmdExporter {
         this.cameraExporter.dumpCameraMotion(motion);
         this.lightingExporter.dumpLuminousMotion(motion);
         this.lightingExporter.dumpShadowMotion(motion);
+
+        if(motion.getNumberedFlagList().isEmpty()) return;
+        try{
+            this.boolExporter.dumpNumberedFlagMotion(motion);
+        }catch(IllegalTextExportException e){
+            throw new IllegalVmdDataException(e);
+        }
 
         return;
     }

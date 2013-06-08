@@ -22,8 +22,8 @@ import jp.sfjp.mikutoga.vmd.VmdUniq;
 public class VmdMotion {
 
     private static final String MSG_TXT =
-              "model name : {0}\n"
-            + "bone#{1} morph#{2} camera#{3} luminous#{4} shadow#{5}";
+          "model name : {0}\n"
+        + "bone#{1} morph#{2} camera#{3} luminous#{4} shadow#{5} flag#{6}";
 
 
     private String modelName = VmdUniq.MODELNAME_STAGEACT;
@@ -31,9 +31,10 @@ public class VmdMotion {
     private final Map<String, List<BoneMotion>>  bonePartMap;
     private final Map<String, List<MorphMotion>> morphPartMap;
 
-    private final List<CameraMotion>   cameraMotionList;
-    private final List<LuminousMotion> luminousMotionList;
-    private final List<ShadowMotion>   shadowMotionList;
+    private final List<CameraMotion>    cameraMotionList;
+    private final List<LuminousMotion>  luminousMotionList;
+    private final List<ShadowMotion>    shadowMotionList;
+    private final List<NumberedVmdFlag> flagList;
 
 
     /**
@@ -48,6 +49,7 @@ public class VmdMotion {
         this.cameraMotionList   = new LinkedList<CameraMotion>();
         this.luminousMotionList = new LinkedList<LuminousMotion>();
         this.shadowMotionList   = new LinkedList<ShadowMotion>();
+        this.flagList           = new LinkedList<NumberedVmdFlag>();
 
         return;
     }
@@ -132,6 +134,14 @@ public class VmdMotion {
     }
 
     /**
+     * 各種フレーム番号付きフラグのリストを返す。
+     * @return フレーム番号付きフラグのリスト
+     */
+    public List<NumberedVmdFlag> getNumberedFlagList(){
+        return this.flagList;
+    }
+
+    /**
      * ボーンモーションを追加する。
      * 追加順は保持される。
      * @param motion ボーンモーション
@@ -186,6 +196,7 @@ public class VmdMotion {
         Collections.sort(this.cameraMotionList,   FrameNumbered.COMPARATOR);
         Collections.sort(this.luminousMotionList, FrameNumbered.COMPARATOR);
         Collections.sort(this.shadowMotionList,   FrameNumbered.COMPARATOR);
+        Collections.sort(this.flagList,           FrameNumbered.COMPARATOR);
 
         return;
     }
@@ -209,11 +220,12 @@ public class VmdMotion {
         int cameraNo   = this.cameraMotionList  .size();
         int luminousNo = this.luminousMotionList.size();
         int shadowNo   = this.shadowMotionList  .size();
+        int flagNo     = this.flagList          .size();
 
         String msg;
         msg = MessageFormat.format(MSG_TXT,
                 this.modelName,
-                boneNo, morphNo, cameraNo, luminousNo, shadowNo );
+                boneNo, morphNo, cameraNo, luminousNo, shadowNo, flagNo );
 
         return msg;
     }

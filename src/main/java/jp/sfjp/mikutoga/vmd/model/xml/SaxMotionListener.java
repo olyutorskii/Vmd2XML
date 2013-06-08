@@ -104,7 +104,7 @@ class SaxMotionListener extends SaxVmdListener{
      * @param attr 属性群
      */
     private void openBonePart(Attributes attr){
-        this.boneName = SaxXsdUtil.getStringAttr(attr, XmlAttr.ATTR_NAME);
+        this.boneName = SaxAttr.getStringAttr(attr, XmlAttr.ATTR_NAME);
         return;
     }
 
@@ -116,7 +116,7 @@ class SaxMotionListener extends SaxVmdListener{
         this.boneMotion = new BoneMotion();
         this.boneMotion.setBoneName(this.boneName);
 
-        int frameNo = SaxXsdUtil.getIntAttr(attr, XmlAttr.ATTR_FRAME);
+        int frameNo = SaxAttr.getIntAttr(attr, XmlAttr.ATTR_FRAME);
         this.boneMotion.setFrameNumber(frameNo);
 
         return;
@@ -138,9 +138,9 @@ class SaxMotionListener extends SaxVmdListener{
     private void openBonePosition(Attributes attr){
         MkPos3D position = this.boneMotion.getPosition();
 
-        float xPos = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_X_POS);
-        float yPos = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_Y_POS);
-        float zPos = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_Z_POS);
+        float xPos = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_X_POS);
+        float yPos = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_Y_POS);
+        float zPos = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_Z_POS);
 
         position.setXpos(xPos);
         position.setYpos(yPos);
@@ -159,10 +159,10 @@ class SaxMotionListener extends SaxVmdListener{
     private void openBoneRotQuat(Attributes attr){
         MkQuat rotation = this.boneMotion.getRotation();
 
-        float qx = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_QX);
-        float qy = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_QY);
-        float qz = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_QZ);
-        float qw = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_QW);
+        float qx = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_QX);
+        float qy = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_QY);
+        float qz = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_QZ);
+        float qw = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_QW);
 
         rotation.setQ1(qx);
         rotation.setQ2(qy);
@@ -182,9 +182,9 @@ class SaxMotionListener extends SaxVmdListener{
     private void openBoneRotEyxz(Attributes attr){
         MkQuat rotation = this.boneMotion.getRotation();
 
-        float xDeg = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_X_DEG);
-        float yDeg = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_Y_DEG);
-        float zDeg = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_Z_DEG);
+        float xDeg = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_X_DEG);
+        float yDeg = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_Y_DEG);
+        float zDeg = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_Z_DEG);
 
         float xRad = (float)StrictMath.toRadians(xDeg);
         float yRad = (float)StrictMath.toRadians(yDeg);
@@ -203,7 +203,7 @@ class SaxMotionListener extends SaxVmdListener{
      * @param attr 属性群
      */
     private void openMorphPart(Attributes attr){
-        this.morphName = SaxXsdUtil.getStringAttr(attr, XmlAttr.ATTR_NAME);
+        this.morphName = SaxAttr.getStringAttr(attr, XmlAttr.ATTR_NAME);
         return;
     }
 
@@ -214,8 +214,8 @@ class SaxMotionListener extends SaxVmdListener{
     private void openMorphMotion(Attributes attr){
         MorphMotion morphMotion = new MorphMotion();
 
-        int frameNo = SaxXsdUtil.getIntAttr(attr, XmlAttr.ATTR_FRAME);
-        float flex = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_FLEX);
+        int frameNo = SaxAttr.getIntAttr(attr, XmlAttr.ATTR_FRAME);
+        float flex = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_FLEX);
 
         morphMotion.setMorphName(this.morphName);
         morphMotion.setFrameNumber(frameNo);

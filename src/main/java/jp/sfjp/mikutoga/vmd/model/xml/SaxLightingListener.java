@@ -79,7 +79,7 @@ class SaxLightingListener extends SaxVmdListener{
     private void openLumiAct(Attributes attr){
         this.currentLuminous = new LuminousMotion();
 
-        int frameNo = SaxXsdUtil.getIntAttr(attr, XmlAttr.ATTR_FRAME);
+        int frameNo = SaxAttr.getIntAttr(attr, XmlAttr.ATTR_FRAME);
         this.currentLuminous.setFrameNumber(frameNo);
 
         return;
@@ -105,9 +105,9 @@ class SaxLightingListener extends SaxVmdListener{
     private void openLumiColor(Attributes attr){
         LuminousColor color = this.currentLuminous.getColor();
 
-        float rCol = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_R_COL);
-        float gCol = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_G_COL);
-        float bCol = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_B_COL);
+        float rCol = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_R_COL);
+        float gCol = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_G_COL);
+        float bCol = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_B_COL);
 
         color.setColR(rCol);
         color.setColG(gCol);
@@ -123,9 +123,9 @@ class SaxLightingListener extends SaxVmdListener{
     private void openLumiDirection(Attributes attr){
         MkVec3D vec = this.currentLuminous.getDirection();
 
-        float xVec = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_X_VEC);
-        float yVec = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_Y_VEC);
-        float zVec = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_Z_VEC);
+        float xVec = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_X_VEC);
+        float yVec = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_Y_VEC);
+        float zVec = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_Z_VEC);
 
         vec.setXVal(xVec);
         vec.setYVal(yVec);
@@ -141,15 +141,15 @@ class SaxLightingListener extends SaxVmdListener{
     private void openShadowAct(Attributes attr){
         ShadowMotion shadowMotion = new ShadowMotion();
 
-        int frameNo = SaxXsdUtil.getIntAttr(attr, XmlAttr.ATTR_FRAME);
+        int frameNo = SaxAttr.getIntAttr(attr, XmlAttr.ATTR_FRAME);
         shadowMotion.setFrameNumber(frameNo);
 
         float rawParam =
-                SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_RAW_PARAM);
+                SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_RAW_PARAM);
         shadowMotion.setRawScopeParam(rawParam);
 
         String modeAttr =
-                SaxXsdUtil.getStringAttr(attr, XmlAttr.ATTR_MODE);
+                SaxAttr.getStringAttr(attr, XmlAttr.ATTR_MODE);
         ShadowMode mode = ShadowMode.valueOf(modeAttr);
         shadowMotion.setShadowMode(mode);
 

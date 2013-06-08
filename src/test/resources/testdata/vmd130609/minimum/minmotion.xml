@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  MikuMikuDance
+    motion-data(*.vmd) on XML
+-->
+
+
+<vmdMotion
+  xmlns="http://mikutoga.sourceforge.jp/xml/ns/vmdxml/130609A"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://mikutoga.sourceforge.jp/xml/ns/vmdxml/130609A
+    http://mikutoga.sourceforge.jp/xml/xsd/vmdxml-130609A.xsd"
+  version="130609A"
+>
+
+<!-- [NAMELESS] -->
+<modelName name="" />
+
+<boneMotionSequence>
+</boneMotionSequence>
+
+<morphSequence>
+</morphSequence>
+
+<flagSequence>
+</flagSequence>
+
+</vmdMotion>
+
+<!-- EOF -->

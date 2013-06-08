@@ -129,7 +129,7 @@ class XmlHandler implements ContentHandler{
 
         if(tag == VmdTag.MODEL_NAME){
             String modelName =
-                    SaxXsdUtil.getStringAttr(attr, XmlAttr.ATTR_NAME);
+                    SaxAttr.getStringAttr(attr, XmlAttr.ATTR_NAME);
             this.vmdMotion.setModelName(modelName);
             return;
         }

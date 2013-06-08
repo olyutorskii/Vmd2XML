@@ -98,13 +98,13 @@ class SaxCameraListener extends SaxVmdListener{
     private void openCameraMotion(Attributes attr){
         this.currentCamera = new CameraMotion();
 
-        int frameNo = SaxXsdUtil.getIntAttr(attr, XmlAttr.ATTR_FRAME);
+        int frameNo = SaxAttr.getIntAttr(attr, XmlAttr.ATTR_FRAME);
         this.currentCamera.setFrameNumber(frameNo);
 
         boolean hasPerspective =
-                SaxXsdUtil.getBooleanAttr(attr,
-                                          XmlAttr.ATTR_HAS_PERSPECTIVE,
-                                          true );
+                SaxAttr.getBooleanAttr(attr,
+                                       XmlAttr.ATTR_HAS_PERSPECTIVE,
+                                       true );
         this.currentCamera.setPerspectiveMode(hasPerspective);
 
         return;
@@ -130,9 +130,9 @@ class SaxCameraListener extends SaxVmdListener{
     private void openCameraTarget(Attributes attr){
         MkPos3D targetPos = this.currentCamera.getCameraTarget();
 
-        float xPos = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_X_POS);
-        float yPos = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_Y_POS);
-        float zPos = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_Z_POS);
+        float xPos = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_X_POS);
+        float yPos = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_Y_POS);
+        float zPos = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_Z_POS);
 
         targetPos.setPosition(xPos, yPos, zPos);
 
@@ -150,9 +150,9 @@ class SaxCameraListener extends SaxVmdListener{
         CameraRotation cameraRotation =
                 this.currentCamera.getCameraRotation();
 
-        float latitude  = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_X_RAD);
-        float longitude = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_Y_RAD);
-        float roll      = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_Z_RAD);
+        float latitude  = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_X_RAD);
+        float longitude = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_Y_RAD);
+        float roll      = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_Z_RAD);
 
         cameraRotation.setLatitude(latitude);
         cameraRotation.setLongitude(longitude);
@@ -169,7 +169,7 @@ class SaxCameraListener extends SaxVmdListener{
      * @param attr 属性群
      */
     private void openCameraRange(Attributes attr){
-        float range = SaxXsdUtil.getFloatAttr(attr, XmlAttr.ATTR_RANGE);
+        float range = SaxAttr.getFloatAttr(attr, XmlAttr.ATTR_RANGE);
         this.currentCamera.setRange(range);
 
         BezierParam bez = this.currentCamera.getIntpltRange();
@@ -183,7 +183,7 @@ class SaxCameraListener extends SaxVmdListener{
      * @param attr 属性群
      */
     private void openProjection(Attributes attr){
-        int vertDeg = SaxXsdUtil.getIntAttr(attr, XmlAttr.ATTR_VERT_DEG);
+        int vertDeg = SaxAttr.getIntAttr(attr, XmlAttr.ATTR_VERT_DEG);
         this.currentCamera.setProjectionAngle(vertDeg);
 
         BezierParam bez = this.currentCamera.getIntpltProjection();

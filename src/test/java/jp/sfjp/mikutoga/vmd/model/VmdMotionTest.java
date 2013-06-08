@@ -395,7 +395,7 @@ public class VmdMotionTest {
 
         assertEquals(
                 "model name : カメラ・照明\n"
-                +"bone#0 morph#0 camera#0 luminous#0 shadow#0",
+                +"bone#0 morph#0 camera#0 luminous#0 shadow#0 flag#0",
                 motion.toString());
 
         motion.setModelName("model");
@@ -414,10 +414,15 @@ public class VmdMotionTest {
         motion.getShadowMotionList().add(new ShadowMotion());
         motion.getShadowMotionList().add(new ShadowMotion());
         motion.getShadowMotionList().add(new ShadowMotion());
+        motion.getNumberedFlagList().add(new NumberedVmdFlag());
+        motion.getNumberedFlagList().add(new NumberedVmdFlag());
+        motion.getNumberedFlagList().add(new NumberedVmdFlag());
+        motion.getNumberedFlagList().add(new NumberedVmdFlag());
+        motion.getNumberedFlagList().add(new NumberedVmdFlag());
 
         assertEquals(
                 "model name : model\n"
-                +"bone#1 morph#2 camera#3 luminous#4 shadow#5",
+                +"bone#1 morph#2 camera#3 luminous#4 shadow#5 flag#5",
                 motion.toString());
 
         return;

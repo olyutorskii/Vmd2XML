@@ -175,10 +175,10 @@ class SaxVmdListener {
      * @param attr 属性群
      */
     protected void openBezier(Attributes attr){
-        byte p1x = SaxXsdUtil.getByteAttr(attr, XmlAttr.ATTR_P1X);
-        byte p1y = SaxXsdUtil.getByteAttr(attr, XmlAttr.ATTR_P1Y);
-        byte p2x = SaxXsdUtil.getByteAttr(attr, XmlAttr.ATTR_P2X);
-        byte p2y = SaxXsdUtil.getByteAttr(attr, XmlAttr.ATTR_P2Y);
+        byte p1x = SaxAttr.getByteAttr(attr, XmlAttr.ATTR_P1X);
+        byte p1y = SaxAttr.getByteAttr(attr, XmlAttr.ATTR_P1Y);
+        byte p2x = SaxAttr.getByteAttr(attr, XmlAttr.ATTR_P2X);
+        byte p2y = SaxAttr.getByteAttr(attr, XmlAttr.ATTR_P2Y);
 
         putBezier(p1x, p1y, p2x, p2y);
 
