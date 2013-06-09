@@ -47,7 +47,7 @@ enum OptSwitch {
             +     " or \"true\" or \"false\""
             +      " or \"yes\" or \"no\"\n"
             + "   format : \"vmd\" or \"xml\" or"
-            +            " \"xml110820\"\n"
+            +            " \"xml110820\" or \"xml130609\"\n"
             + "   newline : \"lf\" or \"crlf\"\n"
             ;
 

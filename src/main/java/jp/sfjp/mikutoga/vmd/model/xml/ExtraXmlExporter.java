@@ -10,8 +10,8 @@ package jp.sfjp.mikutoga.vmd.model.xml;
 import java.io.IOException;
 import jp.sfjp.mikutoga.vmd.model.BezierParam;
 import jp.sfjp.mikutoga.vmd.model.PosCurve;
-import jp.sourceforge.mikutoga.xml.ProxyXmlExporter;
-import jp.sourceforge.mikutoga.xml.XmlExporter;
+import jp.sfjp.mikutoga.xml.ProxyXmlExporter;
+import jp.sfjp.mikutoga.xml.XmlExporter;
 
 /**
  * XML出力機構の共通部。

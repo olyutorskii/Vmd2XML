@@ -38,21 +38,35 @@ class BasicExporter extends BinaryExporter {
 
     private static final Charset CS_ASCII = Charset.forName("US-ASCII");
 
-    // '\0' * 5byte の版もあり
-    private static final String HEADFILLER = "\u0000" + "JKLM";
+    private static final String HEADFILLER_OLD =
+            "\u0000" + "JKLM";
+    private static final String HEADFILLER =
+            "\u0000\u0000\u0000\u0000\u0000";
 
     private static final byte[] FDFILLER =
         { (byte)0x00, (byte)0xfd };
-    private static final  byte[] INTPLT_FILLER = {
-        (byte) 0x01,  // 0x00の版もあり。
+    private static final byte[] FILLER_00 = {   // MMD Ver7.39x64仕様
+        (byte) 0x00,
         (byte) 0x00,
         (byte) 0x00,
     };
+    private static final byte[] FILLER_01 = {
+        (byte) 0x01,
+        (byte) 0x00,
+        (byte) 0x00,
+    };
+
+    static{
+        assert HEADFILLER.length() == HEADFILLER_OLD.length();
+        assert FILLER_00.length == FILLER_01.length;
+    }
 
 
     private final byte[] motionIntplt = new byte[BZTOTAL_SIZE];
     private final ByteBuffer intpltBuf;
     private final ByteBuffer rdBuf;
+
+    private byte[] intpltFiller = FILLER_01;
 
 
     /**
@@ -72,10 +86,15 @@ class BasicExporter extends BinaryExporter {
 
     /**
      * ヘッダ情報を出力する。
+     * @param motion モーションデータ
      * @throws IOException 出力エラー
      */
-    void dumpHeader() throws IOException{
-        byte[] header = (VmdConst.MAGIC_TXT + HEADFILLER).getBytes(CS_ASCII);
+    void dumpHeader(VmdMotion motion) throws IOException{
+        String headerTxt = VmdConst.MAGIC_TXT;
+        if(motion.hasFlagMotion()) headerTxt += HEADFILLER;
+        else                       headerTxt += HEADFILLER_OLD;
+
+        byte[] header = headerTxt.getBytes(CS_ASCII);
         assert header.length == VmdConst.HEADER_LENGTH;
 
         dumpByteArray(header);
@@ -111,6 +130,12 @@ class BasicExporter extends BinaryExporter {
      */
     void dumpBoneMotion(VmdMotion motion)
             throws IOException, IllegalTextExportException{
+        if(motion.hasFlagMotion()){                  // MMD Ver7.40仕様
+            this.intpltFiller = FILLER_00;
+        }else{
+            this.intpltFiller = FILLER_01;
+        }
+
         Map<String, List<BoneMotion>> map = motion.getBonePartMap();
 
         List<BoneMotion> bmotionList = new LinkedList<BoneMotion>();
@@ -230,7 +255,7 @@ class BasicExporter extends BinaryExporter {
         for(int lack = 1; lack < BZ_REDUNDANT; lack++){
             this.rdBuf.position(lack);
             this.intpltBuf.put(this.rdBuf);
-            this.intpltBuf.put(INTPLT_FILLER, 0, lack);
+            this.intpltBuf.put(this.intpltFiller, 0, lack);
         }
 
         assert this.intpltBuf.position() == BZTOTAL_SIZE;

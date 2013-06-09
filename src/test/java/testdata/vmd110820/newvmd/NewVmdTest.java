@@ -42,7 +42,7 @@ public class NewVmdTest {
     @Test
     public void vmd2xml() throws Exception{
         System.out.println("vmd2xml");
-        assertVmd2Xml(THISCLASS, "newvmd.vmd", "newvmd.xml");
+        assertVmd2OldXml(THISCLASS, "newvmd.vmd", "newvmd.xml");
         return;
     }
 

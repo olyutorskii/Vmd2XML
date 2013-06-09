@@ -42,11 +42,11 @@ public class SmallTest {
     @Test
     public void vmd2xml() throws Exception{
         System.out.println("vmd2xml");
-        assertVmd2Xml(THISCLASS, "onlyBone.vmd", "onlyBone.xml");
-        assertVmd2Xml(THISCLASS, "onlyMorph.vmd", "onlyMorph.xml");
-        assertVmd2Xml(THISCLASS, "onlyCamera.vmd", "onlyCamera.xml");
-        assertVmd2Xml(THISCLASS, "onlyLuminous.vmd", "onlyLuminous.xml");
-        assertVmd2Xml(THISCLASS, "onlyShadow.vmd", "onlyShadow.xml");
+        assertVmd2OldXml(THISCLASS, "onlyBone.vmd", "onlyBone.xml");
+        assertVmd2OldXml(THISCLASS, "onlyMorph.vmd", "onlyMorph.xml");
+        assertVmd2OldXml(THISCLASS, "onlyCamera.vmd", "onlyCamera.xml");
+        assertVmd2OldXml(THISCLASS, "onlyLuminous.vmd", "onlyLuminous.xml");
+        assertVmd2OldXml(THISCLASS, "onlyShadow.vmd", "onlyShadow.xml");
         return;
     }
 

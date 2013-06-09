@@ -8,6 +8,7 @@
 package jp.sfjp.mikutoga.vmd.model.xml;
 
 import jp.sfjp.mikutoga.vmd.model.VmdMotion;
+import jp.sfjp.mikutoga.xml.SaxAttr;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
@@ -27,6 +28,7 @@ class XmlHandler implements ContentHandler{
     private final SaxVmdListener motionListener;
     private final SaxVmdListener cameraListener;
     private final SaxVmdListener lightListener;
+    private final SaxVmdListener flagListener;
 
     private SaxVmdListener currentListener = null;
 
@@ -40,6 +42,7 @@ class XmlHandler implements ContentHandler{
         this.motionListener = new SaxMotionListener();
         this.cameraListener = new SaxCameraListener();
         this.lightListener  = new SaxLightingListener();
+        this.flagListener   = new SaxFlagListener();
 
         return;
     }
@@ -64,6 +67,7 @@ class XmlHandler implements ContentHandler{
         this.motionListener.setVmdMotion(this.vmdMotion);
         this.cameraListener.setVmdMotion(this.vmdMotion);
         this.lightListener .setVmdMotion(this.vmdMotion);
+        this.flagListener  .setVmdMotion(this.vmdMotion);
 
         return;
     }
@@ -87,7 +91,8 @@ class XmlHandler implements ContentHandler{
     @Override
     public void startPrefixMapping(String prefix, String uri)
             throws SAXException {
-        if(Schema110820.NS_VMDXML.equals(uri)){
+        if(   Schema110820.NS_VMDXML.equals(uri)
+           || Schema130609.NS_VMDXML.equals(uri) ){
             this.nspfx = prefix;
             this.nsuri = uri;
         }
@@ -158,6 +163,9 @@ class XmlHandler implements ContentHandler{
         case LUMI_SEQUENCE:
         case SHADOW_SEQUENCE:
             this.currentListener = this.lightListener;
+            break;
+        case FLAG_SEQUENCE:
+            this.currentListener = this.flagListener;
             break;
         default:
             break;

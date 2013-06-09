@@ -92,6 +92,17 @@ public class VmdMotion {
     }
 
     /**
+     * フラグモーションが存在するか否か判定する。
+     * <p>フラグモーションは、
+     * MMD Ver7.40以降のVMDフォーマットでなければ記録できない。
+     * @return 存在するならtrue
+     */
+    public boolean hasFlagMotion(){
+        if(this.flagList.isEmpty()) return false;
+        return true;
+    }
+
+    /**
      * 順序保証されたボーンモーションマップを返す。
      * @return ボーンモーションマップ
      * @see java.util.LinkedHashMap

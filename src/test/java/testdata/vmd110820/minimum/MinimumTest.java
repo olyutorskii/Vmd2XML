@@ -42,8 +42,8 @@ public class MinimumTest {
     @Test
     public void vmd2xml() throws Exception{
         System.out.println("vmd2xml");
-        assertVmd2Xml(THISCLASS, "minmotion.vmd", "minmotion.xml");
-        assertVmd2Xml(THISCLASS, "mincam.vmd", "mincam.xml");
+        assertVmd2OldXml(THISCLASS, "minmotion.vmd", "minmotion.xml");
+        assertVmd2OldXml(THISCLASS, "mincam.vmd", "mincam.xml");
         return;
     }
 

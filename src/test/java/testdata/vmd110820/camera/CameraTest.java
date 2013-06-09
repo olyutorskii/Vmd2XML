@@ -42,7 +42,7 @@ public class CameraTest {
     @Test
     public void vmd2xml() throws Exception{
         System.out.println("vmd2xml");
-        assertVmd2Xml(THISCLASS, "camera.vmd", "camera.xml");
+        assertVmd2OldXml(THISCLASS, "camera.vmd", "camera.xml");
         return;
     }
 

@@ -58,6 +58,9 @@ final class XmlAttr {
     static final String ATTR_MODE            = "mode";
     static final String ATTR_RAW_PARAM       = "rawParam";
 
+    static final String ATTR_SHOWMODEL       = "showModel";
+    static final String ATTR_VALID           = "valid";
+
 
     /**
      * 隠しコンストラクタ。

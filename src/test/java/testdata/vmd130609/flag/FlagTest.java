@@ -1,7 +1,7 @@
 /*
  */
 
-package testdata.vmd110820.luminous;
+package testdata.vmd130609.flag;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -14,11 +14,11 @@ import static testdata.CnvAssert.*;
 /**
  *
  */
-public class LuminousTest {
+public class FlagTest {
 
-    static Class<?> THISCLASS = LuminousTest.class;
+    static Class<?> THISCLASS = FlagTest.class;
 
-    public LuminousTest() {
+    public FlagTest() {
         assert this.getClass() == THISCLASS;
         return;
     }
@@ -42,14 +42,14 @@ public class LuminousTest {
     @Test
     public void vmd2xml() throws Exception{
         System.out.println("vmd2xml");
-        assertVmd2OldXml(THISCLASS, "luminous.vmd", "luminous.xml");
+        assertVmd2Xml13(THISCLASS, "flag.vmd", "flag.xml");
         return;
     }
 
     @Test
     public void xml2vmd() throws Exception{
         System.out.println("xml2vmd");
-        assertXml2Vmd(THISCLASS, "luminous.xml", "luminous.vmd");
+        assertXml2Vmd(THISCLASS, "flag.xml", "flag.vmd");
         return;
     }
 

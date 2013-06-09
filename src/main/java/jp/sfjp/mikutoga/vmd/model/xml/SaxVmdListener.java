@@ -10,6 +10,7 @@ package jp.sfjp.mikutoga.vmd.model.xml;
 import jp.sfjp.mikutoga.vmd.model.BezierParam;
 import jp.sfjp.mikutoga.vmd.model.PosCurve;
 import jp.sfjp.mikutoga.vmd.model.VmdMotion;
+import jp.sfjp.mikutoga.xml.SaxAttr;
 import org.xml.sax.Attributes;
 
 /**

@@ -14,6 +14,7 @@ import jp.sfjp.mikutoga.vmd.model.BoneMotion;
 import jp.sfjp.mikutoga.vmd.model.MorphMotion;
 import jp.sfjp.mikutoga.vmd.model.PosCurve;
 import jp.sfjp.mikutoga.vmd.model.VmdMotion;
+import jp.sfjp.mikutoga.xml.SaxAttr;
 import org.xml.sax.Attributes;
 
 /**

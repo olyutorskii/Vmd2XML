@@ -23,6 +23,7 @@ final class OptInfo {
     private static final String FORMAT_VMD       = "vmd";
     private static final String FORMAT_XML       = "xml";
     private static final String FORMAT_XML110820 = "xml110820";
+    private static final String FORMAT_XML130609 = "xml130609";
 
     private static final String SFX_VMD = ".vmd";
     private static final String SFX_XML = ".xml";
@@ -84,9 +85,11 @@ final class OptInfo {
         if      (FORMAT_VMD.equals(arg)){
             result = MotionFileType.VMD;
         }else if(FORMAT_XML.equals(arg)){
-            result = MotionFileType.XML_110820;
+            result = MotionFileType.XML_AUTO;
         }else if(FORMAT_XML110820.equals(arg)){
             result = MotionFileType.XML_110820;
+        }else if(FORMAT_XML130609.equals(arg)){
+            result = MotionFileType.XML_130609;
         }else{
             String errMsg = MessageFormat.format(ERRMSG_INVFORM, arg);
             throw new CmdLineException(errMsg);
@@ -155,7 +158,7 @@ final class OptInfo {
 
         String lower = fileName.toLowerCase(Locale.ROOT);
         if     (lower.endsWith(SFX_VMD)) result = MotionFileType.VMD;
-        else if(lower.endsWith(SFX_XML)) result = MotionFileType.XML_110820;
+        else if(lower.endsWith(SFX_XML)) result = MotionFileType.XML_AUTO;
 
         return result;
     }

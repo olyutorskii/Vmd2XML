@@ -15,7 +15,7 @@ import jp.sfjp.mikutoga.vmd.model.CameraMotion;
 import jp.sfjp.mikutoga.vmd.model.CameraRotation;
 import jp.sfjp.mikutoga.vmd.model.PosCurve;
 import jp.sfjp.mikutoga.vmd.model.VmdMotion;
-import jp.sourceforge.mikutoga.xml.ProxyXmlExporter;
+import jp.sfjp.mikutoga.xml.ProxyXmlExporter;
 
 /**
  *カメラ情報のXMLエクスポーター。

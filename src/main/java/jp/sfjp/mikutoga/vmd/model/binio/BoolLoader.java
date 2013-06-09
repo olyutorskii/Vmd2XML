@@ -19,12 +19,12 @@ import jp.sfjp.mikutoga.vmd.parser.VmdBoolHandler;
  * フラグ情報のビルダ。
  * <p>MikuMikuDance Ver7.40以降でサポート
  */
-public class BoolLoader implements VmdBoolHandler{
+class BoolLoader implements VmdBoolHandler{
 
     private final List<NumberedVmdFlag> flagList;
 
-    private NumberedVmdFlag currentFlag;
-    private IkSwitch currentSwitch;
+    private NumberedVmdFlag currentFlag = null;
+    private IkSwitch currentSwitch = null;
 
     /**
      * コンストラクタ。

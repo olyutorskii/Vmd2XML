@@ -30,6 +30,10 @@ enum VmdTag {
     MORPH_PART     ("morphPart"),
     MORPH_MOTION   ("morphMotion"),
 
+    FLAG_SEQUENCE  ("flagSequence"),
+    FLAG_MOTION    ("flagMotion"),
+    IK_SWITCH      ("ikSwitch"),
+
     CAMERA_SEQUENCE("cameraSequence"),
     CAMERA_MOTION  ("cameraMotion"),
     CAMERA_TARGET  ("cameraTarget"),

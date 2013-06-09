@@ -59,7 +59,7 @@ public class EulerTest {
         assertNull(converter.getGenerator());
         assertFalse(converter.isQuaterniomMode());
 
-        assertVmd2Xml(THISCLASS, "euler.vmd", "euler.xml", converter);
+        assertConvert(THISCLASS, "euler.vmd", "euler.xml", converter);
 
         return;
     }

@@ -14,6 +14,7 @@ import jp.sfjp.mikutoga.vmd.model.CameraMotion;
 import jp.sfjp.mikutoga.vmd.model.CameraRotation;
 import jp.sfjp.mikutoga.vmd.model.PosCurve;
 import jp.sfjp.mikutoga.vmd.model.VmdMotion;
+import jp.sfjp.mikutoga.xml.SaxAttr;
 import org.xml.sax.Attributes;
 
 /**

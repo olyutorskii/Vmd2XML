@@ -48,41 +48,26 @@ public class CnvAssert {
             String xmlResource,
             String expVmdResource )
             throws Exception{
-        InputStream xmlis =
-                klass.getResourceAsStream(xmlResource);
-        assertNotNull(xmlis);
-        xmlis = new BufferedInputStream(xmlis);
-
-        File destFile = openTempFile();
-        OutputStream destOut;
-        destOut = new FileOutputStream(destFile);
-        destOut = new BufferedOutputStream(destOut);
-
         Vmd2XmlConv converter = new Vmd2XmlConv();
-        converter.setInType(MotionFileType.XML_110820);
+        converter.setInType(MotionFileType.XML_AUTO);
         converter.setOutType(MotionFileType.VMD);
         converter.setNewline("\n");
 
-        converter.convert(xmlis, destOut);
-
-        xmlis.close();
-        destOut.close();
-
-        assertSameFile(klass, expVmdResource, destFile);
+        assertConvert(klass, xmlResource, expVmdResource, converter);
 
         return;
     }
 
     /**
-     * PMDリソースをXMLに変換した結果がXMLリソースに等しいと表明する。
+     * VMDリソースを110820版XMLに変換した結果がXMLリソースに等しいと表明する。
      * @param klass リソース元クラス
-     * @param pmdResource PMDリソース名
+     * @param vmdResource VMDリソース名
      * @param expXmlResource XMLリソース名
      * @throws Exception エラー
      */
-    public static void assertVmd2Xml(
+    public static void assertVmd2OldXml(
             Class<?> klass,
-            String pmdResource,
+            String vmdResource,
             String expXmlResource )
             throws Exception{
         Vmd2XmlConv converter = new Vmd2XmlConv();
@@ -91,27 +76,50 @@ public class CnvAssert {
         converter.setNewline("\n");
         converter.setGenerator(null);
 
-        assertVmd2Xml(klass, pmdResource, expXmlResource, converter);
+        assertConvert(klass, vmdResource, expXmlResource, converter);
 
         return;
     }
 
     /**
-     * VMDリソースをXMLに変換した結果がXMLリソースに等しいと表明する。
+     * VMDリソースを130609版XMLに変換した結果がXMLリソースに等しいと表明する。
      * @param klass リソース元クラス
-     * @param vmdResource PMDリソース名
+     * @param vmdResource VMDリソース名
      * @param expXmlResource XMLリソース名
+     * @throws Exception エラー
+     */
+    public static void assertVmd2Xml13(
+            Class<?> klass,
+            String vmdResource,
+            String expXmlResource )
+            throws Exception{
+        Vmd2XmlConv converter = new Vmd2XmlConv();
+        converter.setInType(MotionFileType.VMD);
+        converter.setOutType(MotionFileType.XML_130609);
+        converter.setNewline("\n");
+        converter.setGenerator(null);
+
+        assertConvert(klass, vmdResource, expXmlResource, converter);
+
+        return;
+    }
+
+    /**
+     * コンバータの変換結果がリソースファイルに等しいと表明する。
+     * @param klass リソース元クラス
+     * @param fromResource リソース名
+     * @param toResource 結果リソース名
      * @param converter コンバータ
      * @throws Exception エラー
      */
-    public static void assertVmd2Xml(
+    public static void assertConvert(
             Class<?> klass,
-            String vmdResource,
-            String expXmlResource,
+            String fromResource,
+            String toResource,
             Vmd2XmlConv converter )
             throws Exception{
         InputStream vmdis =
-                klass.getResourceAsStream(vmdResource);
+                klass.getResourceAsStream(fromResource);
         assertNotNull(vmdis);
         vmdis = new BufferedInputStream(vmdis);
 
@@ -125,7 +133,7 @@ public class CnvAssert {
         vmdis.close();
         destOut.close();
 
-        assertSameFile(klass, expXmlResource, destFile);
+        assertSameFile(klass, toResource, destFile);
 
         return;
     }

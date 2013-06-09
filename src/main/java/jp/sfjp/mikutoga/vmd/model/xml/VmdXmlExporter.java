@@ -23,8 +23,8 @@ import jp.sfjp.mikutoga.vmd.model.BoneMotion;
 import jp.sfjp.mikutoga.vmd.model.MorphMotion;
 import jp.sfjp.mikutoga.vmd.model.PosCurve;
 import jp.sfjp.mikutoga.vmd.model.VmdMotion;
-import jp.sourceforge.mikutoga.xml.BasicXmlExporter;
-import jp.sourceforge.mikutoga.xml.XmlResourceResolver;
+import jp.sfjp.mikutoga.xml.BasicXmlExporter;
+import jp.sfjp.mikutoga.xml.XmlResourceResolver;
 
 /**
  * VMDモーションデータをXMLへエクスポートする。
@@ -43,12 +43,15 @@ public class VmdXmlExporter extends BasicXmlExporter {
     private static final String MSG_MAYBE = "Perhaps : [{0}]";
 
 
+    private XmlMotionFileType xmlType = XmlMotionFileType.XML_110820;
+
     private boolean isQuaternionMode = true;
     private String generator = "";
 
     private final CameraXmlExporter cameraXmlExporter;
     private final LightingXmlExpoter lightingExporter;
     private final ExtraXmlExporter extraExporter;
+    private final FlagXmlExporter flagXmlExporter;
 
 
     /**
@@ -60,10 +63,43 @@ public class VmdXmlExporter extends BasicXmlExporter {
         this.cameraXmlExporter = new CameraXmlExporter(this);
         this.lightingExporter  = new LightingXmlExpoter(this);
         this.extraExporter     = new ExtraXmlExporter(this);
+        this.flagXmlExporter   = new FlagXmlExporter(this);
 
         return;
     }
 
+
+    /**
+     * 出力XMLファイル種別を設定する。
+     * @param type ファイル種別
+     */
+    public void setXmlFileType(XmlMotionFileType type){
+        switch(type){
+        case XML_110820:
+        case XML_130609:
+            this.xmlType = type;
+            break;
+        case XML_AUTO:
+            this.xmlType = XmlMotionFileType.XML_130609;
+            break;
+        default:
+            assert false;
+            throw new AssertionError();
+        }
+
+        assert this.xmlType == XmlMotionFileType.XML_110820
+            || this.xmlType == XmlMotionFileType.XML_130609;
+
+        return;
+    }
+
+    /**
+     * 出力XMLファイル種別を返す。
+     * @return ファイル種別
+     */
+    public XmlMotionFileType getXmlFileType(){
+        return this.xmlType;
+    }
 
     /**
      * ボーン回転量をクォータニオンで出力するか否か設定する。
@@ -126,25 +162,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
      */
     private void putVmdXmlImpl(VmdMotion vmdMotion)
             throws IOException, IllegalVmdDataException{
-        ind().putRawText(XML_DECL).ln(2);
-
-        ind().putBlockComment(XmlComment.TOP_COMMENT).ln(2);
-
-        ind().putOpenSTag(VmdTag.VMD_MOTION.tag()).ln();
-        pushNest();
-        ind().putAttr("xmlns", Schema110820.NS_VMDXML).ln();
-        ind().putAttr("xmlns:" + XSINS, XmlResourceResolver.NS_XSD).ln();
-
-        ind().putRawText(XSINS).putRawText(":schemaLocation=")
-             .putRawCh('"');
-        putRawText(Schema110820.NS_VMDXML).ln();
-        ind().sp(2).putRawText(Schema110820.SCHEMA_VMDXML)
-             .putRawCh('"')
-             .ln();
-
-        ind().putAttr(XmlAttr.ATTR_VERSION, Schema110820.VER_VMDXML).ln();
-        popNest();
-        putCloseSTag().ln(2);
+        putVmdRootOpen();
 
         putGenerator();
 
@@ -152,6 +170,9 @@ public class VmdXmlExporter extends BasicXmlExporter {
             putModelName(vmdMotion);
             putBoneMotionSequence(vmdMotion);
             putMorphSequence(vmdMotion);
+            if(this.xmlType == XmlMotionFileType.XML_130609){
+                this.flagXmlExporter.putFlagSequence(vmdMotion);
+            }
         }else{
             this.cameraXmlExporter.putCameraSequence(vmdMotion);
             this.lightingExporter.putLuminousSequence(vmdMotion);
@@ -160,6 +181,54 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
         ind().putETag(VmdTag.VMD_MOTION.tag()).ln(2);
         ind().putLineComment("EOF").ln();
+
+        return;
+    }
+
+    /**
+     * ルート要素がオープンするまでの各種宣言を出力する。
+     * @throws IOException 出力エラー
+     */
+    private void putVmdRootOpen() throws IOException{
+        ind().putRawText(XML_DECL).ln(2);
+
+        ind().putBlockComment(XmlComment.TOP_COMMENT).ln(2);
+
+        String namespace;
+        String schemaUrl;
+        String schemaVer;
+
+        switch(this.xmlType){
+        case XML_110820:
+            namespace = Schema110820.NS_VMDXML;
+            schemaUrl = Schema110820.SCHEMA_VMDXML;
+            schemaVer = Schema110820.VER_VMDXML;
+            break;
+        case XML_130609:
+            namespace = Schema130609.NS_VMDXML;
+            schemaUrl = Schema130609.SCHEMA_VMDXML;
+            schemaVer = Schema130609.VER_VMDXML;
+            break;
+        default:
+            assert false;
+            throw new AssertionError();
+        }
+
+        ind().putOpenSTag(VmdTag.VMD_MOTION.tag()).ln();
+        pushNest();
+        ind().putAttr("xmlns", namespace).ln();
+        ind().putAttr("xmlns:" + XSINS, XmlResourceResolver.NS_XSD).ln();
+
+        ind().putRawText(XSINS).putRawText(":schemaLocation=")
+             .putRawCh('"');
+        putRawText(namespace).ln();
+        ind().sp(2).putRawText(schemaUrl)
+             .putRawCh('"')
+             .ln();
+
+        ind().putAttr(XmlAttr.ATTR_VERSION, schemaVer).ln();
+        popNest();
+        putCloseSTag().ln(2);
 
         return;
     }

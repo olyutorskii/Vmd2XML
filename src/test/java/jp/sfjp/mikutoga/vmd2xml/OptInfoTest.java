@@ -86,7 +86,7 @@ public class OptInfoTest {
         assertFalse(result.needHelp());
         assertSame(MotionFileType.VMD, result.getInFileType());
         assertEquals("test.vmd", result.getInFilename());
-        assertSame(MotionFileType.XML_110820, result.getOutFileType());
+        assertSame(MotionFileType.XML_AUTO, result.getOutFileType());
         assertEquals("test.xml", result.getOutFilename());
         assertEquals(Vmd2Xml.GENERATOR, result.getGenerator());
         assertEquals("\n", result.getNewline());
@@ -116,10 +116,13 @@ public class OptInfoTest {
         assertEquals("input", result.getInFilename());
 
         result = OptInfo.parseOption("-i", "input", "-o", "test.xml", "-iform", "xml");
-        assertSame(MotionFileType.XML_110820, result.getInFileType());
+        assertSame(MotionFileType.XML_AUTO, result.getInFileType());
 
         result = OptInfo.parseOption("-i", "input", "-o", "test.xml", "-iform", "xml110820");
         assertSame(MotionFileType.XML_110820, result.getInFileType());
+
+        result = OptInfo.parseOption("-i", "input", "-o", "test.xml", "-iform", "xml130609");
+        assertSame(MotionFileType.XML_130609, result.getInFileType());
 
         try{
             OptInfo.parseOption("-i", "test.vmd", "-o", "output");

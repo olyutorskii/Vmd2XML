@@ -11,8 +11,8 @@
 
 
 <!DOCTYPE xsd:schema [
-    <!ENTITY schemaVer "130609A" >
-    <!ENTITY schemaNS "http://mikutoga.sourceforge.jp/xml/ns/vmdxml/130609A" >
+    <!ENTITY schemaVer "130609" >
+    <!ENTITY schemaNS "http://mikutoga.sourceforge.jp/xml/ns/vmdxml/130609" >
 ]>
 
 

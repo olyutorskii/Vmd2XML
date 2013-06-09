@@ -42,7 +42,7 @@ public class ShadowTest {
     @Test
     public void vmd2xml() throws Exception{
         System.out.println("vmd2xml");
-        assertVmd2Xml(THISCLASS, "allShadow.vmd", "allShadow.xml");
+        assertVmd2OldXml(THISCLASS, "allShadow.vmd", "allShadow.xml");
         return;
     }
 

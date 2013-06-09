@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  MikuMikuDance
+    motion-data(*.vmd) on XML
+-->
+
+
+<vmdMotion
+  xmlns="http://mikutoga.sourceforge.jp/xml/ns/vmdxml/130609"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://mikutoga.sourceforge.jp/xml/ns/vmdxml/130609
+    http://mikutoga.sourceforge.jp/xml/xsd/vmdxml-130609.xsd"
+  version="130609"
+>
+
+<!-- 初音ミク -->
+<modelName name="&#x521D;&#x97F3;&#x30DF;&#x30AF;" />
+
+<boneMotionSequence>
+</boneMotionSequence>
+
+<morphSequence>
+</morphSequence>
+
+<flagSequence>
+
+  <flagMotion frame="0" showModel="true" >
+
+    <!-- ﾈｸﾀｲＩＫ -->
+    <ikSwitch name="&#xFF88;&#xFF78;&#xFF80;&#xFF72;&#xFF29;&#xFF2B;" valid="true" />
+
+    <!-- 左髪ＩＫ -->
+    <ikSwitch name="&#x5DE6;&#x9AEA;&#xFF29;&#xFF2B;" valid="true" />
+
+    <!-- 右髪ＩＫ -->
+    <ikSwitch name="&#x53F3;&#x9AEA;&#xFF29;&#xFF2B;" valid="true" />
+
+    <!-- 左足ＩＫ -->  <!-- Perhaps : [leg IK_L] -->
+    <ikSwitch name="&#x5DE6;&#x8DB3;&#xFF29;&#xFF2B;" valid="true" />
+
+    <!-- 右足ＩＫ -->  <!-- Perhaps : [leg IK_R] -->
+    <ikSwitch name="&#x53F3;&#x8DB3;&#xFF29;&#xFF2B;" valid="true" />
+
+    <!-- 左つま先ＩＫ -->  <!-- Perhaps : [toe IK_L] -->
+    <ikSwitch name="&#x5DE6;&#x3064;&#x307E;&#x5148;&#xFF29;&#xFF2B;" valid="true" />
+
+    <!-- 右つま先ＩＫ -->  <!-- Perhaps : [toe IK_R] -->
+    <ikSwitch name="&#x53F3;&#x3064;&#x307E;&#x5148;&#xFF29;&#xFF2B;" valid="true" />
+
+  </flagMotion>
+
+  <flagMotion frame="5" showModel="false" >
+
+    <!-- ﾈｸﾀｲＩＫ -->
+    <ikSwitch name="&#xFF88;&#xFF78;&#xFF80;&#xFF72;&#xFF29;&#xFF2B;" valid="true" />
+
+    <!-- 左髪ＩＫ -->
+    <ikSwitch name="&#x5DE6;&#x9AEA;&#xFF29;&#xFF2B;" valid="true" />
+
+    <!-- 右髪ＩＫ -->
+    <ikSwitch name="&#x53F3;&#x9AEA;&#xFF29;&#xFF2B;" valid="true" />
+
+    <!-- 左足ＩＫ -->  <!-- Perhaps : [leg IK_L] -->
+    <ikSwitch name="&#x5DE6;&#x8DB3;&#xFF29;&#xFF2B;" valid="false" />
+
+    <!-- 右足ＩＫ -->  <!-- Perhaps : [leg IK_R] -->
+    <ikSwitch name="&#x53F3;&#x8DB3;&#xFF29;&#xFF2B;" valid="false" />
+
+    <!-- 左つま先ＩＫ -->  <!-- Perhaps : [toe IK_L] -->
+    <ikSwitch name="&#x5DE6;&#x3064;&#x307E;&#x5148;&#xFF29;&#xFF2B;" valid="true" />
+
+    <!-- 右つま先ＩＫ -->  <!-- Perhaps : [toe IK_R] -->
+    <ikSwitch name="&#x53F3;&#x3064;&#x307E;&#x5148;&#xFF29;&#xFF2B;" valid="true" />
+
+  </flagMotion>
+
+</flagSequence>
+
+</vmdMotion>
+
+<!-- EOF -->

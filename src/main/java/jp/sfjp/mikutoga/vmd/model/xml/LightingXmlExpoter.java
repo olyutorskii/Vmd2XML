@@ -15,8 +15,8 @@ import jp.sfjp.mikutoga.vmd.model.LuminousMotion;
 import jp.sfjp.mikutoga.vmd.model.ShadowMode;
 import jp.sfjp.mikutoga.vmd.model.ShadowMotion;
 import jp.sfjp.mikutoga.vmd.model.VmdMotion;
-import jp.sourceforge.mikutoga.xml.ProxyXmlExporter;
-import jp.sourceforge.mikutoga.xml.XmlExporter;
+import jp.sfjp.mikutoga.xml.ProxyXmlExporter;
+import jp.sfjp.mikutoga.xml.XmlExporter;
 
 /**
  * ライティング情報のXMLエクスポーター。

@@ -14,6 +14,7 @@ import jp.sfjp.mikutoga.vmd.model.LuminousMotion;
 import jp.sfjp.mikutoga.vmd.model.ShadowMode;
 import jp.sfjp.mikutoga.vmd.model.ShadowMotion;
 import jp.sfjp.mikutoga.vmd.model.VmdMotion;
+import jp.sfjp.mikutoga.xml.SaxAttr;
 import org.xml.sax.Attributes;
 
 /**

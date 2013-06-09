@@ -64,7 +64,7 @@ public class VmdExporter {
      */
     private void dumpVmdMotionImpl(VmdMotion motion)
             throws IOException, IllegalVmdDataException{
-        this.basicExporter.dumpHeader();
+        this.basicExporter.dumpHeader(motion);
 
         try{
             this.basicExporter.dumpModelName(motion);

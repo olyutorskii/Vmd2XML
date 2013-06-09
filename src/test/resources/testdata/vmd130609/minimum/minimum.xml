@@ -7,11 +7,11 @@
 
 
 <vmdMotion
-  xmlns="http://mikutoga.sourceforge.jp/xml/ns/vmdxml/130609A"
+  xmlns="http://mikutoga.sourceforge.jp/xml/ns/vmdxml/130609"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://mikutoga.sourceforge.jp/xml/ns/vmdxml/130609A
-    http://mikutoga.sourceforge.jp/xml/xsd/vmdxml-130609A.xsd"
-  version="130609A"
+  xsi:schemaLocation="http://mikutoga.sourceforge.jp/xml/ns/vmdxml/130609
+    http://mikutoga.sourceforge.jp/xml/xsd/vmdxml-130609.xsd"
+  version="130609"
 >
 
 <!-- [NAMELESS] -->

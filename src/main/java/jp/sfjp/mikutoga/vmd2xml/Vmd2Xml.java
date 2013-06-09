@@ -15,15 +15,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 import java.util.Properties;
 import jp.sfjp.mikutoga.bin.parser.MmdFormatException;
 import jp.sfjp.mikutoga.vmd.IllegalVmdDataException;
-import jp.sourceforge.mikutoga.xml.TogaXmlException;
+import jp.sfjp.mikutoga.xml.TogaXmlException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -68,7 +65,7 @@ public final class Vmd2Xml {
               "{0} {1}\n"
             + "\u0020\u0020License\u0020:\u0020{2}\n"
             + "\u0020\u0020{3}\n";
-    private static final String MSG_NOINFILE = "Can't find input file:{0}";
+    private static final String MSG_NOINFILE = "Can''t find input file: {0}";
     private static final String MSG_ABNFILE = "{0} is not file.";
     private static final String MSG_OWOUTFILE =
               "{0} already exists.\n"
@@ -269,18 +266,7 @@ public final class Vmd2Xml {
             exit(EXIT_IOERR);
         }
 
-        URI uri = inFile.toURI();
-        URL url;
-        try{
-            url = uri.toURL();
-        }catch(MalformedURLException e){
-            // File由来のURLでは起こりえない
-            assert false;
-            throw new AssertionError(e);
-        }
-        String systemId = url.toString();
-
-        InputSource source = new InputSource(systemId);
+        InputSource source = XmlInputUtil.fileToSource(inFile);
 
         return source;
     }

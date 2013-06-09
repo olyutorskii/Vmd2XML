@@ -1,7 +1,7 @@
 /*
  */
 
-package testdata.vmd110820.luminous;
+package testdata.vmd130609.minimum;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -14,11 +14,11 @@ import static testdata.CnvAssert.*;
 /**
  *
  */
-public class LuminousTest {
+public class MinimumTest {
 
-    static Class<?> THISCLASS = LuminousTest.class;
+    static Class<?> THISCLASS = MinimumTest.class;
 
-    public LuminousTest() {
+    public MinimumTest() {
         assert this.getClass() == THISCLASS;
         return;
     }
@@ -42,14 +42,14 @@ public class LuminousTest {
     @Test
     public void vmd2xml() throws Exception{
         System.out.println("vmd2xml");
-        assertVmd2OldXml(THISCLASS, "luminous.vmd", "luminous.xml");
+        assertVmd2Xml13(THISCLASS, "minimum.vmd", "minimum.xml");
         return;
     }
 
     @Test
     public void xml2vmd() throws Exception{
         System.out.println("xml2vmd");
-        assertXml2Vmd(THISCLASS, "luminous.xml", "luminous.vmd");
+        assertXml2Vmd(THISCLASS, "minimum.xml", "minimum.vmd");
         return;
     }
 

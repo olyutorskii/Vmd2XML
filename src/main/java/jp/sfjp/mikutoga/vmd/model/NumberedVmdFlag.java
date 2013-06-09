@@ -25,7 +25,7 @@ public class NumberedVmdFlag
 
 
     private boolean shown = true;
-    private List<IkSwitch> ikSwList = new LinkedList<IkSwitch>();
+    private final List<IkSwitch> ikSwList = new LinkedList<IkSwitch>();
 
 
     /**
@@ -83,7 +83,7 @@ public class NumberedVmdFlag
 
         StringBuilder submsg = new StringBuilder(msg);
         for(IkSwitch sw : this.ikSwList){
-            submsg.append('\n').append("\u0020").append(sw.toString());
+            submsg.append("\n\u0020").append(sw.toString());
         }
 
         return submsg.toString();

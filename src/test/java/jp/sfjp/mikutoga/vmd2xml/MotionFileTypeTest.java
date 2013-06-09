@@ -3,6 +3,7 @@
 
 package jp.sfjp.mikutoga.vmd2xml;
 
+import jp.sfjp.mikutoga.vmd.model.xml.XmlMotionFileType;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -40,7 +41,7 @@ public class MotionFileTypeTest {
     @Test
     public void testValues() {
         System.out.println("values");
-        assertEquals(3, MotionFileType.values().length);
+        assertEquals(5, MotionFileType.values().length);
         return;
     }
 
@@ -63,7 +64,9 @@ public class MotionFileTypeTest {
 
         assertFalse(MotionFileType.NONE.isXml());
         assertFalse(MotionFileType.VMD.isXml());
+        assertTrue(MotionFileType.XML_AUTO.isXml());
         assertTrue(MotionFileType.XML_110820.isXml());
+        assertTrue(MotionFileType.XML_130609.isXml());
 
         return;
     }
@@ -77,7 +80,25 @@ public class MotionFileTypeTest {
 
         assertFalse(MotionFileType.NONE.isVmd());
         assertTrue(MotionFileType.VMD.isVmd());
+        assertFalse(MotionFileType.XML_AUTO.isVmd());
         assertFalse(MotionFileType.XML_110820.isVmd());
+        assertFalse(MotionFileType.XML_130609.isVmd());
+
+        return;
+    }
+
+    /**
+     * Test of toXmlType method, of class MotionFileType.
+     */
+    @Test
+    public void testToXmlType() {
+        System.out.println("toXmlType");
+
+        assertSame(XmlMotionFileType.XML_AUTO, MotionFileType.NONE.toXmlType());
+        assertSame(XmlMotionFileType.XML_AUTO, MotionFileType.VMD.toXmlType());
+        assertSame(XmlMotionFileType.XML_AUTO, MotionFileType.XML_AUTO.toXmlType());
+        assertSame(XmlMotionFileType.XML_110820, MotionFileType.XML_110820.toXmlType());
+        assertSame(XmlMotionFileType.XML_130609, MotionFileType.XML_130609.toXmlType());
 
         return;
     }

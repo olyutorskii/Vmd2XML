@@ -7,31 +7,22 @@
 
 package jp.sfjp.mikutoga.vmd2xml;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.net.URL;
 import java.nio.charset.Charset;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.validation.Schema;
 import jp.sfjp.mikutoga.bin.parser.MmdFormatException;
 import jp.sfjp.mikutoga.vmd.IllegalVmdDataException;
 import jp.sfjp.mikutoga.vmd.model.VmdMotion;
 import jp.sfjp.mikutoga.vmd.model.binio.VmdExporter;
 import jp.sfjp.mikutoga.vmd.model.binio.VmdLoader;
-import jp.sfjp.mikutoga.vmd.model.xml.Schema110820;
 import jp.sfjp.mikutoga.vmd.model.xml.VmdXmlExporter;
+import jp.sfjp.mikutoga.vmd.model.xml.XmlMotionFileType;
 import jp.sfjp.mikutoga.vmd.model.xml.XmlVmdLoader;
-import jp.sourceforge.mikutoga.xml.BotherHandler;
-import jp.sourceforge.mikutoga.xml.SchemaUtil;
-import jp.sourceforge.mikutoga.xml.TogaXmlException;
-import jp.sourceforge.mikutoga.xml.XmlResourceResolver;
+import jp.sfjp.mikutoga.xml.TogaXmlException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -60,107 +51,6 @@ public class Vmd2XmlConv {
         return;
     }
 
-
-    /**
-     * InputSourceからInputStreamを得る。
-     * <p>入力ソースには、少なくともバイトストリームか
-     * URL文字列(SystemId)のいずれかが設定されていなければならない。
-     * @param source 入力ソース
-     * @return 入力バイトストリーム
-     * @throws IllegalArgumentException 入力ソースの設定が足りない。
-     * @throws IOException 入力ソースにアクセス不能。
-     */
-    private static InputStream openInputSource(InputSource source)
-            throws IllegalArgumentException, IOException{
-        InputStream is;
-
-        is = source.getByteStream();
-
-        if(is == null){
-            String systemId = source.getSystemId();
-            if(systemId == null) throw new IllegalArgumentException();
-
-            URL url = new URL(systemId);
-            is = url.openStream();
-        }
-
-        is = new BufferedInputStream(is);
-
-        return is;
-    }
-
-    /**
-     * SAXパーサファクトリを生成する。
-     * <ul>
-     * <li>XML名前空間機能は有効になる。
-     * <li>DTDによる形式検証は無効となる。
-     * <li>XIncludeによる差し込み機能は無効となる。
-     * </ul>
-     * @param schema スキーマ
-     * @return ファクトリ
-     */
-    private static SAXParserFactory buildFactory(Schema schema){
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-
-        factory.setNamespaceAware(true);
-        factory.setValidating(false);
-        factory.setXIncludeAware(false);
-//      factory.setFeature(name, value);
-
-        factory.setSchema(schema);
-
-        return factory;
-    }
-
-    /**
-     * SAXパーサを生成する。
-     * @param schema スキーマ
-     * @return SAXパーサ
-     */
-    private static SAXParser buildParser(Schema schema){
-        SAXParserFactory factory = buildFactory(schema);
-
-        SAXParser parser;
-        try{
-            parser = factory.newSAXParser();
-        }catch(ParserConfigurationException e){
-            assert false;
-            throw new AssertionError(e);
-        }catch(SAXException e){
-            assert false;
-            throw new AssertionError(e);
-        }
-
-//      parser.setProperty(name, value);
-
-        return parser;
-    }
-
-    /**
-     * XMLリーダを生成する。
-     * <p>エラーハンドラには{@link BotherHandler}が指定される。
-     * @param resolver リゾルバ
-     * @return XMLリーダ
-     */
-    private static XMLReader buildReader(XmlResourceResolver resolver){
-        Schema schema;
-        schema = SchemaUtil.newSchema(resolver, Schema110820.SINGLETON);
-
-        SAXParser parser = buildParser(schema);
-
-        XMLReader reader;
-        try{
-            reader = parser.getXMLReader();
-        }catch(SAXException e){
-            assert false;
-            throw new AssertionError(e);
-        }
-
-        reader.setEntityResolver(resolver);
-        reader.setErrorHandler(BotherHandler.HANDLER);
-
-        return reader;
-    }
 
     /**
      * 入力ファイル種別を設定する。
@@ -353,7 +243,7 @@ public class Vmd2XmlConv {
         VmdMotion motion = null;
 
         if(this.inTypes.isVmd()){
-            InputStream is = openInputSource(source);
+            InputStream is = XmlInputUtil.openInputSource(source);
             try{
                 motion = vmdRead(is);
             }finally{
@@ -420,8 +310,7 @@ public class Vmd2XmlConv {
             throws IOException,
                    SAXException,
                    TogaXmlException {
-        XmlResourceResolver resolver = new XmlResourceResolver();
-        XMLReader reader = buildReader(resolver);
+        XMLReader reader = XmlInputUtil.buildReader(this.inTypes);
         XmlVmdLoader loader = new XmlVmdLoader(reader);
 
         VmdMotion motion = loader.parse(source);
@@ -455,6 +344,8 @@ public class Vmd2XmlConv {
             throws IOException, IllegalVmdDataException{
         VmdXmlExporter exporter = new VmdXmlExporter();
 
+        XmlMotionFileType xmlType = this.outTypes.toXmlType();
+        exporter.setXmlFileType(xmlType);
         exporter.setNewLine(this.newLine);
         exporter.setGenerator(this.generator);
         exporter.setQuaternionMode(this.isQuaternionMode);

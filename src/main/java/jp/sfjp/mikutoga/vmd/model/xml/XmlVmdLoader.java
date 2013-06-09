@@ -9,7 +9,7 @@ package jp.sfjp.mikutoga.vmd.model.xml;
 
 import java.io.IOException;
 import jp.sfjp.mikutoga.vmd.model.VmdMotion;
-import jp.sourceforge.mikutoga.xml.TogaXmlException;
+import jp.sfjp.mikutoga.xml.TogaXmlException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;

@@ -42,7 +42,7 @@ public class MorphTest {
     @Test
     public void vmd2xml() throws Exception{
         System.out.println("vmd2xml");
-        assertVmd2Xml(THISCLASS, "morph.vmd", "morph.xml");
+        assertVmd2OldXml(THISCLASS, "morph.vmd", "morph.xml");
         return;
     }
 

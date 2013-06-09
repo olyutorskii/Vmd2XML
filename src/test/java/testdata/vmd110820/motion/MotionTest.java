@@ -42,7 +42,7 @@ public class MotionTest {
     @Test
     public void vmd2xml() throws Exception{
         System.out.println("vmd2xml");
-        assertVmd2Xml(THISCLASS, "motion.vmd", "motion.xml");
+        assertVmd2OldXml(THISCLASS, "motion.vmd", "motion.xml");
         return;
     }
 
