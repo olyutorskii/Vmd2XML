@@ -4,6 +4,10 @@
 Vmd2XML 変更履歴
 
 
+X.XXX.X (XXXX-XX-XX)
+    ・必須環境をJavaSE8に引き上げ。
+    ・Mercurial(2.101.4)からGit(2.101.104-SNAPSHOT)へSCMを移行。
+
 2.101.4 (2013-06_16)
     ・assemblyプラグイン設定のプロジェクト不備を修正。
 

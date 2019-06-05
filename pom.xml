@@ -78,8 +78,8 @@
     <properties>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 
-        <maven.compiler.source>1.6</maven.compiler.source>
-        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
         <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
         <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
@@ -191,8 +191,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.6</source>  <!-- for NetBeans IDE -->
-                    <target>1.6</target>
+                    <source>1.8</source>  <!-- for NetBeans IDE -->
+                    <target>1.8</target>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
                     <compilerArguments>
@@ -214,7 +214,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.5.2</version>
+                <version>2.7</version>
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <formats>
@@ -342,7 +342,7 @@
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.0.1</version>
                 <configuration>
-                    <targetJdk>${maven.compiler.target}</targetJdk>
+                    <!--targetJdk>${maven.compiler.target}</targetJdk-->
                     <rulesets>
                         <ruleset>${project.mainconf}/pmdrules.xml</ruleset>
                     </rulesets>
@@ -489,7 +489,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.5.2</version>
+                <version>2.7</version>
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <formats>
@@ -522,7 +522,7 @@
                 <version>3.0.1</version>
                 <configuration>
                     <skip>false</skip>
-                    <targetJdk>${maven.compiler.target}</targetJdk>
+                    <!--targetJdk>${maven.compiler.target}</targetJdk-->
                     <rulesets>
                         <ruleset>${project.mainconf}/pmdrules.xml</ruleset>
                     </rulesets>
