@@ -21,9 +21,8 @@ import javax.xml.validation.Schema;
 import jp.sfjp.mikutoga.vmd.model.xml.Schema110820;
 import jp.sfjp.mikutoga.vmd.model.xml.Schema130609;
 import jp.sfjp.mikutoga.xml.BotherHandler;
-import jp.sfjp.mikutoga.xml.LocalXmlResource;
+import jp.sfjp.mikutoga.xml.NoopEntityResolver;
 import jp.sfjp.mikutoga.xml.SchemaUtil;
-import jp.sfjp.mikutoga.xml.XmlResourceResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -130,10 +129,7 @@ final class XmlInputUtil {
         SAXParser parser;
         try{
             parser = factory.newSAXParser();
-        }catch(ParserConfigurationException e){
-            assert false;
-            throw new AssertionError(e);
-        }catch(SAXException e){
+        }catch(ParserConfigurationException | SAXException e){
             assert false;
             throw new AssertionError(e);
         }
@@ -149,31 +145,36 @@ final class XmlInputUtil {
      * @param xmlInType 入力XML種別
      * @return スキーマ
      */
-    private static Schema builsSchema(XmlResourceResolver resolver,
-                                        MotionFileType xmlInType ){
-        LocalXmlResource[] schemaArray;
+    private static Schema buildSchema(MotionFileType xmlInType ){
+        URI[] schemaUris;
         switch(xmlInType){
         case XML_110820:
-            schemaArray = new LocalXmlResource[]{
-                Schema110820.SINGLETON,
+            schemaUris = new URI[]{
+                Schema110820.RES_SCHEMA_VMDXML,
             };
             break;
         case XML_130609:
-            schemaArray = new LocalXmlResource[]{
-                Schema130609.SINGLETON,
+            schemaUris = new URI[]{
+                Schema130609.RES_SCHEMA_VMDXML,
             };
             break;
         case XML_AUTO:
-            schemaArray = new LocalXmlResource[]{
-                Schema110820.SINGLETON,
-                Schema130609.SINGLETON,
+            schemaUris = new URI[]{
+                Schema110820.RES_SCHEMA_VMDXML,
+                Schema130609.RES_SCHEMA_VMDXML,
             };
             break;
         default:
             throw new IllegalStateException();
         }
 
-        Schema schema = SchemaUtil.newSchema(resolver, schemaArray);
+        Schema schema;
+        try{
+            schema = SchemaUtil.newSchema(schemaUris);
+        }catch(IOException | SAXException e){
+            assert false;
+            throw new AssertionError(e);
+        }
 
         return schema;
     }
@@ -185,9 +186,7 @@ final class XmlInputUtil {
      * @return XMLリーダ
      */
     static XMLReader buildReader(MotionFileType xmlInType){
-        XmlResourceResolver resolver = new XmlResourceResolver();
-
-        Schema schema = builsSchema(resolver, xmlInType);
+        Schema schema = buildSchema(xmlInType);
 
         SAXParser parser = buildParser(schema);
 
@@ -199,7 +198,7 @@ final class XmlInputUtil {
             throw new AssertionError(e);
         }
 
-        reader.setEntityResolver(resolver);
+        reader.setEntityResolver(NoopEntityResolver.NOOP_RESOLVER);
         reader.setErrorHandler(BotherHandler.HANDLER);
 
         return reader;
