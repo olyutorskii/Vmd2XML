@@ -24,7 +24,7 @@ import jp.sfjp.mikutoga.vmd.model.MorphMotion;
 import jp.sfjp.mikutoga.vmd.model.PosCurve;
 import jp.sfjp.mikutoga.vmd.model.VmdMotion;
 import jp.sfjp.mikutoga.xml.BasicXmlExporter;
-import jp.sfjp.mikutoga.xml.XmlResourceResolver;
+import jp.sfjp.mikutoga.xml.SchemaUtil;
 
 /**
  * VMDモーションデータをXMLへエクスポートする。
@@ -217,7 +217,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
         ind().putOpenSTag(VmdTag.VMD_MOTION.tag()).ln();
         pushNest();
         ind().putAttr("xmlns", namespace).ln();
-        ind().putAttr("xmlns:" + XSINS, XmlResourceResolver.NS_XSD).ln();
+        ind().putAttr("xmlns:" + XSINS, SchemaUtil.NS_XSD).ln();
 
         ind().putRawText(XSINS).putRawText(":schemaLocation=")
              .putRawCh('"');
