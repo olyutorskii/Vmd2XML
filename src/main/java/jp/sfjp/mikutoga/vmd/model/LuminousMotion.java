@@ -13,15 +13,20 @@ import jp.sfjp.mikutoga.vmd.AbstractNumbered;
 
 /**
  * 光源演出情報。
+ *
  * <p>照明方向は、
  * ワールド座標原点から伸びる方向ベクトルとして記述される。
  * この方向ベクトルに向けて、無限遠の光源から照明が当たる。
+ *
  * <p>MMDのスライダUI上では
  * 方向ベクトル各軸成分の定義域は-1.0以上+1.0以下だが、
  * さらに絶対値の大きな値を指定することも可能。
+ *
  * <p>方向ベクトルの長さは演出上の意味を持たないが、
  * キーフレーム間の照明方向の補間に影響を及ぼすかもしれない。
+ *
  * <p>方向ベクトルが零ベクトル(0,0,0)の場合、MMDでは全ポリゴンに影が落ちる。
+ *
  */
 public class LuminousMotion extends AbstractNumbered {
 
@@ -52,6 +57,7 @@ public class LuminousMotion extends AbstractNumbered {
 
     /**
      * 光源の色情報を返す。
+     *
      * @return 光源の色情報
      */
     public LuminousColor getColor(){
@@ -60,6 +66,7 @@ public class LuminousMotion extends AbstractNumbered {
 
     /**
      * 光源からの照射方向情報を返す。
+     *
      * @return 光源からの照射方向情報
      */
     public MkVec3D getDirection(){
@@ -68,6 +75,7 @@ public class LuminousMotion extends AbstractNumbered {
 
     /**
      * {@inheritDoc}
+     *
      * @return {@inheritDoc}
      */
     @Override

@@ -9,15 +9,11 @@ package jp.sfjp.mikutoga.vmd.model.xml;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import jp.sfjp.mikutoga.xml.LocalXmlResource;
 
 /**
  * 110820形式XML各種リソースの定義。
  */
-public final class Schema110820 implements LocalXmlResource{
-
-    /** 唯一のシングルトン。 */
-    public static final Schema110820 SINGLETON;
+public final class Schema110820{
 
     /** XML名前空間識別子。 */
     public static final String NS_VMDXML =
@@ -32,8 +28,10 @@ public final class Schema110820 implements LocalXmlResource{
     public static final String LOCAL_SCHEMA_VMDXML =
             "resources/vmdxml-110820.xsd";
 
-    private static final URI URI_SCHEMA_VMDXML = URI.create(SCHEMA_VMDXML);
-    private static final URI RES_SCHEMA_VMDXML;
+    /** schema URI. */
+    public static final URI URI_SCHEMA_VMDXML = URI.create(SCHEMA_VMDXML);
+    /** local resource URI. */
+    public static final URI RES_SCHEMA_VMDXML;
 
     private static final Class<?> THISCLASS = Schema110820.class;
 
@@ -44,8 +42,6 @@ public final class Schema110820 implements LocalXmlResource{
         }catch(URISyntaxException e){
             throw new ExceptionInInitializerError(e);
         }
-
-        SINGLETON = new Schema110820();
     }
 
 
@@ -53,28 +49,7 @@ public final class Schema110820 implements LocalXmlResource{
      * コンストラクタ。
      */
     private Schema110820(){
-        super();
-        assert this.getClass() == THISCLASS;
-        return;
-    }
-
-
-    /**
-     * {@inheritDoc}
-     * @return {@inheritDoc}
-     */
-    @Override
-    public URI getOriginalResource(){
-        return URI_SCHEMA_VMDXML;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @return {@inheritDoc}
-     */
-    @Override
-    public URI getLocalResource(){
-        return RES_SCHEMA_VMDXML;
+        assert false;
     }
 
 }
