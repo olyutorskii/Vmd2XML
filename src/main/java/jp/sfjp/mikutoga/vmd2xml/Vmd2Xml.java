@@ -372,9 +372,7 @@ public final class Vmd2Xml {
             internalError(e);
         }catch(MmdFormatException e){
             vmdError(e);
-        }catch(TogaXmlException e){
-            xmlError(e);
-        }catch(SAXException e){
+        }catch(TogaXmlException | SAXException e){
             xmlError(e);
         }
 
@@ -389,7 +387,7 @@ public final class Vmd2Xml {
      * @param args コマンドライン文字列群
      * @return オプション情報
      */
-    private static OptInfo parseOption(String[] args){
+    private static OptInfo parseOption(String... args){
         OptInfo optInfo;
 
         try{
