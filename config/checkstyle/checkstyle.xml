@@ -39,6 +39,7 @@
         <property name="fileExtensions" value="xml" />
     </module>
     <module name="RegexpHeader">
+        <!-- /* ... */ -->
         <property name="header" value="^/\*$\n^ \*( .*)?$\n^ \*/$\n" />
         <property name="multiLines" value="2" />
         <property name="fileExtensions" value="java" />
@@ -359,13 +360,21 @@
         <module name="GenericWhitespace" />
         <module name="MethodParamPad" />
         <module name="NoLineWrap" />
-        <module name="NoWhitespaceAfter" />
+        <module name="NoWhitespaceAfter">
+            <property
+                name="tokens"
+                value="AT, INC, DEC, UNARY_MINUS, UNARY_PLUS, DOT"
+            />
+        </module>
         <module name="NoWhitespaceBefore">
             <property name="allowLineBreaks" value="true" />
         </module>
         <module name="OperatorWrap" />
         <module name="ParenPad" />
-        <module name="SeparatorWrap" />
+        <module name="SeparatorWrap">
+            <property name="tokens" value="DOT"/>
+            <property name="option" value="nl"/>
+        </module>
         <module name="SingleSpaceSeparator" />
         <module name="TypecastParenPad" />
         <module name="WhitespaceAfter" >

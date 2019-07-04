@@ -39,9 +39,10 @@
     <suppress files="" checks="TrailingComment" />
 
     <!-- Modifier -->
-    <suppress files="" checks="InterfaceMemberImpliedModifier" />
+    <suppress files="" checks="RedundantModifier" />
 
     <!-- Whitespace -->
+    <suppress files="" checks="MethodParam" />
     <suppress files="" checks="ParenPad" />
     <suppress files="" checks="SingleSpaceSeparator" />
 
