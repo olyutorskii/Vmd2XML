@@ -57,7 +57,7 @@ enum VmdTag {
 
 
     private static final Map<String, VmdTag> NAME_MAP =
-            new HashMap<String, VmdTag>();
+            new HashMap<>();
 
     static{
         for(VmdTag tag : values()){

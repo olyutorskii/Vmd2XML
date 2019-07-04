@@ -48,7 +48,7 @@ public class PosCurve implements Iterable<BezierParam> {
     @Override
     public Iterator<BezierParam> iterator(){
         List<BezierParam> list;
-        list = new ArrayList<BezierParam>(IT_SZ);
+        list = new ArrayList<>(IT_SZ);
         list.add(this.intpltXpos);
         list.add(this.intpltYpos);
         list.add(this.intpltZpos);

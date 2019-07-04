@@ -143,7 +143,7 @@ class BasicExporter extends BinaryExporter {
 
         Map<String, List<BoneMotion>> map = motion.getBonePartMap();
 
-        List<BoneMotion> bmotionList = new LinkedList<BoneMotion>();
+        List<BoneMotion> bmotionList = new LinkedList<>();
         for(List<BoneMotion> eachList : map.values()){
             bmotionList.addAll(eachList);
         }
@@ -283,7 +283,7 @@ class BasicExporter extends BinaryExporter {
             throws IOException, IllegalTextExportException{
         Map<String, List<MorphMotion>> map = motion.getMorphPartMap();
 
-        List<MorphMotion> morphList = new LinkedList<MorphMotion>();
+        List<MorphMotion> morphList = new LinkedList<>();
         for(List<MorphMotion> eachList : map.values()){
             morphList.addAll(eachList);
         }

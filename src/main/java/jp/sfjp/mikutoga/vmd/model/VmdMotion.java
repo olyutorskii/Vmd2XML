@@ -43,13 +43,13 @@ public class VmdMotion {
     public VmdMotion(){
         super();
 
-        this.bonePartMap  = new LinkedHashMap<String, List<BoneMotion>>();
-        this.morphPartMap = new LinkedHashMap<String, List<MorphMotion>>();
+        this.bonePartMap  = new LinkedHashMap<>();
+        this.morphPartMap = new LinkedHashMap<>();
 
-        this.cameraMotionList   = new LinkedList<CameraMotion>();
-        this.luminousMotionList = new LinkedList<LuminousMotion>();
-        this.shadowMotionList   = new LinkedList<ShadowMotion>();
-        this.flagList           = new LinkedList<NumberedVmdFlag>();
+        this.cameraMotionList   = new LinkedList<>();
+        this.luminousMotionList = new LinkedList<>();
+        this.shadowMotionList   = new LinkedList<>();
+        this.flagList           = new LinkedList<>();
 
         return;
     }
@@ -177,7 +177,7 @@ public class VmdMotion {
 
         List<BoneMotion> list = this.bonePartMap.get(name);
         if(list == null){
-            list = new LinkedList<BoneMotion>();
+            list = new LinkedList<>();
             this.bonePartMap.put(name, list);
         }
 
@@ -198,7 +198,7 @@ public class VmdMotion {
 
         List<MorphMotion> list = this.morphPartMap.get(name);
         if(list == null){
-            list = new LinkedList<MorphMotion>();
+            list = new LinkedList<>();
             this.morphPartMap.put(name, list);
         }
 

@@ -54,7 +54,7 @@ enum OptSwitch {
     private static final Map<String, OptSwitch> MAP_OPT;
 
     static{
-        Map<String, OptSwitch> map = new HashMap<String, OptSwitch>();
+        Map<String, OptSwitch> map = new HashMap<>();
 
         for(OptSwitch opt : values()){
             for(String cmdarg : opt.cmdopts){

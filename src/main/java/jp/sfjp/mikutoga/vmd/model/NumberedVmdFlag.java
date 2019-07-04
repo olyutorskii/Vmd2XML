@@ -25,7 +25,7 @@ public class NumberedVmdFlag
 
 
     private boolean shown = true;
-    private final List<IkSwitch> ikSwList = new LinkedList<IkSwitch>();
+    private final List<IkSwitch> ikSwList = new LinkedList<>();
 
 
     /**
