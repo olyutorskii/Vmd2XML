@@ -11,7 +11,9 @@ import java.text.MessageFormat;
 
 /**
  * 三次ベジェ曲線による補間カーブを記述する。
+ *
  * <p>制御点P0,P1,P2,P3の座標により記述される。
+ *
  * <p>P0は(0,0)で固定。P3は(127,127)で固定。
  * 残りのP1,P2は、P0,P3を対角線とする正方形の内部に位置しなければならない。
  */
@@ -72,6 +74,7 @@ public class BezierParam {
 
     /**
      * コンストラクタ。
+     *
      * <p>デフォルトの直線補間が設定される。
      */
     public BezierParam(){
@@ -81,6 +84,7 @@ public class BezierParam {
 
     /**
      * 制御点P1のX座標を返す。
+     *
      * @return 制御点P1のX座標
      */
     public byte getP1x() {
@@ -89,6 +93,7 @@ public class BezierParam {
 
     /**
      * 制御点P1のY座標を返す。
+     *
      * @return 制御点P1のY座標
      */
     public byte getP1y() {
@@ -97,6 +102,7 @@ public class BezierParam {
 
     /**
      * 制御点P2のX座標を返す。
+     *
      * @return 制御点P2のX座標
      */
     public byte getP2x() {
@@ -105,6 +111,7 @@ public class BezierParam {
 
     /**
      * 制御点P2のY座標を返す。
+     *
      * @return 制御点P2のY座標
      */
     public byte getP2y() {
@@ -113,6 +120,7 @@ public class BezierParam {
 
     /**
      * 制御点P1のX座標を設定する。
+     *
      * @param p1x 制御点P1のX座標
      */
     public void setP1x(byte p1x) {
@@ -122,6 +130,7 @@ public class BezierParam {
 
     /**
      * 制御点P1のY座標を設定する。
+     *
      * @param p1y 制御点P1のY座標
      */
     public void setP1y(byte p1y) {
@@ -131,6 +140,7 @@ public class BezierParam {
 
     /**
      * 制御点P2のX座標を設定する。
+     *
      * @param p2x 制御点P2のX座標
      */
     public void setP2x(byte p2x) {
@@ -140,6 +150,7 @@ public class BezierParam {
 
     /**
      * 制御点P2のY座標を設定する。
+     *
      * @param p2y 制御点P2のY座標
      */
     public void setP2y(byte p2y) {
@@ -149,6 +160,7 @@ public class BezierParam {
 
     /**
      * 制御点P1の座標を設定する。
+     *
      * @param p1xArg 制御点P1のX座標
      * @param p1yArg 制御点P1のY座標
      */
@@ -160,6 +172,7 @@ public class BezierParam {
 
     /**
      * 制御点P2の座標を設定する。
+     *
      * @param p2xArg 制御点P2のX座標
      * @param p2yArg 制御点P2のY座標
      */
@@ -171,7 +184,9 @@ public class BezierParam {
 
     /**
      * 直線補間か判定する。
+     *
      * <p>P1,P2双方がP0-P3対角線上に存在する場合を直線補間とする。
+     *
      * @return 直線補間ならtrue
      */
     public boolean isLinear(){
@@ -182,6 +197,7 @@ public class BezierParam {
 
     /**
      * MMDデフォルトの直線補間か判定する。
+     *
      * @return MMDデフォルトの直線補間ならtrue
      */
     public boolean isDefaultLinear(){
@@ -196,6 +212,7 @@ public class BezierParam {
 
     /**
      * MMDデフォルトのEaseInOutカーブか判定する。
+     *
      * @return  MMDデフォルトのEaseInOutカーブならtrue
      */
     public boolean isDefaultEaseInOut(){
@@ -232,6 +249,7 @@ public class BezierParam {
 
     /**
      * {@inheritDoc}
+     *
      * @return {@inheritDoc}
      */
     @Override

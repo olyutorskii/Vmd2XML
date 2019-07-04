@@ -71,6 +71,7 @@ class BasicExporter extends BinaryExporter {
 
     /**
      * コンストラクタ。
+     *
      * @param stream 出力ストリーム
      */
     BasicExporter(OutputStream stream){
@@ -86,6 +87,7 @@ class BasicExporter extends BinaryExporter {
 
     /**
      * ヘッダ情報を出力する。
+     *
      * @param motion モーションデータ
      * @throws IOException 出力エラー
      */
@@ -104,10 +106,12 @@ class BasicExporter extends BinaryExporter {
 
     /**
      * モデル名を出力する。
+     *
      * <p>演出データのモデル名には
      * 便宜的に
      * {@link jp.sfjp.mikutoga.vmd.VmdUniq#MODELNAME_STAGEACT}
      * が使われる。
+     *
      * @param motion モーションデータ
      * @throws IOException 出力エラー
      * @throws IllegalTextExportException 不正なモデル名の出現
@@ -124,6 +128,7 @@ class BasicExporter extends BinaryExporter {
 
     /**
      * ボーンモーション情報を出力する。
+     *
      * @param motion モーションデータ
      * @throws IOException 出力エラー
      * @throws IllegalTextExportException 不正なボーン名の出現
@@ -165,6 +170,7 @@ class BasicExporter extends BinaryExporter {
 
     /**
      * ボーン位置情報を出力する。
+     *
      * @param position ボーン位置情報
      * @throws IOException 出力エラー
      */
@@ -183,6 +189,7 @@ class BasicExporter extends BinaryExporter {
 
     /**
      * ボーン回転情報を出力する。
+     *
      * @param rotation ボーン回転情報
      * @throws IOException 出力エラー
      */
@@ -203,6 +210,7 @@ class BasicExporter extends BinaryExporter {
 
     /**
      * ボーンモーションの補間情報を出力する。
+     *
      * @param boneMotion ボーンモーション
      * @throws IOException 出力エラー
      */
@@ -247,6 +255,7 @@ class BasicExporter extends BinaryExporter {
 
     /**
      * 補間情報冗長部の組み立て。
+     *
      * <p>※ MMDの版によって若干出力内容が異なる。
      */
     private void redundantCopy(){
@@ -265,6 +274,7 @@ class BasicExporter extends BinaryExporter {
 
     /**
      * モーフ情報を出力する。
+     *
      * @param motion モーションデータ
      * @throws IOException 出力エラー
      * @throws IllegalTextExportException 不正なモーフ名の出現

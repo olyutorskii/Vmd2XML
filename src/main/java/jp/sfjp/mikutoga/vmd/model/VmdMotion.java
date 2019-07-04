@@ -57,6 +57,7 @@ public class VmdMotion {
 
     /**
      * モデル名を返す。
+     *
      * @return モデル名
      */
     public String getModelName(){
@@ -65,8 +66,10 @@ public class VmdMotion {
 
     /**
      * モデル名を設定する。
+     *
      * <p>このモーションがモデルモーションかステージ演出情報かは、
      * このモデル名で判別される。
+     *
      * @param modelName モデル名
      * @throws NullPointerException 引数がnull
      * @see jp.sfjp.mikutoga.vmd.VmdUniq#MODELNAME_STAGEACT
@@ -79,8 +82,10 @@ public class VmdMotion {
 
     /**
      * モデルモーションか否か判別する。
+     *
      * <p>判別は特殊なモデル名を持つか否かで決定される。
      * @return モデルモーションならtrue
+     *
      * @see jp.sfjp.mikutoga.vmd.VmdUniq#MODELNAME_STAGEACT
      */
     public boolean isModelMotion(){
@@ -93,8 +98,10 @@ public class VmdMotion {
 
     /**
      * フラグモーションが存在するか否か判定する。
+     *
      * <p>フラグモーションは、
      * MMD Ver7.40以降のVMDフォーマットでなければ記録できない。
+     *
      * @return 存在するならtrue
      */
     public boolean hasFlagMotion(){
@@ -104,6 +111,7 @@ public class VmdMotion {
 
     /**
      * 順序保証されたボーンモーションマップを返す。
+     *
      * @return ボーンモーションマップ
      * @see java.util.LinkedHashMap
      */
@@ -113,6 +121,7 @@ public class VmdMotion {
 
     /**
      * 順序保証されたモーフモーションマップを返す。
+     *
      * @return モーフモーションマップ
      * @see java.util.LinkedHashMap
      */
@@ -122,6 +131,7 @@ public class VmdMotion {
 
     /**
      * カメラモーションのリストを返す。
+     *
      * @return カメラモーションのリスト
      */
     public List<CameraMotion> getCameraMotionList(){
@@ -130,6 +140,7 @@ public class VmdMotion {
 
     /**
      * 照明モーションのリストを返す。
+     *
      * @return 照明モーションのリスト
      */
     public List<LuminousMotion> getLuminousMotionList(){
@@ -138,6 +149,7 @@ public class VmdMotion {
 
     /**
      * シャドウモーションのリストを返す。
+     *
      * @return シャドウモーションのリスト
      */
     public List<ShadowMotion> getShadowMotionList(){
@@ -146,6 +158,7 @@ public class VmdMotion {
 
     /**
      * 各種フレーム番号付きフラグのリストを返す。
+     *
      * @return フレーム番号付きフラグのリスト
      */
     public List<NumberedVmdFlag> getNumberedFlagList(){
@@ -155,6 +168,7 @@ public class VmdMotion {
     /**
      * ボーンモーションを追加する。
      * 追加順は保持される。
+     *
      * @param motion ボーンモーション
      * @see java.util.LinkedHashMap
      */
@@ -175,6 +189,7 @@ public class VmdMotion {
     /**
      * モーフモーションを追加する。
      * 追加順は保持される。
+     *
      * @param motion モーフモーション
      * @see java.util.LinkedHashMap
      */
@@ -214,6 +229,7 @@ public class VmdMotion {
 
     /**
      * {@inheritDoc}
+     *
      * @return {@inheritDoc}
      */
     @Override

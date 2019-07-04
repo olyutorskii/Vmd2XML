@@ -14,7 +14,9 @@ public enum XmlMotionFileType {
 
     /**
      * XMLファイル(自動判別)。
+     *
      * <p>読み込み時のスキーマ判別は自動。
+     *
      * <p>書き込み時のスキーマは最新。
      */
     XML_AUTO,
@@ -33,7 +35,5 @@ public enum XmlMotionFileType {
      * MikuMikuDance Ver7.40対応。
      */
     XML_130609,
-
-    ;
 
 }

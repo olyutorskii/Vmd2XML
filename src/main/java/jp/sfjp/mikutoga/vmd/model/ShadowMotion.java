@@ -12,8 +12,10 @@ import jp.sfjp.mikutoga.vmd.AbstractNumbered;
 
 /**
  * 影(セルフシャドウ)演出情報。
+ *
  * <p>カメラからの距離情報(幾何距離の100倍？)による影演出対象の範囲指定は、
  * MMDのスライダUI上では0から9999までが指定可能。
+ *
  * <p>MMDのスライダUI値SからVMDファイル上の生パラメターへの変換式は、
  * 「 0.1 - (S / 1.0E+5) 」
  * となる。
@@ -27,6 +29,7 @@ public strictfp class ShadowMotion extends AbstractNumbered {
 
     /**
      * デフォルトの範囲指定生パラメータ。
+     *
      * <p>MMDのスライダUI値「8875」にほぼ相当。
      */
     public static final double DEF_SCOPE = 0.01125;
@@ -59,6 +62,7 @@ public strictfp class ShadowMotion extends AbstractNumbered {
     /**
      * VMDファイル上の生パラメータ数値による演出対象範囲指定を、
      * MMDのUI上の距離情報(カメラからの幾何距離×100倍？)に変換する。
+     *
      * @param param 生パラメータ
      * @return MMDのスライダUI上の距離情報
      */
@@ -72,6 +76,7 @@ public strictfp class ShadowMotion extends AbstractNumbered {
     /**
      * MMDのUI上の距離情報(カメラからの幾何距離×100倍？)を、
      * VMDファイル上の生パラメータ数値に変換する。
+     *
      * @param scope MMDのスライダUI上の距離情報
      * @return 生パラメータ
      */
@@ -85,6 +90,7 @@ public strictfp class ShadowMotion extends AbstractNumbered {
 
     /**
      * 影演出の範囲指定の生パラメータを設定する。
+     *
      * @param rawScopeParam 生パラメータ
      */
     public void setRawScopeParam(double rawScopeParam) {
@@ -94,6 +100,7 @@ public strictfp class ShadowMotion extends AbstractNumbered {
 
     /**
      * 影演出の範囲指定の生パラメータを返す。
+     *
      * @return 生パラメータ
      */
     public double getRawScopeParam() {
@@ -102,6 +109,7 @@ public strictfp class ShadowMotion extends AbstractNumbered {
 
     /**
      * 影演出の範囲指定のスライダUI値を設定する。
+     *
      * @param scope スライダUI値
      */
     public void setScope(double scope){
@@ -112,6 +120,7 @@ public strictfp class ShadowMotion extends AbstractNumbered {
 
     /**
      * 影演出の範囲指定のスライダUI値を返す。
+     *
      * @return スライダUI値
      */
     public double getScope(){
@@ -122,6 +131,7 @@ public strictfp class ShadowMotion extends AbstractNumbered {
 
     /**
      * 影描画モードを設定する。
+     *
      * @param shadowMode 影描画モード
      * @throws NullPointerException 引数がnull
      */
@@ -134,6 +144,7 @@ public strictfp class ShadowMotion extends AbstractNumbered {
 
     /**
      * 影描画モードを返す。
+     *
      * @return 影描画モード
      */
     public ShadowMode getShadowMode(){
@@ -142,6 +153,7 @@ public strictfp class ShadowMotion extends AbstractNumbered {
 
     /**
      * {@inheritDoc}
+     *
      * @return {@inheritDoc}
      */
     @Override

@@ -73,7 +73,7 @@ enum VmdTag {
      * コンストラクタ。
      * @param tagName 要素名
      */
-    private VmdTag(String tagName){
+    VmdTag(String tagName){
         this.tagName = tagName.intern();
         return;
     }

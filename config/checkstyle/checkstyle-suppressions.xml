@@ -31,12 +31,11 @@
     <suppress files="" checks="ImportControl" />
 
     <!-- Javadoc Comments -->
-    <suppress files="" checks="JavadocParagraph" />
-    <suppress files="" checks="JavadocTagContinuationIndentation" />
     <suppress files="" checks="SummaryJavadocCheck" />
 
     <!-- Miscellaneous -->
     <suppress files="" checks="FinalParameters" />
+    <suppress files="" checks="OrderedProperties" />
     <suppress files="" checks="TrailingComment" />
 
     <!-- Modifier -->

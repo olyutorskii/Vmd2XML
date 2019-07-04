@@ -12,6 +12,7 @@ import java.net.URISyntaxException;
 
 /**
  * 130609形式XML各種リソースの定義。
+ *
  * <p>MikuMikuDance Ver7.40 の新VMDファイルフォーマット対応。
  */
 public final class Schema130609{
@@ -29,7 +30,9 @@ public final class Schema130609{
     public static final String LOCAL_SCHEMA_VMDXML =
             "resources/vmdxml-130609.xsd";
 
+    /** schema URI. */
     public static final URI URI_SCHEMA_VMDXML = URI.create(SCHEMA_VMDXML);
+    /** local resource URI. */
     public static final URI RES_SCHEMA_VMDXML;
 
     private static final Class<?> THISCLASS = Schema130609.class;
