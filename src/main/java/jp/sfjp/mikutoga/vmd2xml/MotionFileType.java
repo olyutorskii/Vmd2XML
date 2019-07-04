@@ -26,7 +26,9 @@ public enum MotionFileType {
 
     /**
      * XMLファイル(自動判別)。
+     *
      * <p>読み込み時のスキーマ判別は自動。
+     *
      * <p>書き込み時のスキーマは最新。
      */
     XML_AUTO,
@@ -52,14 +54,16 @@ public enum MotionFileType {
     /**
      * コンストラクタ。
      */
-    private MotionFileType(){
+    MotionFileType(){
         return;
     }
 
 
     /**
      * ファイル種別をXMLファイル種別に変換する。
+     *
      * <p>未定義の場合はXML_AUTOを返す。
+     *
      * @return XMLファイル種別
      */
     public XmlMotionFileType toXmlType(){
@@ -85,6 +89,7 @@ public enum MotionFileType {
 
     /**
      * ファイル種別がXMLか判定する。
+     *
      * @return XMLならtrue
      */
     public boolean isXml(){
@@ -102,6 +107,7 @@ public enum MotionFileType {
 
     /**
      * ファイル種別がVMDか判定する。
+     *
      * @return VMDならtrue
      */
     public boolean isVmd(){

@@ -57,7 +57,7 @@ enum VmdTag {
 
 
     private static final Map<String, VmdTag> NAME_MAP =
-            new HashMap<String, VmdTag>();
+            new HashMap<>();
 
     static{
         for(VmdTag tag : values()){
@@ -73,7 +73,7 @@ enum VmdTag {
      * コンストラクタ。
      * @param tagName 要素名
      */
-    private VmdTag(String tagName){
+    VmdTag(String tagName){
         this.tagName = tagName.intern();
         return;
     }

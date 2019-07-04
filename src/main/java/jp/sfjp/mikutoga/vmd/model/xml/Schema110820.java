@@ -28,7 +28,9 @@ public final class Schema110820{
     public static final String LOCAL_SCHEMA_VMDXML =
             "resources/vmdxml-110820.xsd";
 
+    /** schema URI. */
     public static final URI URI_SCHEMA_VMDXML = URI.create(SCHEMA_VMDXML);
+    /** local resource URI. */
     public static final URI RES_SCHEMA_VMDXML;
 
     private static final Class<?> THISCLASS = Schema110820.class;

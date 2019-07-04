@@ -4,8 +4,8 @@
 Vmd2XML 変更履歴
 
 
-X.XXX.X ()
-    * JRE version-checking modified.
+2.103.2 (2019-07-04)
+    * Prevent XXE vulnerabilities from external resources.
 
 2.102.2 (2019-06-06)
     ・必須環境をJavaSE8に引き上げ。

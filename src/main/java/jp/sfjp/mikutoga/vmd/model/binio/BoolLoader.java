@@ -17,6 +17,7 @@ import jp.sfjp.mikutoga.vmd.parser.VmdBoolHandler;
 
 /**
  * フラグ情報のビルダ。
+ *
  * <p>MikuMikuDance Ver7.40以降でサポート
  */
 class BoolLoader implements VmdBoolHandler{
@@ -28,6 +29,7 @@ class BoolLoader implements VmdBoolHandler{
 
     /**
      * コンストラクタ。
+     *
      * @param vmdMotion モーションデータの格納先。
      */
     BoolLoader(VmdMotion vmdMotion){
@@ -39,6 +41,7 @@ class BoolLoader implements VmdBoolHandler{
 
     /**
      * {@inheritDoc}
+     *
      * @param stage {@inheritDoc}
      * @param loops {@inheritDoc}
      * @throws MmdFormatException {@inheritDoc}
@@ -57,6 +60,7 @@ class BoolLoader implements VmdBoolHandler{
 
     /**
      * {@inheritDoc}
+     *
      * @param stage {@inheritDoc}
      * @throws MmdFormatException {@inheritDoc}
      */
@@ -77,6 +81,7 @@ class BoolLoader implements VmdBoolHandler{
 
     /**
      * {@inheritDoc}
+     *
      * @param stage {@inheritDoc}
      * @throws MmdFormatException {@inheritDoc}
      */
@@ -94,6 +99,7 @@ class BoolLoader implements VmdBoolHandler{
 
     /**
      * {@inheritDoc}
+     *
      * @param show {@inheritDoc}
      * @param keyFrameNo {@inheritDoc}
      * @throws MmdFormatException {@inheritDoc}
@@ -108,6 +114,7 @@ class BoolLoader implements VmdBoolHandler{
 
     /**
      * {@inheritDoc}
+     *
      * @param boneName {@inheritDoc}
      * @param validIk {@inheritDoc}
      * @param keyFrameNo {@inheritDoc}

@@ -13,11 +13,14 @@ import jp.sfjp.mikutoga.vmd.AbstractNumbered;
 
 /**
  * カメラモーション情報。
+ *
  * <p>カメラの回転は極座標で表される。
+ *
  * <p>カメラ-ターゲット間の距離は球座標(極座標)の動径に相当する。
  * 通常はターゲットより手前に位置するカメラまでの距離が負の値で表される。
  * カメラ位置がターゲットを突き抜けた場合は正の値もとりうる。
  * ※MMDのUIと符号が逆なので注意。
+ *
  * <p>パースペクティブモードがOFFの場合、
  * 画角は無視され遠近感処理が行われなくなる。(平行投影?)
  */
@@ -57,6 +60,7 @@ public class CameraMotion extends AbstractNumbered {
 
     /**
      * ターゲット位置情報を返す。
+     *
      * @return ターゲット位置情報
      */
     public MkPos3D getCameraTarget(){
@@ -65,6 +69,7 @@ public class CameraMotion extends AbstractNumbered {
 
     /**
      * ターゲット位置移動の補間情報を返す。
+     *
      * @return ターゲット位置移動の補間情報
      */
     public PosCurve getTargetPosCurve(){
@@ -73,6 +78,7 @@ public class CameraMotion extends AbstractNumbered {
 
     /**
      * カメラ回転情報を返す。
+     *
      * @return カメラ回転情報
      */
     public CameraRotation getCameraRotation(){
@@ -81,6 +87,7 @@ public class CameraMotion extends AbstractNumbered {
 
     /**
      * カメラ回転の補間曲線情報を返す。
+     *
      * @return カメラ回転の補間曲線情報
      */
     public BezierParam getIntpltRotation(){
@@ -89,6 +96,7 @@ public class CameraMotion extends AbstractNumbered {
 
     /**
      * カメラ-ターゲット間の距離を返す。
+     *
      * @return カメラ-ターゲット間の距離
      */
     public double getRange(){
@@ -97,6 +105,7 @@ public class CameraMotion extends AbstractNumbered {
 
     /**
      * カメラ-ターゲット間の距離を設定する。
+     *
      * @param range カメラ-ターゲット間の距離
      */
     public void setRange(double range){
@@ -106,6 +115,7 @@ public class CameraMotion extends AbstractNumbered {
 
     /**
      * カメラ-ターゲット間距離の補間曲線情報を返す。
+     *
      * @return カメラ-ターゲット間距離の補間曲線情報
      */
     public BezierParam getIntpltRange(){
@@ -114,6 +124,7 @@ public class CameraMotion extends AbstractNumbered {
 
     /**
      * パースペクティブが有効か判定する。
+     *
      * @return パースペクティブが有効ならtrue
      */
     public boolean hasPerspective(){
@@ -122,6 +133,7 @@ public class CameraMotion extends AbstractNumbered {
 
     /**
      * パースペクティブモードを設定する。
+     *
      * @param mode trueを渡すとパースペクティブが有効になる。
      */
     public void setPerspectiveMode(boolean mode){
@@ -131,6 +143,7 @@ public class CameraMotion extends AbstractNumbered {
 
     /**
      * 投影角度(スクリーン縦画角)を返す。
+     *
      * @return 投影角度(度数法)
      */
     public int getProjectionAngle(){
@@ -139,6 +152,7 @@ public class CameraMotion extends AbstractNumbered {
 
     /**
      * 投影角度(スクリーン縦画角)を設定する。
+     *
      * @param angle 投影角度(度数法)
      */
     public void setProjectionAngle(int angle){
@@ -148,6 +162,7 @@ public class CameraMotion extends AbstractNumbered {
 
     /**
      * スクリーン投射の補間曲線情報を返す。
+     *
      * @return スクリーン投射の補間曲線情報
      */
     public BezierParam getIntpltProjection(){
@@ -156,6 +171,7 @@ public class CameraMotion extends AbstractNumbered {
 
     /**
      * {@inheritDoc}
+     *
      * @return {@inheritDoc}
      */
     @Override

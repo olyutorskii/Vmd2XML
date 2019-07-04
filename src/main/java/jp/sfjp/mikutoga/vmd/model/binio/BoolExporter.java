@@ -19,6 +19,7 @@ import jp.sfjp.mikutoga.vmd.model.VmdMotion;
 
 /**
  * フラグ情報のエクスポーター。
+ *
  * <p>MikuMikuDance Ver7.40以降でサポート
  */
 class BoolExporter extends BinaryExporter{
@@ -29,6 +30,7 @@ class BoolExporter extends BinaryExporter{
 
     /**
      * コンストラクタ。
+     *
      * @param stream 出力ストリーム
      */
     BoolExporter(OutputStream stream){
@@ -39,6 +41,7 @@ class BoolExporter extends BinaryExporter{
 
     /**
      * フラグ情報を出力する。
+     *
      * @param motion モーションデータ
      * @throws IOException 出力エラー
      * @throws IllegalTextExportException 不正な文字列が指定された。
@@ -70,6 +73,7 @@ class BoolExporter extends BinaryExporter{
 
     /**
      * IK有効フラグを出力する。
+     *
      * @param flag フラグ情報
      * @throws IOException 出力エラー
      * @throws IllegalTextExportException 不正な文字列が指定された。

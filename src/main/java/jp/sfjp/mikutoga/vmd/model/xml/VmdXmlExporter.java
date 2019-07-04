@@ -71,6 +71,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * 出力XMLファイル種別を設定する。
+     *
      * @param type ファイル種別
      */
     public void setXmlFileType(XmlMotionFileType type){
@@ -95,6 +96,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * 出力XMLファイル種別を返す。
+     *
      * @return ファイル種別
      */
     public XmlMotionFileType getXmlFileType(){
@@ -103,7 +105,9 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * ボーン回転量をクォータニオンで出力するか否か設定する。
+     *
      * <p>デフォルトではtrue
+     *
      * @param mode trueだとクォータニオン、falseだとオイラー角で出力される。
      */
     public void setQuaternionMode(boolean mode){
@@ -112,6 +116,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * ボーン回転量をクォータニオンで出力するか否か返す。
+     *
      * @return クォータニオンで出力するならtrue
      */
     public boolean isQuaternionMode(){
@@ -120,6 +125,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * Generatorメタ情報を設定する。
+     *
      * @param generatorArg Generatorメタ情報。nullならXML出力しない。
      */
     public void setGenerator(String generatorArg){
@@ -129,6 +135,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * Generatorメタ情報を取得する。
+     *
      * @return Generatorメタ情報。XML出力しないならnullを返す。
      */
     public String getGenerator(){
@@ -137,6 +144,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * VMDモーションデータをXML形式で出力する。
+     *
      * @param vmdMotion VMDモーションデータ
      * @param xmlOut 出力先
      * @throws IOException 出力エラー
@@ -156,6 +164,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * VMDモーションデータをXML形式で出力する。
+     *
      * @param vmdMotion VMDモーションデータ
      * @throws IOException 出力エラー
      * @throws IllegalVmdDataException 不正なモーションデータを検出
@@ -187,6 +196,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * ルート要素がオープンするまでの各種宣言を出力する。
+     *
      * @throws IOException 出力エラー
      */
     private void putVmdRootOpen() throws IOException{
@@ -235,6 +245,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * ジェネレータ名を出力する。
+     *
      * @throws IOException 出力エラー
      */
     private void putGenerator() throws IOException{
@@ -252,6 +263,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * モデル名を出力する。
+     *
      * @param vmdMotion モーションデータ
      * @throws IOException 出力エラー
      */
@@ -276,6 +288,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * ボーンモーションデータを出力する。
+     *
      * @param vmdMotion モーションデータ
      * @throws IOException 出力エラー
      */
@@ -304,6 +317,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * ボーン別モーションデータを出力する。
+     *
      * @param boneName ボーン名
      * @param list ボーンモーションのリスト
      * @throws IOException 出力エラー
@@ -336,6 +350,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * ボーンモーションを出力する。
+     *
      * @param boneMotion ボーンモーション
      * @throws IOException 出力エラー
      */
@@ -362,6 +377,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * ボーン位置を出力する。
+     *
      * @param boneMotion ボーンモーション
      * @throws IOException 出力エラー
      */
@@ -401,6 +417,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * ボーン回転を出力する。
+     *
      * @param boneMotion ボーンモーション
      * @throws IOException 出力エラー
      */
@@ -442,6 +459,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * ボーン回転を出力する。
+     *
      * @param boneMotion ボーンモーション
      * @throws IOException 出力エラー
      */
@@ -481,6 +499,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * モーフデータを出力する。
+     *
      * @param vmdMotion モーションデータ
      * @throws IOException 出力エラー
      */
@@ -501,6 +520,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * 箇所別モーフデータを出力する。
+     *
      * @param listMap モーフデータの名前付きリストマップ
      * @throws IOException 出力エラー
      */
@@ -539,6 +559,7 @@ public class VmdXmlExporter extends BasicXmlExporter {
 
     /**
      * 個別のモーフモーションを出力する。
+     *
      * @param morphMotion モーフモーション
      * @throws IOException 出力エラー
      */
