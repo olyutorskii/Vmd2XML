@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - from OSDN to GitHub
 - from JUnit4 to JUnit5
 
+### Removed
+- remove JRE version check
+
 ### Build
 - Bump TogaGem to v3.122.4
 
