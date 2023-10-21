@@ -14,7 +14,7 @@ import java.io.OutputStream;
 import jp.sfjp.mikutoga.vmd2xml.MotionFileType;
 import jp.sfjp.mikutoga.vmd2xml.Vmd2XmlConv;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
