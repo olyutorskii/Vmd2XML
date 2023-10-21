@@ -54,7 +54,7 @@ enum OptSwitch {
     private static final Map<String, OptSwitch> MAP_OPT;
 
     static{
-        Map<String, OptSwitch> map = new HashMap<String, OptSwitch>();
+        Map<String, OptSwitch> map = new HashMap<>();
 
         for(OptSwitch opt : values()){
             for(String cmdarg : opt.cmdopts){
@@ -73,10 +73,11 @@ enum OptSwitch {
 
     /**
      * コンストラクタ。
+     *
      * @param argnum 必要な引数の数
      * @param cmdopts オプションスイッチパターン群
      */
-    private OptSwitch(int argnum, String... cmdopts) {
+    OptSwitch(int argnum, String... cmdopts) {
         this.exArgNum = argnum;
 
         List<String> optlist;
@@ -90,6 +91,7 @@ enum OptSwitch {
 
     /**
      * コンソール提示用ヘルプ出力文字列を返す。
+     *
      * @return オプションヘルプ文字列
      */
     static String getConsoleHelp(){
@@ -98,7 +100,9 @@ enum OptSwitch {
 
     /**
      * 文字列に合致するオプションを返す。
+     *
      * <p>一つのオプションが複数の表記に合致する場合がある。
+     *
      * @param cmd 文字列
      * @return オプション種別。合致する物が見つからなければnull
      */
@@ -110,7 +114,9 @@ enum OptSwitch {
 
     /**
      * 各オプションに後続する引数の数を返す。
+     *
      * <p>引数をとらないオプションは0を返す。
+     *
      * @return 引数の数
      */
     int getExArgNum(){

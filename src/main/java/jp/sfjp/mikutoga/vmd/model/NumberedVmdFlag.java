@@ -25,11 +25,12 @@ public class NumberedVmdFlag
 
 
     private boolean shown = true;
-    private final List<IkSwitch> ikSwList = new LinkedList<IkSwitch>();
+    private final List<IkSwitch> ikSwList = new LinkedList<>();
 
 
     /**
      * コンストラクタ。
+     *
      * <p>モデル表示ありの状態で初期化される。
      */
     public NumberedVmdFlag(){
@@ -40,6 +41,7 @@ public class NumberedVmdFlag
 
     /**
      * モデルを表示するか否か返す。
+     *
      * @return 表示するならtrue
      */
     public boolean isModelShown(){
@@ -48,6 +50,7 @@ public class NumberedVmdFlag
 
     /**
      * モデルを表示するか否か設定する。
+     *
      * @param shownArg 表示するならtrue
      */
     public void setModelShown(boolean shownArg){
@@ -57,6 +60,7 @@ public class NumberedVmdFlag
 
     /**
      * 個別IKボーンフラグのリストを返す。
+     *
      * @return 個別IKボーンフラグのリスト
      */
     public List<IkSwitch> getIkSwitchList(){
@@ -65,6 +69,7 @@ public class NumberedVmdFlag
 
     /**
      * {@inheritDoc}
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -74,6 +79,7 @@ public class NumberedVmdFlag
 
     /**
      * {@inheritDoc}
+     *
      * @return {@inheritDoc}
      */
     @Override

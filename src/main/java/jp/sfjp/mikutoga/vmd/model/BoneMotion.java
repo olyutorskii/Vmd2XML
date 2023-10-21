@@ -14,6 +14,7 @@ import jp.sfjp.mikutoga.vmd.AbstractNumbered;
 
 /**
  * ボーンのモーション情報。
+ *
  * <p>ボーン名、ボーン位置、ボーン回転量、及び補間カーブ情報を持つ。
  */
 public class BoneMotion extends AbstractNumbered {
@@ -45,6 +46,7 @@ public class BoneMotion extends AbstractNumbered {
 
     /**
      * ボーン名を返す。
+     *
      * @return ボーン名
      */
     public String getBoneName(){
@@ -53,6 +55,7 @@ public class BoneMotion extends AbstractNumbered {
 
     /**
      * ボーン名を設定する。
+     *
      * @param boneName ボーン名
      */
     public void setBoneName(String boneName){
@@ -62,6 +65,7 @@ public class BoneMotion extends AbstractNumbered {
 
     /**
      * ボーン回転量を返す。
+     *
      * @return ボーン回転量
      */
     public MkQuat getRotation(){
@@ -70,6 +74,7 @@ public class BoneMotion extends AbstractNumbered {
 
     /**
      * ボーン回転の補間曲線情報を返す。
+     *
      * @return ボーン回転の補間曲線情報
      */
     public BezierParam getIntpltRotation(){
@@ -78,6 +83,7 @@ public class BoneMotion extends AbstractNumbered {
 
     /**
      * ボーン位置を返す。
+     *
      * @return ボーン位置
      */
     public MkPos3D getPosition(){
@@ -86,6 +92,7 @@ public class BoneMotion extends AbstractNumbered {
 
     /**
      * ボーン位置移動の補間情報を返す。
+     *
      * @return ボーン位置移動の補間情報
      */
     public PosCurve getPosCurve(){
@@ -94,12 +101,16 @@ public class BoneMotion extends AbstractNumbered {
 
     /**
      * このモーションが暗黙の位置情報を持つか判定する。
+     *
      * <p>ボーン位置が原点(0,0,0)にあり、
      * XYZ3軸の移動補間カーブがデフォルト直線補間の場合、
      * 暗黙の位置情報と見なされる。
+     *
      * <p>MMDは、位置情報を持たないボーンのモーションに対し
      * 便宜的にこの暗黙の位置情報を割り当てる。
+     *
      * <p>通常の位置モーションが暗黙の位置情報と一致する場合もありうる。
+     *
      * @return 暗黙の位置情報であるならtrue
      */
     public boolean hasImplicitPosition(){
@@ -111,6 +122,7 @@ public class BoneMotion extends AbstractNumbered {
 
     /**
      * {@inheritDoc}
+     *
      * @return {@inheritDoc}
      */
     @Override

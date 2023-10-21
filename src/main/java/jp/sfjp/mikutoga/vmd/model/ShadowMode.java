@@ -19,6 +19,7 @@ public enum ShadowMode {
 
     /**
      * シャドウ描画の質がカメラからの距離の影響をあまり受けないモード。
+     *
      * <p>※MMDのUIにおけるデフォルト。
      */
     MODE_1(0x01),
@@ -40,19 +41,21 @@ public enum ShadowMode {
 
     /**
      * コンストラクタ。
+     *
      * @param code 割り当て番号(byte)
      */
-    private ShadowMode(byte code){
+    ShadowMode(byte code){
         this.code = code;
         return;
     }
 
     /**
      * コンストラクタ。
+     *
      * @param iVal 割り当て番号(int)
-     * ※上位24bitは捨てられる。
+     *     ※上位24bitは捨てられる。
      */
-    private ShadowMode(int iVal){
+    ShadowMode(int iVal){
         this((byte)(iVal & MASK_8));
         return;
     }
@@ -60,6 +63,7 @@ public enum ShadowMode {
 
     /**
      * byte型値に符号化された時の値を返す。
+     *
      * @return byte型値に符号化された時の値
      */
     public byte getEncodedByte(){
@@ -68,6 +72,7 @@ public enum ShadowMode {
 
     /**
      * byte型値から描画モードを復号する。
+     *
      * @param bVal byte型値
      * @return 描画モード。未定義の値が与えられた場合はnull。
      */
@@ -83,7 +88,9 @@ public enum ShadowMode {
 
     /**
      * int型値から描画モードを復号する。
+     *
      * <p>上位24bitは無視される。
+     *
      * @param iVal int型値
      * @return 描画モード。未定義の値が与えられた場合はnull。
      */

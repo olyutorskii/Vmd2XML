@@ -12,6 +12,7 @@ import jp.sfjp.mikutoga.vmd.AbstractNumbered;
 
 /**
  * モーフ情報。
+ *
  * <p>通常、モーフ量は0.0以上1.0以下の値をとる。
  */
 public class MorphMotion extends AbstractNumbered {
@@ -35,6 +36,7 @@ public class MorphMotion extends AbstractNumbered {
 
     /**
      * モーフ名を設定する。
+     *
      * @param morphName モーフ名
      */
     public void setMorphName(String morphName) {
@@ -44,6 +46,7 @@ public class MorphMotion extends AbstractNumbered {
 
     /**
      * モーフ名を返す。
+     *
      * @return モーフ名
      */
     public String getMorphName() {
@@ -52,6 +55,7 @@ public class MorphMotion extends AbstractNumbered {
 
     /**
      * モーフ変量を設定する。
+     *
      * @param flex 変量
      */
     public void setFlex(float flex) {
@@ -61,6 +65,7 @@ public class MorphMotion extends AbstractNumbered {
 
     /**
      * モーフ変量を返す。
+     *
      * @return 変量
      */
     public float getFlex() {
@@ -69,6 +74,7 @@ public class MorphMotion extends AbstractNumbered {
 
     /**
      * {@inheritDoc}
+     *
      * @return {@inheritDoc}
      */
     @Override

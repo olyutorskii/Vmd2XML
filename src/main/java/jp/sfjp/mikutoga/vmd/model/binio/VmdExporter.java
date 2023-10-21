@@ -34,7 +34,9 @@ public class VmdExporter {
 
     /**
      * モーションデータをVMDファイル形式で出力する。
+     *
      * <p>異常時には出力データのフラッシュが試みられる。
+     *
      * @param motion モーションデータ
      * @param ostream 出力先ストリーム
      * @throws IOException 出力エラー
@@ -58,6 +60,7 @@ public class VmdExporter {
 
     /**
      * モーションデータをVMDファイル形式で出力する。
+     *
      * @param motion モーションデータ
      * @throws IOException 出力エラー
      * @throws IllegalVmdDataException モーションデータに不備が発見された

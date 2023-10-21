@@ -25,7 +25,9 @@ public class XmlVmdLoader {
 
     /**
      * コンストラクタ。
+     *
      * <p>XMLリーダは名前空間をサポートしていなければならない。
+     *
      * @param reader XMLリーダ
      * @throws NullPointerException 引数がnull
      */
@@ -39,6 +41,7 @@ public class XmlVmdLoader {
 
     /**
      * XMLのパースを開始する。
+     *
      * @param source XML入力
      * @return モーションデータ
      * @throws SAXException 構文エラー

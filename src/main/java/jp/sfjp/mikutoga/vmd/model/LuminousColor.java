@@ -11,9 +11,12 @@ import java.text.MessageFormat;
 
 /**
  * 光源の色設定。
+ *
  * <p>色情報はRGB色空間で記述される。
+ *
  * <p>MMDのUI上の各色成分指定0～255定義域に便宜上256を追加したものが、
  * 0.0以上1.0以下にマップされる。
+ *
  * <ul>
  * <li>0は正しく0.0にマップされる。
  * <li>128は正しく0.5にマップされる。
@@ -35,6 +38,7 @@ public class LuminousColor {
 
     /**
      * コンストラクタ。
+     *
      * <p>MMDデフォルトの光源色(154,154,154)が設定される。
      */
     public LuminousColor(){
@@ -45,6 +49,7 @@ public class LuminousColor {
 
     /**
      * 光源の赤成分を設定する。
+     *
      * @param colR 赤成分
      */
     public void setColR(float colR) {
@@ -54,6 +59,7 @@ public class LuminousColor {
 
     /**
      * 光源の緑成分を設定する。
+     *
      * @param colG 緑成分
      */
     public void setColG(float colG) {
@@ -63,6 +69,7 @@ public class LuminousColor {
 
     /**
      * 光源の青成分を設定する。
+     *
      * @param colB 青成分
      */
     public void setColB(float colB) {
@@ -72,6 +79,7 @@ public class LuminousColor {
 
     /**
      * 光源の赤成分を返す。
+     *
      * @return 赤成分
      */
     public float getColR(){
@@ -80,6 +88,7 @@ public class LuminousColor {
 
     /**
      * 光源の緑成分を返す。
+     *
      * @return 緑成分
      */
     public float getColG(){
@@ -88,6 +97,7 @@ public class LuminousColor {
 
     /**
      * 光源の青成分を返す。
+     *
      * @return 青成分
      */
     public float getColB(){
@@ -96,6 +106,7 @@ public class LuminousColor {
 
     /**
      * {@inheritDoc}
+     *
      * @return {@inheritDoc}
      */
     @Override

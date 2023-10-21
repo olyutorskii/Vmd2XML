@@ -15,12 +15,14 @@ import jp.sfjp.mikutoga.xml.XmlExporter;
 
 /**
  * XML出力機構の共通部。
+ *
  * <p>主にベジェ補間パラメータ出力部。
  */
 class ExtraXmlExporter extends ProxyXmlExporter {
 
     /**
      * コンストラクタ。
+     *
      * @param delegate 委譲先
      */
     ExtraXmlExporter(XmlExporter delegate){
@@ -31,6 +33,7 @@ class ExtraXmlExporter extends ProxyXmlExporter {
 
     /**
      * 位置移動補間カーブを出力する。
+     *
      * @param posCurve 移動補間情報
      * @throws IOException 出力エラー
      */
@@ -59,6 +62,7 @@ class ExtraXmlExporter extends ProxyXmlExporter {
 
     /**
      * ベジェ曲線による補間曲線情報を出力する。
+     *
      * @param bezier ベジェ曲線
      * @throws IOException 出力エラー
      */
