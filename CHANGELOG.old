@@ -4,13 +4,8 @@
 Vmd2XML 変更履歴
 
 
-2.103.2 (2019-07-04)
-    * Prevent XXE vulnerabilities from external resources.
+※ 2.102.2 (2019-06-06) 以降はCHANGELOG.mdを参照
 
-2.102.2 (2019-06-06)
-    ・必須環境をJavaSE8に引き上げ。
-    ・Mercurial(2.101.4)からGit(2.101.104-SNAPSHOT)へSCMを移行。
-    ・JAXBへの依存を解消。
 
 2.101.4 (2013-06_16)
     ・assemblyプラグイン設定のプロジェクト不備を修正。
