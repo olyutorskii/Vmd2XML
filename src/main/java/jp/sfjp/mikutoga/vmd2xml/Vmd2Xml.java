@@ -204,20 +204,6 @@ public final class Vmd2Xml {
     }
 
     /**
-     * JREのバージョン判定を行う。
-     * 不適切ならVMごと終了。
-     */
-    private static void checkJRE(){
-        Package jrePackage = java.lang.Object.class.getPackage();
-        if( ! jrePackage.isCompatibleWith(REQUIRED_JRE)){
-            String msg = MessageFormat.format(MSG_OLDJRE, REQUIRED_JRE);
-            ERROUT.println(msg);
-            exit(EXIT_ENVERR);
-        }
-        return;
-    }
-
-    /**
      * ヘルプメッセージを出力する。
      */
     private static void putHelp(){
@@ -410,8 +396,6 @@ public final class Vmd2Xml {
      * @param args コマンドパラメータ
      */
     public static void main(String[] args){
-        checkJRE();
-
         OptInfo optInfo = parseOption(args);
         if(optInfo.needHelp()){
             putHelp();
