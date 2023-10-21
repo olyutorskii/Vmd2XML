@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [2.103.4] - 2023-10-21
+
 ### Changed
 - from OSDN to GitHub
 - from JUnit4 to JUnit5
+
+### Removed
+- remove JRE version check
 
 ### Build
 - Bump TogaGem to v3.122.4
@@ -19,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [2.103.2] - 2019-07-04
+
 ### Secure
 - Prevent XXE vulnerabilities from external resources.
 
@@ -35,8 +42,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## → CHANGELOG.old (2011-2013) へ続く…
 
-[Unreleased]: https://github.com/olyutorskii/Vmd2XML/compare/release-2.103.2...HEAD
+
+[Unreleased]: https://github.com/olyutorskii/Vmd2XML/compare/v2.103.4...HEAD
+[2.103.4]: https://github.com/olyutorskii/Vmd2XML/compare/release-2.103.2...v2.103.4
 [2.103.2]: https://github.com/olyutorskii/Vmd2XML/compare/release-2.102.2...release-2.103.2
 [2.102.2]: https://github.com/olyutorskii/Vmd2XML/releases/tag/release-2.102.2
+
 
 --- EOF ---
