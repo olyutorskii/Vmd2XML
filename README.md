@@ -27,7 +27,7 @@ OSDNの可用性に関する問題が長期化しているため、GitHubへと�
 
 ## ビルド方法 ##
 
-* Vmd2XMLはビルドに際して [Maven 3.3.9+](https://maven.apache.org/)
+* Vmd2XMLはビルドに際して [Maven 3.8.9+](https://maven.apache.org/)
 と JDK 1.8+ を要求します。
 
 * Vmd2XMLは[TogaGem][TOGAGEM]などのライブラリに依存しています。
